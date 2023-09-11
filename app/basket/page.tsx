@@ -5,7 +5,7 @@ export default function Home() {
     <main>
       <div>
         <p>
-         Home Page
+         Basket Page
         </p>
       </div>
     </main>
