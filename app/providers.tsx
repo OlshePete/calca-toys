@@ -5,23 +5,82 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
 const colors = {
   brand: {
-    900: "#A8D4AF",
-    800: "#fff",
-    700: "#22356f",
+    900: "#FEF7E6",
+    800: "#F49AA5",
+    700: "#F15B40",
+    600: "#E1ECEE",
+    500: "#71BBFF",
+    400: "rgba(0,0,0,.15)",
+    300: "#E1ECEE",
+    200: "#515151",
+    100: "#313131",
   },
 };
 
 export const theme = extendTheme({
   colors,
   fonts: {
-    heading: `'Spectral'`,
-    text: `'Spectral'`,
-    body: `'Spectral'`,
+    // heading: `var(--font--lato)`,
+    // text: `var(--font--lato)`,
+    // body: `var(--font--lato)`,
   },
   styles: {
     global: {
+      body:{
+        backgroundColor:'brand.900',
+        // fontFamily:"var(--font--lato)"
+      },
       header: {
-        padding: ["8px", "16px", "0 50px"],
+        backgroundColor:'rgba(0,0,0,0)',
+        "& .header-info": {
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "brand.900",
+          height: "38px",
+        },
+        "& .header-nav": {
+          borderRadius:'43px',
+          maxWidth:"1200px",
+          margin:'0 auto',
+          padding:"4px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          backgroundColor: "#FFF",
+          height: "77px",
+          border:'1px solid red',
+        },
+        "& .basket-icon":{
+          marginRight:'16px'
+        },
+        "&>.search-bar":{
+          border:'1px solid blue'
+        },
+        width: "100vw",
+        // padding: ["8px", "16px", "0 50px"],
+      },
+      footer:{
+          height: '386px',
+          padding:'40px 0',
+          backgroundColor: "brand.600",
+            display:'flex',
+          "&>div":{
+            display:'flex',
+            flexShrink:1,
+          },
+          "&>div>.footer-summary":{
+            width:'280px',
+            minHeight:'100%',
+            display:"flex",
+            flexDirection:'column',
+            justifyContent:'space-between'
+          },
+          "&>div>.footer-nav":{
+            flexGrow:1,
+            display:'grid',
+            gridTemplateColumns:'repeat(4, 1fr)'
+          },
       },
       ".section": {
         padding: ["8px", "16px", "0 50px"],

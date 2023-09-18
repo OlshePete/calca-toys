@@ -15,12 +15,9 @@ main {
   min-height: 60vh;
 }
 
-header {
-  background-color: bisque;
-  height: 149px;
-}
 
-footer {
-  background-color: bisque;
-  height: 386px;
+.chakra-input__left-element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
