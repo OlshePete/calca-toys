@@ -4,12 +4,11 @@ import { items } from "../../public/start_items_carousel.json";
 import { Carousel } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../../styles/Bootstrap.module.css";
-import Image from "next/image";
 import CustomStack from "../../components/CustomStack/CustomStack";
 import CustomTitle from "@/ui/typographies/CustomTitle";
 import CustomText from "@/ui/typographies/CustomText";
 import { Icon } from "@chakra-ui/react";
-import CustomButton from "../../ui/buttons/CustomButton";
+import CustomButton from "@/ui/buttons/CustomButton";
 export default function MainCarousel() {
   const { bootstrap } = items;
   const [index, setIndex] = useState(0);

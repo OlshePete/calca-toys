@@ -5,9 +5,9 @@ import products from "../../public/products.json";
 import ProductPreview from "../cards/ProductPreview";
 import { ProductsCarouselProps } from "@/types";
 import CustomStack from "@/components/CustomStack/CustomStack";
-import CustomButton from "../../ui/buttons/CustomButton";
 import { useRouter } from "next/navigation";
 import { Box, Button, ButtonGroup, Icon, IconButton } from "@chakra-ui/react";
+import CustomButton from "@/ui/buttons/CustomButton";
 
 function ProductsCarousel({ label }: ProductsCarouselProps) {
   const router = useRouter();
