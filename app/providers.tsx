@@ -20,75 +20,115 @@ const colors = {
 export const theme = extendTheme({
   colors,
   fonts: {
-    // heading: `var(--font--lato)`,
-    // text: `var(--font--lato)`,
-    // body: `var(--font--lato)`,
+    heading: `--font--blue-curve`,
+    text: `var(--font--lato)`,
+    body: `var(--font--lato)`,
   },
   styles: {
     global: {
-      body:{
-        backgroundColor:'brand.900',
-        // fontFamily:"var(--font--lato)"
+      body: {
+        boxSizing: "border-box",
+        padding: 0,
+        margin: 0,
+        backgroundColor: "brand.900",
+        maxWidth: "100vw",
+        overflowX: "hidden",
+        minHeight: "100vh",
+      },
+      main: {
+        minHeight: "60vh",
+      },
+      a: {
+        fontFamily: "var(--font--lato)",
       },
       header: {
-        backgroundColor:'rgba(0,0,0,0)',
+        backgroundColor: "rgba(0,0,0,0)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        padding: 0,
+
         "& .header-info": {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "brand.900",
           height: "38px",
+          position: "relative",
+          top: 0,
+          left: 0,
+          padding: 0,
+          minWidth: "100vw",
+        },
+        "& .header-nav-container": {
+        // zIndex:1000,
+          minWidth: "100vw",
+          backgroundColor: "rgba(0,0,0,0)",
+          position: "absolute",
+          top: "34px",
+          left: 0,
+          height: "77px",
+          padding: 0,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         },
         "& .header-nav": {
-          borderRadius:'43px',
-          maxWidth:"1200px",
-          margin:'0 auto',
-          padding:"4px",
+          borderRadius: "43px",
+          width: "min(100%, 1170px)",
+          // width:'100%',
+          padding: "4px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           backgroundColor: "#FFF",
-          height: "77px",
-          border:'1px solid red',
+          // position:'sticky',
+          // top:'74px',
+          // left:"calc(100vh)",
         },
-        "& .basket-icon":{
-          marginRight:'16px'
-        },
-        "&>.search-bar":{
-          border:'1px solid blue'
+        "& .basket-icon": {
+          marginRight: "16px",
         },
         width: "100vw",
         // padding: ["8px", "16px", "0 50px"],
       },
-      footer:{
-          height: '386px',
-          padding:'40px 0',
-          backgroundColor: "brand.600",
-            display:'flex',
-          "&>div":{
-            display:'flex',
-            flexShrink:1,
-          },
-          "&>div>.footer-summary":{
-            width:'280px',
-            minHeight:'100%',
-            display:"flex",
-            flexDirection:'column',
-            justifyContent:'space-between'
-          },
-          "&>div>.footer-nav":{
-            flexGrow:1,
-            display:'grid',
-            gridTemplateColumns:'repeat(4, 1fr)'
-          },
+      footer: {
+        height: "386px",
+        padding: "40px 0",
+        backgroundColor: "brand.600",
+        display: "flex",
+        "&>div": {
+          display: "flex",
+          flexShrink: 1,
+        },
+        "&>div>.footer-summary": {
+          width: "280px",
+          minHeight: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        },
+        "&>div>.footer-nav": {
+          flexGrow: 1,
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
+        },
       },
       ".section": {
-        padding: ["8px", "16px", "0 50px"],
+        maxHeight: "100vh",
+        minHeight: "60vh",
+        fontFamily: "var(--font--lato)",
+      },
+      ".section.fullH": {
+        minHeight: "100vh",
       },
     },
   },
   components: {
     Text: {
+      baseStyle: {
+        color: "#FFF",
+      },
       variants: {
         nav_link: {
           color: "#FFF",
@@ -143,6 +183,10 @@ export const theme = extendTheme({
       },
     },
     Heading: {
+      baseStyle: {
+        color: "#FFF",
+        textTransform: "uppercase",
+      },
       variants: {
         main_header: {
           color: "brand.800",
@@ -186,6 +230,14 @@ export const theme = extendTheme({
     },
     Button: {
       variants: {
+        solid:{
+          backgroundColor: "brand.500",
+          borderRadius:"49px",
+          color:'#FFF',
+          fontFamily:'var(--font--lato)',
+          fontSize:'14px',
+          lineHeight: "14px",
+        },
         products_link_more: {
           color: "brand.900",
           border: "1px solid #A8D4AF",

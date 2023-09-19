@@ -14,7 +14,8 @@ function SearchBar() {
     </InputLeftElement>
     <Input type='text' placeholder='' variant={'outline'} style={{
       borderRadius:"28px",
-      borderColor:'#FFEDC2'
+      border:'1px solid #FFEDC2',
+      backgroundColor:'#FEF7E6'
     }}/>
   </InputGroup>
   )

@@ -8,18 +8,37 @@ export interface IPost {
 export interface ChildrenComponentProps {
   children: ReactNode;
 }
-export interface FooterStackProps extends ChildrenComponentProps {
-  variant: "column" | "row",
-  gap?: Number
+export interface ContentContainerProps extends ChildrenComponentProps {
+  centerContent?: boolean | undefined
 }
+export interface HeaderInfoProps {
+  theme: 'light' | 'dark'
+}
+export interface CustomStackProps extends ChildrenComponentProps {
+  variant: "column" | "row",
+  gap?: number,
+  justify?: 'flex-start' | 'flex-end' | 'center'
+}
+export interface CustomTitleProps extends ChildrenComponentProps {
+  fontSize?: number,
+}
+
+export interface CustomButtonProps {
+  width?: number,
+  height?: number,
+  variant: 'solid' | 'outline' | 'ghost'
+  label: string,
+  action?: () => void
+}
+
 export interface FooterNavNextElement {
-  label: String,
-  link?: String
+  label: string,
+  link?: string
 }
 export interface FooterNavBlock {
   [key: string]: FooterNavNextElement
 }
 export interface FooterContactElement {
-  label: String | String[],
-  caption?: String,
+  label: string | string[],
+  caption?: string,
 }

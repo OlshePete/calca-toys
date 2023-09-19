@@ -27,6 +27,20 @@ const lato = localFont({
     },
   ],
 });
+const blue_curve = localFont({
+  variable:"--font--blue-curve",
+  src: [
+    {
+      path: "../public/fonts/Blue_curve/Bluecurve-Light.ttf",
+    },
+    {
+      path: "../public/fonts/Blue_curve/Bluecurve-Regular.ttf",
+    },
+    {
+      path: "../public/fonts/Blue_curve/Bluecurve-Bold.ttf",
+    },
+  ],
+});
 export const metadata: Metadata = {
   title: "Калька, магазин игрушек",
   description: "Интернет магазин игрушек",
@@ -39,7 +53,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
-      <body className={`${lato.className}`}>
+      <body className={`${lato.variable} ${blue_curve.variable}`}>
         <Providers>
           <main >
             <Header />
