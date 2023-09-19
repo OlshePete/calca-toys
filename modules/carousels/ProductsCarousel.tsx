@@ -7,7 +7,6 @@ import { ProductsCarouselProps } from "@/types";
 import CustomStack from "@/components/CustomStack/CustomStack";
 import { useRouter } from "next/navigation";
 import { Box, Button, ButtonGroup, Icon, IconButton } from "@chakra-ui/react";
-import CustomButton from "@/ui/buttons/CustomButton";
 
 function ProductsCarousel({ label }: ProductsCarouselProps) {
   const router = useRouter();
@@ -73,11 +72,11 @@ function ProductsCarousel({ label }: ProductsCarouselProps) {
           );
         })}
       </div>
-      <CustomButton
-        action={() => router.push("/catalog")}
-        label="смотреть все"
-        variant="outline"
-      />
+      <Button
+        onClick={() => router.push("/catalog")}
+        variant="outline">
+        смотреть все
+      </Button>
     </ContentContainer>
   );
 }
