@@ -41,6 +41,14 @@ const blue_curve = localFont({
     },
   ],
 });
+const ts_remarker = localFont({
+  variable:"--font--ts-remarker",
+  src: [
+    {
+      path: "../public/fonts/TS_remarker/TS Remarker Regular.otf",
+    }
+  ],
+});
 export const metadata: Metadata = {
   title: "Калька, магазин игрушек",
   description: "Интернет магазин игрушек",
@@ -53,7 +61,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
-      <body className={`${lato.variable} ${blue_curve.variable}`}>
+      <body className={`${lato.variable} ${blue_curve.variable} ${ts_remarker.variable} ${lato.className} ${blue_curve.className} ${ts_remarker.className}`}>
         <Providers>
           <main >
             <Header />

@@ -5,11 +5,10 @@ import { Carousel } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../../styles/Bootstrap.module.css";
 import Image from "next/image";
-import CustomStack from "../CustomStack/CustomStack";
-import CustomTitle from "@/ui/Typography/CustomTitle";
-import CustomText from "@/ui/Typography/CustomText";
-import CustomButton from "@/ui/Buttons/CustomButton";
-import prev from "../../public/prev.svg";
+import CustomStack from "../../components/CustomStack/CustomStack";
+import CustomTitle from "@/ui/typographies/CustomTitle";
+import CustomText from "@/ui/typographies/CustomText";
+import CustomButton from "@/ui/buttons/CustomButton";
 import { Icon } from "@chakra-ui/react";
 export default function MainCarousel() {
   const { bootstrap } = items;

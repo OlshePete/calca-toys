@@ -21,8 +21,34 @@ export interface CustomStackProps extends ChildrenComponentProps {
 }
 export interface CustomTitleProps extends ChildrenComponentProps {
   fontSize?: number,
+  color?: string,
 }
+export interface CustomTextProps extends ChildrenComponentProps {
+  fontSize?: number,
+  color?: string,
+}
+interface ProductColor {
+  label: string,
+  color: string
+}
+export interface ProductPreviewProps {
+  product: {
+    id: number,
+    name: string,
+    price: number,
+    height?: number,
+    width?: number,
+    mustHave: boolean,
+    rebate?: number,
+    colors?: ProductColor[],
+    img: string,
+    comment?: string,
+  }
+}
+export interface ProductsCarouselProps {
+  label: string,
 
+}
 export interface CustomButtonProps {
   width?: number,
   height?: number,
