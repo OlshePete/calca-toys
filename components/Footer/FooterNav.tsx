@@ -1,7 +1,7 @@
 import { FooterContactElement, FooterNavNextElement } from "@/types";
 import React from "react";
-import FooterStack from "./FooterStack";
 import Link from "next/link";
+import CustomStack from "../CustomStack/CustomStack";
 const data: FooterNavNextElement[][] = [
   [
     {
@@ -85,10 +85,10 @@ function FooterNav() {
       {data &&
         data.map((block, index) => {
           return (
-            <FooterStack
+            <CustomStack
               variant="column"
               gap={10}
-              key={new Date().toLocaleTimeString()}
+              key={new Date().toString() + index}
             >
               {block?.map(({ label, link }, elIndex) => {
                 return (
@@ -96,7 +96,7 @@ function FooterNav() {
                     href={{
                       pathname: `/${link || "#"}`
                     }}
-                    key={new Date().toLocaleTimeString() + label}
+                    key={new Date().toString() + label + elIndex}
                     style={{
                       listStyleType: "none",
                       fontSize: elIndex === 0 ? "16px" : "14px",
@@ -107,14 +107,14 @@ function FooterNav() {
                   </Link>
                 );
               })}
-            </FooterStack>
+            </CustomStack>
           );
         })}
       <div>
         {
           contacts.map(({label, caption}, blIndex)=>{
-            return (<FooterStack 
-                key={new Date().toLocaleTimeString()}
+            return (<CustomStack 
+                key={new Date().toString() + blIndex + label}
                 variant="column"
                 gap={12}
               >
@@ -125,7 +125,7 @@ function FooterNav() {
                 Array.isArray(label) ? label.map((text)=><span  style={{fontSize:'16px', fontWeight:blIndex===0?500:400}} key={text+new Date().toDateString()}>{text}</span>) :<span   style={{fontSize:'16px', fontWeight:blIndex===0?500:400}}>{label}</span>
                }
                <span>{}</span>
-            </FooterStack>)
+            </CustomStack>)
           })
         }
       </div>

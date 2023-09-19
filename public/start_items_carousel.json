@@ -1,0 +1,35 @@
+{
+  "items": {
+    "bootstrap": [
+      {
+        "id": 1,
+        "title": "Оформление",
+        "subtitle":"надувными шарами",
+        "body": "Широкий выбор оформления праздника для вашего ребенка",
+        "imageUrl": "https://storage.yandexcloud.net/calca-web/oformlenie.png"
+      },
+      {
+        "id": 2,
+        "title": "City",
+        "subtitle":"Views",
+        "body": "Широкий выбор оформления праздника для вашего ребенка",
+        "imageUrl": "https://res.cloudinary.com/kizmelvin/image/upload/v1587785064/kizmelvin/michael-BcgEo2CNeYA-unsplash_cdaruk.jpg"
+      },
+      {
+        "id": 3,
+        "title": "Wild",
+        "subtitle":"Life",
+        "body": "Широкий выбор оформления праздника для вашего ребенка",
+        "imageUrl": "https://res.cloudinary.com/kizmelvin/image/upload/v1586799827/kizmelvin/brownlion_qm8hah.jpg"
+      },
+      {
+        "id": 4,
+        "title": "Foods",
+        "subtitle":"Culture",
+        "body": "Широкий выбор оформления праздника для вашего ребенка",
+        "imageUrl": "https://res.cloudinary.com/kizmelvin/image/upload/v1587870308/kizmelvin/edvin-johansson-5AylXcpJn1I-unsplash_lbhgod.jpg"
+      }
+    ]
+  }
+}
+   
