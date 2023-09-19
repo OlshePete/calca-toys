@@ -1,0 +1,59 @@
+[
+  {
+    "id":1,
+    "name":"Шар «Космонавт»",
+    "price":900,
+    "height":94,
+    "mustHave":true,
+    "rebate":0,
+    "img":"https://storage.yandexcloud.net/calca-web/product1.png"
+  },
+  {
+    "id":2,
+    "name":"Шар «Звезда»",
+    "colors":[
+      {
+        "label":"металлик",
+        "color":"FFF"
+      },
+      {
+        "label":"розовый",
+        "color":"CCC"
+      }
+    ],
+    "price":320,
+    "height":45,
+    "mustHave":true,
+    "rebate":0,
+    "img":"https://storage.yandexcloud.net/calca-web/product2.png"
+  },
+  {
+    "id":3,
+    "name":"Шар «Малыш динозаврик»",
+    "price":688,
+    "height":76,
+    "width":78,
+    "mustHave":true,
+    "rebate":0,
+    "img":"https://storage.yandexcloud.net/calca-web/product3.png"
+  },
+  {
+    "id":4,
+    "name":"Композиция «Поздравляем с девочкой»",
+    "price":2963,
+    "height":94,
+    "mustHave":true,
+    "rebate":0,
+    "img":"https://storage.yandexcloud.net/calca-web/product4.png",
+    "comment":"Количество шаров: 10 шт "
+  },
+  {
+    "id":5,
+    "name":"Шар Звезда «Синий мрамор»",
+    "price":498,
+    "height":45,
+    "mustHave":true,
+    "rebate":0,
+    "img":"https://storage.yandexcloud.net/calca-web/product5.png"
+  }
+]

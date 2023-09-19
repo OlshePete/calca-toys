@@ -122,6 +122,13 @@ export const theme = extendTheme({
       ".section.fullH": {
         minHeight: "100vh",
       },
+      ".product-sm": {
+        width:'270px',
+        height:'464px',
+        display:'flex',
+        flexDirection:'column',
+        color:'brand.200',
+      }
     },
   },
   components: {
@@ -229,10 +236,12 @@ export const theme = extendTheme({
       },
     },
     Button: {
+      baseStyle: {
+          borderRadius:"49px",
+      },
       variants: {
         solid:{
           backgroundColor: "brand.500",
-          borderRadius:"49px",
           color:'#FFF',
           fontFamily:'var(--font--lato)',
           fontSize:'14px',
