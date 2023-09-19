@@ -8,8 +8,8 @@ import Image from "next/image";
 import CustomStack from "../../components/CustomStack/CustomStack";
 import CustomTitle from "@/ui/typographies/CustomTitle";
 import CustomText from "@/ui/typographies/CustomText";
-import CustomButton from "@/ui/buttons/CustomButton";
 import { Icon } from "@chakra-ui/react";
+import CustomButton from "../../ui/buttons/CustomButton";
 export default function MainCarousel() {
   const { bootstrap } = items;
   const [index, setIndex] = useState(0);
