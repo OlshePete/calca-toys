@@ -1,5 +1,7 @@
 import MainCarousel from "@/modules/carousels/MainCarousel";
 import ProductsCarousel from "@/modules/carousels/ProductsCarousel";
+import { products } from "@/public/products";
+
 export default function Home() {
   return (
     <main>
@@ -7,7 +9,7 @@ export default function Home() {
         <MainCarousel/>
       </div>
       <div className="section" style={{background:"#FEF7E6",padding:'110px 0' }}>
-        <ProductsCarousel label="Хит продаж"/>
+        <ProductsCarousel label="Хит продаж" products={products.filter(p=>p?.mustHave)}/>
       </div>
       <div className="section" style={{ background: "green" }}>
         <p>оформление шарами</p>
@@ -15,11 +17,12 @@ export default function Home() {
       <div className="section" style={{ background: "green" }}>
         <p>НАДУЕМ ваши</p>
       </div>
-      <div className="section" style={{ background: "green" }}>
-        <p>игрушки</p>
+      <div className="section" style={{ background: "#FEF7E6",padding:'110px 0'  }}>
+        <ProductsCarousel label="игрушки" products={products.filter(p=>p?.type==="toy")}/>
+
       </div>
-      <div className="section" style={{ background: "green" }}>
-        <p>Акционные предложения</p>
+      <div className="section" style={{ background: "#FEF7E6",padding:'110px 0'  }}>
+        <ProductsCarousel label="Акционные предложения" products={products.filter(p=>p?.discount_price)}/>
       </div>
       <div className="section" style={{ background: "green" }}>
         <p>Подарочная упаковка</p>

@@ -2,7 +2,7 @@
 
 import { CacheProvider } from "@chakra-ui/next-js";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-
+import localFont from "next/font/local";
 const colors = {
   brand: {
     900: "#FEF7E6",
@@ -17,12 +17,50 @@ const colors = {
   },
 };
 
+const lato = localFont({
+  variable:"--font--lato",
+  src: [
+    {
+      path: "../public/fonts/Lato/Lato-Bold.woff",
+    },
+    {
+      path: "../public/fonts/Lato/Lato-Medium.woff",
+    },
+    {
+      path: "../public/fonts/Lato/Lato-Regular.woff",
+    },
+    {
+      path: "../public/fonts/Lato/Lato-Semibold.woff",
+    },
+  ],
+});
+const blue_curve = localFont({
+  src: [
+    {
+      path: "../public/fonts/Blue_curve/Bluecurve-Light.ttf",
+    },
+    {
+      path: "../public/fonts/Blue_curve/Bluecurve-Regular.ttf",
+    },
+    {
+      path: "../public/fonts/Blue_curve/Bluecurve-Bold.ttf",
+    },
+  ],
+});
+const ts_remarker = localFont({
+  variable:"--font--ts-remarker",
+  src: [
+    {
+      path: "../public/fonts/TS_remarker/TS Remarker Regular.otf",
+    }
+  ],
+});
 export const theme = extendTheme({
   colors,
   fonts: {
-    heading: `--font--blue-curve`,
-    text: `var(--font--lato)`,
-    body: `var(--font--lato)`,
+    heading: blue_curve.style.fontFamily,
+    text: lato.style.fontFamily,
+    body: blue_curve.style.fontFamily,
   },
   styles: {
     global: {
@@ -39,7 +77,7 @@ export const theme = extendTheme({
         minHeight: "60vh",
       },
       a: {
-        fontFamily: "var(--font--lato)",
+        fontFamily: blue_curve.style.fontFamily,
       },
       header: {
         backgroundColor: "rgba(0,0,0,0)",
@@ -115,9 +153,8 @@ export const theme = extendTheme({
         },
       },
       ".section": {
-        maxHeight: "100vh",
         minHeight: "60vh",
-        fontFamily: "var(--font--lato)",
+        // fontFamily: "var(--font--lato)",
       },
       ".section.fullH": {
         minHeight: "100vh",
@@ -128,15 +165,54 @@ export const theme = extendTheme({
         display:'flex',
         flexDirection:'column',
         color:'brand.200',
-      }
+      },
+      "button.nav_icon > svg > circle":{
+        stroke:'#F49AA5',
+      },
+      "button.nav_icon > svg > path":{
+        fill:'#F49AA5'
+      },
+      "button.nav_icon.active > svg > circle":{
+        fill:'#F49AA5',
+      },
+      "button.nav_icon.active > svg > path":{
+        fill:'#FFF'
+      },
     },
   },
   components: {
+    Badge: {
+      baseStyle: {
+        backgroundColor: "brand.700",
+        borderRadius:"28px",
+        color:"#FFF",
+        fontSize:'14px',
+        lineHeight:'14px',
+        fontWeight:400,
+        fontFamily:lato.style.fontFamily,
+        textTransform:'none',
+        padding:'9px 20px'
+      },
+      variants:{
+        discount:{
+        backgroundColor: "brand.500",
+        }
+      }
+    },
     Text: {
       baseStyle: {
-        color: "#FFF",
+        color: "brand.200",
       },
       variants: {
+        banner_text:{
+          color: "#FFF",
+          fontSize: "18px",
+          fontStyle: "normal",
+          fontWeight: "400",
+          lineHeight: "24px",
+          maxWidth:'360px',
+          textAlign:'left',
+        },
         nav_link: {
           color: "#FFF",
           cursor: "pointer",
@@ -187,6 +263,31 @@ export const theme = extendTheme({
           lineHeight: "119.5%",
           letterSpacing: "2.64px",
         },
+        product_name: {
+          margin:0,
+          color: "brand.100",
+          fontFamily: lato.style.fontFamily,
+          fontSize: "16px",
+          fontStyle: "normal",
+          fontWeight: "500",
+          lineHeight: "22px",
+        },
+        product_text: {
+        margin:0,
+          color: "brand.100",
+          fontSize: "18px",
+          fontStyle: "normal",
+          fontWeight: "500",
+          lineHeight: "24px",
+        },
+        product_text_sub: {
+        margin:0,
+          color: "brand.200",
+          fontSize: "14px",
+          fontStyle: "normal",
+          fontWeight: "400",
+          lineHeight: "20px",
+        },
       },
     },
     Heading: {
@@ -196,10 +297,11 @@ export const theme = extendTheme({
       },
       variants: {
         main_header: {
-          color: "brand.800",
+          fontFamily:blue_curve.style.fontFamily,
+          color: "#FFF",
           textShadow: "0px 4px 4px rgba(255, 255, 255, 0.05)",
           // fontFamily:'Orchidea Pro',
-          fontSize: ["32px", "36px", "44px"],
+          fontSize: ["32px", "36px", "70px"],
           fontStyle: "normal",
           fontWeight: "200",
           lineHeight: "119.5%",
@@ -208,11 +310,9 @@ export const theme = extendTheme({
           maxWidth: "min(620px, 100%)",
         },
         sub_header: {
-          color: "brand.800",
-          textShadow: "0px 4px 4px rgba(255, 255, 255, 0.05)",
-          backdropFilter: "blur(2px)",
-          // fontFamily:'Orchidea Pro',
-          fontSize: ["34px"],
+          fontFamily:blue_curve.style.fontFamily,
+          color: "#FFF",
+          fontSize:  ["32px", "36px", "44px"],
           fontStyle: "normal",
           fontWeight: "200",
           lineHeight: "119.5%",
@@ -221,13 +321,13 @@ export const theme = extendTheme({
           maxWidth: "min(720px, 100%)",
         },
         post_header: {
-          color: "brand.800",
+          color: "brand.100",
           textShadow: "0px 4px 4px rgba(255, 255, 255, 0.05)",
           textAlign: "right",
-          // fontFamily:'Orchidea Pro',
-          fontSize: ["34px"],
+          fontFamily:blue_curve.style.fontFamily,
+          fontSize: ["30px"],
           fontStyle: "normal",
-          fontWeight: "200",
+          fontWeight: "400",
           lineHeight: "119.5%",
           letterSpacing: "2.64px",
           textTransform: "uppercase",
@@ -240,10 +340,19 @@ export const theme = extendTheme({
           borderRadius:"49px",
       },
       variants: {
+        outline:{
+          textTransform:'uppercase',
+          borderColor: "brand.500",
+          height:"55px",
+          width:"200px",
+          fontFamily:lato.style.fontFamily,
+          fontWeight:500,
+          lineHeight:'14px',
+        },
         solid:{
           backgroundColor: "brand.500",
           color:'#FFF',
-          fontFamily:'var(--font--lato)',
+          // fontFamily:'var(--font--lato)',
           fontSize:'14px',
           lineHeight: "14px",
         },

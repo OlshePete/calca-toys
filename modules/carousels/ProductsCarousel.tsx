@@ -1,34 +1,38 @@
 "use client";
 import ContentContainer from "@/components/ContentContainer/ContentContainer";
-import React, { useRef, useState } from "react";
-import products from "../../public/products.json";
+import React, { useRef } from "react";
 import ProductPreview from "../cards/ProductPreview";
 import { ProductsCarouselProps } from "@/types";
-import CustomStack from "@/components/CustomStack/CustomStack";
 import { useRouter } from "next/navigation";
-import { Box, Button, ButtonGroup, Icon, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Heading,
+  Icon,
+  IconButton,
+} from "@chakra-ui/react";
 
-function ProductsCarousel({ label }: ProductsCarouselProps) {
+function ProductsCarousel({ label,products }: ProductsCarouselProps) {
   const router = useRouter();
-  const containerRef = useRef(null)
-  function handleScroll(e: React.MouseEvent<HTMLButtonElement>, flag:boolean) {
-    if (containerRef?.current)  console.log(containerRef.current, flag)
+  const containerRef = useRef<HTMLDivElement>(null);
+  function handleScroll(e: React.MouseEvent<HTMLButtonElement>, flag: boolean) {
+    if (containerRef.current)
+      containerRef.current.scrollBy({
+        left: flag ? -500 : 500,
+        behavior: "smooth",
+      });
   }
   return (
     <ContentContainer>
-      <Box display={'flex'} justifyContent={'space-between'}>
-        
-      <p
-        style={{
-          fontFamily: "var(--font--ts-remarker)",
-        }}
-      >
-        {label}
-      </p>
+      <Box display={"flex"} justifyContent={"space-between"} height={'auto'}>
+        <Heading variant={"post_header"}>{label}</Heading>
         <ButtonGroup variant="outline" spacing="6">
           <IconButton
-          onClick={(e)=>handleScroll(e, true)}
+            onClick={(e) => handleScroll(e, true)}
+            className="nav_icon"
             aria-label="scroll left"
+            width={"44px"} height={"44px"}
             icon={
               <Icon viewBox="0 0 44 44" width={"44px"} height={"44px"}>
                 <circle cx="22" cy="22" r="22" fill="#FEF7E6" />
@@ -40,8 +44,10 @@ function ProductsCarousel({ label }: ProductsCarouselProps) {
             }
           />
           <IconButton
-          onClick={(e)=>handleScroll(e, false)}
+            onClick={(e) => handleScroll(e, false)}
+            className="nav_icon"
             aria-label="scroll right"
+            width={"44px"} height={"44px"}
             icon={
               <Icon viewBox="0 0 44 44" width={"44px"} height={"44px"}>
                 <circle cx="22" cy="22" r="22" fill="#FEF7E6" />
@@ -63,7 +69,7 @@ function ProductsCarousel({ label }: ProductsCarouselProps) {
           gap: "30px",
           height: "494px",
           overflowX: "scroll",
-          margin: "60px  0",
+          margin: "20px  0",
         }}
       >
         {products.map((product) => {
@@ -72,11 +78,14 @@ function ProductsCarousel({ label }: ProductsCarouselProps) {
           );
         })}
       </div>
-      <Button
-        onClick={() => router.push("/catalog")}
-        variant="outline">
+      <Box
+      display={'flex'}
+      justifyContent={'center'}
+      >
+      <Button onClick={() => router.push("/catalog")} variant="outline" className="text">
         смотреть все
       </Button>
+      </Box>
     </ContentContainer>
   );
 }

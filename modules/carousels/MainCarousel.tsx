@@ -7,7 +7,7 @@ import styles from "../../styles/Bootstrap.module.css";
 import CustomStack from "../../components/CustomStack/CustomStack";
 import CustomTitle from "@/ui/typographies/CustomTitle";
 import CustomText from "@/ui/typographies/CustomText";
-import { Button, Icon } from "@chakra-ui/react";
+import { Button, Heading, Icon, Text } from "@chakra-ui/react";
 export default function MainCarousel() {
   const { bootstrap } = items;
   const [index, setIndex] = useState(0);
@@ -68,11 +68,11 @@ export default function MainCarousel() {
               <CustomStack variant="column" gap={76}>
                 <CustomStack variant="column" gap={17}>
                   <CustomStack variant="column" gap={0}>
-                    <CustomTitle fontSize={70}>{item.title}</CustomTitle>
-                    <CustomTitle fontSize={44}>{item.subtitle}</CustomTitle>
+                    <Heading variant={'main_header'}>{item.title}</Heading>
+                    <Heading variant={'sub_header'}>{item.subtitle}</Heading>
                   </CustomStack>
 
-                  <CustomText>{item.body}</CustomText>
+                  <Text variant={'banner_text'}>{item.body}</Text>
                 </CustomStack>
                 <Button variant="solid" width={200}>
                   выбрать
