@@ -136,3 +136,38 @@ body::-webkit-scrollbar-thumb,
   overflow: hidden;
   z-index: -1;
 }
+
+.crossed {
+  position: relative;
+}
+
+.crossed::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 110%;
+  left: -10%;
+  height: 2px;
+  background-color: #FA6B6B;
+}
+
+.color_picker {
+  width: 62px;
+  height: 26px;
+  background: #FFF;
+  border-radius: 25px;
+  display: flex;
+  cursor: pointer;
+}
+
+.color_picker>button {
+  transform: scale(0.5) translateY(-14px) translateX(-8px);
+}
+
+.color_picker>svg {
+  transform: translateY(10px) translateX(-1px);
+}
+
+.color_picker>button:hover {
+  transform: scale(0.5) translateY(-14px) translateX(-8px);
+}

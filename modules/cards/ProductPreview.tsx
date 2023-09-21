@@ -1,8 +1,13 @@
+'use client'
 import { ProductPreviewProps } from "@/types";
-import CustomText from "@/ui/typographies/CustomText";
-import CustomTitle from "@/ui/typographies/CustomTitle";
+import { Box, Heading, Icon, Select, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import React from "react";
+import React,{useState} from "react";
+
+import { ColorPicker } from "chakra-color-picker"; 
+import { color } from "framer-motion";
+import { useRouter } from "next/navigation";
+
 
 function _getSizes(h?: number, w?: number): string {
   let str = "";
@@ -24,62 +29,84 @@ function ProductPreview({ product }: ProductPreviewProps) {
     height,
     width,
     mustHave,
-    rebate = 0,
-    comment,
-    colors,
-    img,
+    discount_price,
+    previewComment,
+    variants,
   } = product;
+  const [currentIndex, setCurrentIndex] = useState(0)
+  // function handlePickerActive(e: React.MouseEvent<HTMLButtonElement>) {
+  //   console.log('====================================');
+  //   console.log({...e.target.children[0]});
+  //   console.log('====================================');
+  // }
+  const router = useRouter();
+
+const handleColorChange = (value:string) => {
+    setCurrentIndex(p=>variants.findIndex(v=>v.color===value.slice(1)))
+  };
   return (
-    <div
+    <Box
       className="product-sm"
+      onClick={()=>{
+        console.log('click',id);
+        router.push('/product/'+id)
+      }}
       style={{
-        margin:0,
+        margin: 0,
         position: "relative",
         width: "270px",
         display: "flex",
         height: "464px",
         flexDirection: "column",
-        justifyContent:"space-between",
-        gap:'16px'
+        justifyContent: "space-between",
+        gap: "16px",
       }}
     >
-      <Image
-        alt={name}
-        src={img}
-        width={270}
-        height={320}
-        style={{
-          borderRadius: "14px",
-        objectFit: 'cover',
-        minWidth:'270px',
-        minHeight:'320px',
-        maxWidth:'270px',
-        maxHeight:'320px',
-
-        }}
-      />
-      <div
-      style={{
-        flexGrow:1,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent:'space-between',
-        paddingBottom:'4px',
-      }}
-      >
-        <CustomText color={"brand.100"} fontSize={16}>
-          {name}{colors?` - ${colors.map(c=>c.label).join(', ')}`:""}
-        </CustomText>
-   
-          
-         {comment && <CustomText color={"brand.200"} fontSize={14}>{comment}</CustomText>}
-        {!comment && (height || width) && (
-          <CustomText color={"brand.200"} fontSize={14}>
-            {_getSizes(height, width)}
-          </CustomText>
-        )}
-        <CustomText color={"brand.200"} fontSize={18}>{price} ₽</CustomText>
+      {
+        variants &&  <Image
+          alt={name}
+          src={variants[currentIndex].image}
+          width={270}
+          height={320}
+          style={{
+            borderRadius: "14px",
+            objectFit: "cover",
+            minWidth: "270px",
+            minHeight: "320px",
+            maxWidth: "270px",
+            maxHeight: "320px",
+          }}
+        />
+      }
      
+      <div
+        style={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          paddingBottom: "4px",
+        }}
+      >
+        <Text variant={"product_name"}>
+          {name}
+          {variants && variants.map(v=>v.color).length > 1 ? ` - ${variants.map(v=>v.label).join(", ")}` : ""}
+        </Text>
+
+        {previewComment && <Text variant={"product_text_sub"}>{previewComment}</Text>}
+        {!previewComment && (height || width) && (
+          <Text variant={"product_text_sub"}>{_getSizes(height, width)}</Text>
+        )}
+        {!discount_price ? (
+          <Text variant={"product_text"}>{price} ₽</Text>
+        ) : (
+          <Box display={"flex"} gap={"24px"}>
+            <Text variant={"product_text"}>{discount_price} ₽</Text>
+            <Text variant={"product_text"} className="crossed">
+              {discount_price} ₽
+            </Text>
+          </Box>
+        )}
       </div>
 
       <Image
@@ -94,19 +121,57 @@ function ProductPreview({ product }: ProductPreviewProps) {
           right: 0,
         }}
       />
-      {mustHave && <Image
-        src="/mustHave.svg"
-        alt="Must Have icon"
-        width={44}
-        height={44}
-        priority
-        style={{
-          position: "absolute",
-          top: '16px',
-          left: '17px',
-        }}
-      />}
-    </div>
+      {mustHave && (
+        <Image
+          src="/mustHave.svg"
+          alt="Must Have icon"
+          width={44}
+          height={44}
+          priority
+          style={{
+            position: "absolute",
+            top: "16px",
+            left: "17px",
+          }}
+        />
+      )}
+      {discount_price && (
+        <>
+          <Image
+            src="/discount.svg"
+            alt="Must Have icon"
+            width={44}
+            height={44}
+            priority
+            style={{
+              position: "absolute",
+              top: "16px",
+              left: "17px",
+            }}
+          />
+          <p
+            style={{
+              position: "absolute",
+              top: "28px",
+              left: "25px",
+              fontSize: "12px",
+              color: "#FFF",
+              fontWeight: 500,
+            }}
+          >{`-${(((price - discount_price) / price) * 100).toFixed(0)}%`}</p>
+        </>
+      )}
+      {
+        variants && variants.map(v=>v.color).length > 1  && <Box position={'absolute'} top={'22px'} right={'16px'} 
+        className="color_picker"
+        >
+          <ColorPicker onChange={handleColorChange} colors={variants.map(v=>"#"+v.color)}/>
+          <Icon width="16px" height="7px" viewBox="0 0 16 7" fill={'none'}>
+              <path d="M1 1L8 6L15 1" stroke="#313131" stroke-linecap="round"/>
+          </Icon>
+        </Box>
+      }
+    </Box>
   );
 }
 

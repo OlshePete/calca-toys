@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-
 export interface IPost {
   id: number
   title: string
@@ -27,27 +26,42 @@ export interface CustomTextProps extends ChildrenComponentProps {
   fontSize?: number,
   color?: string,
 }
-interface ProductColor {
+export interface ProductColor {
   label: string,
-  color: string
+  color?: string,
+}
+export interface StockBlock extends ProductColor {
+  inStock: number
+}
+export interface ProductVariant extends ProductColor {
+  image: string
+}
+export interface Product {
+  id: number,
+  type?: "toy" | "balloon" | "supplies" | undefined,
+  name: string,
+  price: number,
+  discount_price?: number,
+  height?: number,
+  width?: number,
+  previewComment?: string,
+  mustHave?: boolean,
+  variants: ProductVariant[],
+  comment: string,
+  productDescription: string,
+  productCharacteristic: string,
+  stock: StockBlock[],
+  article: string
 }
 export interface ProductPreviewProps {
-  product: {
-    id: number,
-    name: string,
-    price: number,
-    height?: number,
-    width?: number,
-    mustHave: boolean,
-    rebate?: number,
-    colors?: ProductColor[],
-    img: string,
-    comment?: string,
-  }
+  product: Product
+}
+export interface ProductFullViewProps {
+  product: Product
 }
 export interface ProductsCarouselProps {
   label: string,
-
+  products: Product[]
 }
 export interface CustomButtonProps {
   width?: number,
