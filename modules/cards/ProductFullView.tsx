@@ -13,12 +13,16 @@ import {
   Icon,
   Select,
   Text,
+  HStack,
+  VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import React, { useState } from "react";
 
 import { ColorPicker } from "chakra-color-picker";
 import { color } from "framer-motion";
+import ProductInfoAccordion from "../accordions/ProductInfoAccordion";
+import ProductFullViewForm from "../forms/ProductFullViewForm";
 
 function _getSizes(h?: number, w?: number): string {
   let str = "";
@@ -43,6 +47,8 @@ function ProductFullView({ product }: ProductFullViewProps) {
     discount_price,
     previewComment,
     variants,
+    comment,
+    stock,
     article,
   } = product;
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -52,6 +58,7 @@ function ProductFullView({ product }: ProductFullViewProps) {
       variants.findIndex((v) => v.color === value.slice(1))
     );
   };
+  
   return (
     <div style={{}}>
       <Text fontSize={14} fontWeight={400} lineHeight={"22px"}>
@@ -73,26 +80,32 @@ function ProductFullView({ product }: ProductFullViewProps) {
             }}
           />
         </GridItem>
-        <GridItem w="100%" minH="703">
+        <GridItem w="100%" minH="703" display={'flex'} flexDirection={'column'} gap={'20px'}>
+          <HStack gap={'8px'}>
           {mustHave && <Badge>Хит продаж</Badge>}
           {discount_price && (
             <Badge variant={"discount"}>
               {`-${(((price - discount_price) / price) * 100).toFixed(0)}%`}
             </Badge>
           )}
-          <Text variant={"product_name"} textTransform={"uppercase"}>
+          </HStack>
+          <VStack align={'flex-start'}>
+
+          <Text variant={"full_product_name"}>
             {name}
             {variants && variants.map((v) => v.color).length > 1
               ? ` - ${variants.map((v) => v.label).join(", ")}`
               : ""}
           </Text>
           {previewComment && (
-            <Text variant={"product_text_sub"}>{previewComment}</Text>
+            <Text variant={"full_product_text"} color={'#515151'}>{previewComment}</Text>
           )}
 
           {(height || width) && (
-            <Text variant={"product_text_sub"}>{_getSizes(height, width)}</Text>
+            <Text variant={"full_product_text"} color={'#515151'}>{_getSizes(height, width)}</Text>
           )}
+          </VStack>
+
           {!discount_price ? (
             <Text variant={"product_text"}>{price} ₽</Text>
           ) : (
@@ -103,6 +116,32 @@ function ProductFullView({ product }: ProductFullViewProps) {
               </Text>
             </Box>
           )}
+          <HStack gap={'24px'}>
+          {
+            variants && variants.map(({image, label, color}, index)=>{
+              return <Image
+              key={label + index +"-"+id}
+            alt={label}
+            src={image}
+            width={100}
+            height={130}
+            onClick={()=>setCurrentIndex(index)}
+            style={{
+              transition:'all .2s ease',
+              borderRadius: "14px",
+              cursor:'pointer',
+              objectFit: "cover",
+              width: "100px",
+              height: "130px",
+              border:currentIndex===index?'3px solid #71BBFF':'none'
+            }}
+          />
+            })
+          }
+          </HStack>
+          <ProductFullViewForm max={stock[currentIndex].inStock}/>
+              <Text variant={"full_product_text"}>{comment}</Text>
+        <ProductInfoAccordion product={product}/>
         </GridItem>
       </Grid>
 

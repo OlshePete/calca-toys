@@ -77,7 +77,8 @@ export const theme = extendTheme({
         minHeight: "60vh",
       },
       a: {
-        fontFamily: blue_curve.style.fontFamily,
+        fontFamily:lato.style.fontFamily,
+        textDecoration: 'none'
       },
       header: {
         backgroundColor: "rgba(0,0,0,0)",
@@ -202,8 +203,18 @@ export const theme = extendTheme({
     Text: {
       baseStyle: {
         color: "brand.200",
+        fontFamily: lato.style.fontFamily,
       },
       variants: {
+        info_accordion_btn:{
+          color: "brand.100",
+          fontSize: "16px",
+          fontStyle: "normal",
+          fontWeight: "400",
+          lineHeight: "24px",
+          textAlign:'left',
+          textTransform: "uppercase",
+        },
         banner_text:{
           color: "#FFF",
           fontSize: "18px",
@@ -288,6 +299,34 @@ export const theme = extendTheme({
           fontWeight: "400",
           lineHeight: "20px",
         },
+        full_product_name: {
+          margin:0,
+          color: "brand.100",
+          fontFamily: lato.style.fontFamily,
+          fontSize: "30px",
+          fontStyle: "normal",
+          fontWeight: "600",
+          lineHeight: "38px",
+          textTransform:'uppercase',
+        },
+        full_product_text: {
+          fontFamily: lato.style.fontFamily,
+          margin:0,
+          color: "brand.100",
+          fontSize: "14px",
+          fontStyle: "normal",
+          fontWeight: "400",
+          lineHeight: "20px",
+        },
+        full_product_text_sub: {
+          fontFamily: lato.style.fontFamily,
+        margin:0,
+          color: "brand.200",
+          fontSize: "14px",
+          fontStyle: "normal",
+          fontWeight: "400",
+          lineHeight: "20px",
+        },
       },
     },
     Heading: {
@@ -338,6 +377,7 @@ export const theme = extendTheme({
     Button: {
       baseStyle: {
           borderRadius:"49px",
+          fontFamily: lato.style.fontFamily,
       },
       variants: {
         outline:{
