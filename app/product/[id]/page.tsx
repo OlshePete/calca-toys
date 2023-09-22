@@ -13,7 +13,7 @@ const product = products.find(p=>p.id===Number(id))
 if (!product) return <p>К сожалению товар не найден</p>
   return (
     <div className="section fullH" style={{
-      paddingTop:'140px'
+      paddingTop:'140px',background: "#FEF7E6",
     }}>
       <ContentContainer>
 
