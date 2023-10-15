@@ -123,3 +123,21 @@ export interface Viewed {
 }
 
 export interface NewBasketElementFormValues extends OneVariantBasketItem { }
+export interface ServicesCarouselItem {
+  id: string,
+  name: string,
+  title: string,
+  link: string,
+  image: string
+}
+export interface ServicesCarouselProps {
+  label: string
+  services: ServicesCarouselItem[]
+}
+export interface SubscribeCarouselItem {
+  id: string,
+  image: string
+}
+export interface SubscribeCarouselProps {
+  images: SubscribeCarouselItem[]
+}

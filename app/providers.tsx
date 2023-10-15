@@ -331,11 +331,6 @@ export const theme = extendTheme({
           fontStyle: "normal",
           fontWeight: "400",
           lineHeight: "20px",
-        },
-        test_text_name: {
-          fontFamily: ts_remarker.style.fontFamily,
-          color:'teal',
-          fontSize:'36px',
         }
       },
     },
@@ -398,9 +393,10 @@ export const theme = extendTheme({
         solid:{
           backgroundColor: "brand.500",
           color:'#FFF',
-          // fontFamily:'var(--font--lato)',
+          fontFamily:lato.style.fontFamily,
           fontSize:'14px',
           lineHeight: "14px",
+          textTransform:'uppercase',
         },
         products_link_more: {
           color: "brand.900",

@@ -1,4 +1,4 @@
-import { Product } from "@/types";
+import { Product, ServicesCarouselItem, SubscribeCarouselItem } from "@/types";
 
 export const products: Product[] = [
   {
@@ -438,6 +438,7 @@ export const products: Product[] = [
         label: "белый",
       },
     ],
+    mustHave: true,
     name: "Композиция «С днем рождения, мамочка»",
     price: 4240,
     type: "balloon",
@@ -451,3 +452,55 @@ export const products: Product[] = [
     ],
   },
 ];
+export const services: ServicesCarouselItem[] = [
+  {
+    id: "1",
+    name: "шары",
+    title: "на свадьбу",
+    image: "https://storage.yandexcloud.net/calca-web/serv-1.png",
+    link: "#"
+  },
+  {
+    id: "2",
+    name: "шары",
+    title: "на мальчишник",
+    image: "https://storage.yandexcloud.net/calca-web/serv-2.png",
+    link: "#"
+  },
+  {
+    id: "3",
+    name: "шары",
+    title: "на девишник",
+    image: "https://storage.yandexcloud.net/calca-web/serv-3.png",
+    link: "#"
+  },
+  {
+    id: "4",
+    name: "шары",
+    title: "на выписку",
+    image: "https://storage.yandexcloud.net/calca-web/serv-4.png",
+    link: "#"
+  },
+]
+export const subscride_images: SubscribeCarouselItem[] = [
+  {
+    id: "1",
+    image: "https://storage.yandexcloud.net/calca-web/subscribe-1.png",
+  },
+  {
+    id: "2",
+    image: "https://storage.yandexcloud.net/calca-web/subscribe-2.png",
+  },
+  {
+    id: "3",
+    image: "https://storage.yandexcloud.net/calca-web/subscribe-3.png",
+  },
+  {
+    id: "4",
+    image: "https://storage.yandexcloud.net/calca-web/subscribe-4.png",
+  },
+  {
+    id: "5",
+    image: "https://storage.yandexcloud.net/calca-web/subscribe-5.png",
+  },
+]

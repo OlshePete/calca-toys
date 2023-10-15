@@ -1,19 +1,12 @@
 "use client";
-import ContentContainer from "@/components/ContentContainer/ContentContainer";
-import React, { useRef } from "react";
-import ProductPreview from "../cards/ProductPreview";
-import { ProductsCarouselProps } from "@/types";
-import { useRouter } from "next/navigation";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Heading,
-  Icon,
-  IconButton,
-} from "@chakra-ui/react";
+import ContentContainer from '@/components/ContentContainer/ContentContainer';
+import { SubscribeCarouselProps } from '@/types';
+import { Box, Button, ButtonGroup, Heading, Icon, IconButton } from '@chakra-ui/react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import React, { useRef } from 'react'
 
-function ProductsCarousel({ label,products }: ProductsCarouselProps) {
+function SubscribeCarousel({ images }: SubscribeCarouselProps) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   function handleScroll(e: React.MouseEvent<HTMLButtonElement>, flag: boolean) {
@@ -27,13 +20,14 @@ function ProductsCarousel({ label,products }: ProductsCarouselProps) {
     <Box  
     // pr={"240px"}
     style={{
-      position:'relative'
+      position:'relative',
+      margin:'40px 0',
     }}>
       <ContentContainer>
         
       <Box display={"flex"} justifyContent={"space-between"} height={'auto'}
       >
-        <Heading variant={"post_header"}>{label}</Heading>
+        <Heading variant={"post_header"}>подпишись на нас <a href='https://instagram.com' style={{color:'#90BCE4',fontSize:'1em',fontFamily:'TS Remarker'}}>@vellum.paper</a></Heading>
         <ButtonGroup variant="outline" spacing="6">
           <IconButton
             onClick={(e) => handleScroll(e, true)}
@@ -75,15 +69,28 @@ function ProductsCarousel({ label,products }: ProductsCarouselProps) {
           display: "flex",
           flexDirection: "row",
           gap: "30px",
-          height: "494px",
+          height: "315px",
           overflowX: "scroll",
           margin: "20px 0 20px 200px",
           paddingRight:'120px'
         }}
       >
-        {products.map((product) => {
-          return (
-            <ProductPreview key={product.id + product.name} product={product} />
+        {images.map(({id,image},index) => {
+          return (<Image
+            key={id + index}
+            alt={`${id}`}
+            src={image}
+            width={270}
+            height={315}
+            style={{
+              borderRadius: "14px",
+              objectFit: "cover",
+              minWidth: "270px",
+              maxWidth: "270px",
+              minHeight: "315px",
+              maxHeight: "315px",
+            }}
+          />
           );
         })}
       </div>
@@ -99,4 +106,5 @@ function ProductsCarousel({ label,products }: ProductsCarouselProps) {
   );
 }
 
-export default ProductsCarousel;
+
+export default SubscribeCarousel
