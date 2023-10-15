@@ -36,7 +36,7 @@ export interface StockBlock extends ProductColor {
 }
 export interface ProductVariant extends ProductColor {
   image: string,
-  value: number
+  value?: number
 }
 export interface Product {
   id: number,
