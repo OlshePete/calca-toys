@@ -19,13 +19,13 @@ function ProductFullViewForm({ max, item }: { max: number; item: OneVariantBaske
       console.log("form submitted"), dispatch(addBasketItem(values));
     },
   });
-  console.log(formik.values)
+  console.log("formik",formik.values)
   return (
     <form onSubmit={formik.handleSubmit}>
       <HStack gap={"18px"}>
         <CountPicker
           max={max}
-          current={formik.values.variant.value}
+          current={formik.values.variant.value ?? 1}
           handler={(v: string) => {
             formik.setFieldValue("variant.value", Number(v));
           }}
