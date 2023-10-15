@@ -2,7 +2,7 @@
 import ContentContainer from "@/components/ContentContainer/ContentContainer";
 import React, { useRef } from "react";
 import ProductPreview from "../cards/ProductPreview";
-import { ProductsCarouselProps } from "@/types";
+import { ServicesCarouselProps } from "@/types";
 import { useRouter } from "next/navigation";
 import {
   Box,
@@ -12,8 +12,9 @@ import {
   Icon,
   IconButton,
 } from "@chakra-ui/react";
+import ServicePreview from "../cards/ServicePreview";
 
-function ProductsCarousel({ label,products }: ProductsCarouselProps) {
+function ServicesCarousel({ label, services }: ServicesCarouselProps) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   function handleScroll(e: React.MouseEvent<HTMLButtonElement>, flag: boolean) {
@@ -81,9 +82,9 @@ function ProductsCarousel({ label,products }: ProductsCarouselProps) {
           paddingRight:'120px'
         }}
       >
-        {products.map((product) => {
+        {services.map((service,index) => {
           return (
-            <ProductPreview key={product.id + product.name} product={product} />
+            <ServicePreview key={service.name + index} service={service} />
           );
         })}
       </div>
@@ -99,4 +100,4 @@ function ProductsCarousel({ label,products }: ProductsCarouselProps) {
   );
 }
 
-export default ProductsCarousel;
+export default ServicesCarousel;

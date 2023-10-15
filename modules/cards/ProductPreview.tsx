@@ -34,11 +34,7 @@ function ProductPreview({ product }: ProductPreviewProps) {
     variants,
   } = product;
   const [currentIndex, setCurrentIndex] = useState(0)
-  // function handlePickerActive(e: React.MouseEvent<HTMLButtonElement>) {
-  //   console.log('====================================');
-  //   console.log({...e.target.children[0]});
-  //   console.log('====================================');
-  // }
+  
   const router = useRouter();
 
 const handleColorChange = (value:string) => {
@@ -146,14 +142,14 @@ const handleColorChange = (value:string) => {
             style={{
               position: "absolute",
               top: "16px",
-              left: "17px",
+              left: mustHave?`${44+17}px`:"17px",
             }}
           />
           <p
             style={{
               position: "absolute",
-              top: "28px",
-              left: "25px",
+              top: "29px",
+              left: mustHave?`${44+24}px`:"24px",
               fontSize: "12px",
               color: "#FFF",
               fontWeight: 500,

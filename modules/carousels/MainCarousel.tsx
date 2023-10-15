@@ -147,14 +147,6 @@ export default function MainCarousel() {
                 alignItems: "flex-start",
                 justifyContent: "flex-end",
               }}>
-                <Text style={{
-                  fontFamily:'TS_Remarker',
-                  fontStyle:'normal',
-                  color:'white',
-                  fontWeight:400,
-                  textTransform:"uppercase",
-                  fontSize:'60px'
-                }}>Тест ШРИФТА Ts-remarker</Text>
               <CustomStack variant="column" gap={76}>
                 <CustomStack variant="column" gap={17}>
                   <CustomStack variant="column" gap={0}>
