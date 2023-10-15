@@ -1,11 +1,11 @@
 import { Button, HStack, Icon, Input, useNumberInput } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 
-function CountPicker({ max,handler }: { max: number,handler:(v:string)=>void }) {
+function CountPicker({ max,handler, current }: { max: number,handler:(v:string)=>void, current:number }) {
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps,value } =
     useNumberInput({
       step: 1,
-      defaultValue: 1,
+      defaultValue: current,
       min: 1,
       max: max,
       // precision: 2,
@@ -16,7 +16,7 @@ function CountPicker({ max,handler }: { max: number,handler:(v:string)=>void }) 
 
   useEffect(() => {
     handler(value)
-  }, [value, handler])
+  }, [value])
   
   return (
     <HStack

@@ -5,7 +5,8 @@ import React from 'react'
 
 function NavStack({children}:ChildrenComponentProps) {
   return (
-    <HStack gap={'44px'} style={{
+    <HStack gap={'44px'} 
+    style={{
       textTransform:'uppercase',
       fontSize:'14px',
       fontWeight:400,
