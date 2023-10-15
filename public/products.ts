@@ -19,6 +19,71 @@ export const products: Product[] = [
     height: 94,
     mustHave: true,
     type: "balloon",
+    connected: [
+      {
+        id: 2,
+        comment:
+          "Фольгированный шар в виде фигуры для украшения праздника, приспособлен под гелий",
+        article: "12184834392",
+        productDescription: "максимально полное описание для товара",
+        productCharacteristic: "Все характеристики товара",
+        stock: [
+          {
+            inStock: 3,
+            label: "розовый",
+            color: "B47D8B",
+          },
+          {
+            inStock: 4,
+            label: "лаванда",
+            color: "756AAE",
+          },
+        ],
+        name: "Шар «Звезда»",
+        variants: [
+          {
+            label: "розовый",
+            color: "B47D8B",
+            image: "https://storage.yandexcloud.net/calca-web/product2.png",
+          },
+          {
+            label: "лаванда",
+            color: "756AAE",
+            image: "https://storage.yandexcloud.net/calca-web/product1-2.png",
+          },
+        ],
+        price: 320,
+        type: "balloon",
+        height: 45,
+        mustHave: true,
+      },
+      {
+        id: 3,
+        comment:
+          "Фольгированный шар в виде фигуры для украшения праздника, приспособлен под гелий",
+        article: "12184834392",
+        productDescription: "максимально полное описание для товара",
+        productCharacteristic: "Все характеристики товара",
+        stock: [
+          {
+            inStock: 3,
+            label: "белый",
+          },
+        ],
+        variants: [
+          {
+            label: "белый",
+            image: "https://storage.yandexcloud.net/calca-web/product3.png",
+          },
+        ],
+        name: "Шар «Малыш динозаврик»",
+        price: 688,
+        height: 76,
+        type: "balloon",
+        width: 78,
+        mustHave: true,
+      },
+    ],
     variants: [
       {
         label: "белый",

@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { number } from "yup";
 export interface IPost {
   id: number
   title: string
@@ -34,7 +35,8 @@ export interface StockBlock extends ProductColor {
   inStock: number
 }
 export interface ProductVariant extends ProductColor {
-  image: string
+  image: string,
+  value: number
 }
 export interface Product {
   id: number,
@@ -51,6 +53,7 @@ export interface Product {
   productDescription: string,
   productCharacteristic: string,
   stock: StockBlock[],
+  connected?: Product[],
   article: string
 }
 export interface ProductPreviewProps {
@@ -78,7 +81,45 @@ export interface FooterNavNextElement {
 export interface FooterNavBlock {
   [key: string]: FooterNavNextElement
 }
+export interface SummaryContactElement {
+  label: string | string[],
+  caption: string,
+  type?: 'mail' | 'phone' | 'address'
+}
 export interface FooterContactElement {
   label: string | string[],
   caption?: string,
 }
+export interface BasketItem {
+  product: Product,
+  variants: ProductVariant[],
+}
+export interface OneVariantBasketItem {
+  product: Product,
+  variant: ProductVariant,
+}
+export interface BasketCustomer {
+  name: string,
+  phone: string,
+  mail: string,
+  comment?: string,
+  processConsent: boolean,
+  paymentVariant: 'ONLINE' | 'OFFLINE'
+}
+export interface Basket {
+  items: BasketItem[] | [],
+  customer: {
+    name: string,
+    phone: string,
+    mail: string,
+    comment?: string,
+    processConsent: boolean,
+    paymentVariant: 'ONLINE' | 'OFFLINE'
+  } | null
+}
+
+export interface Viewed {
+  items: Product[] | []
+}
+
+export interface NewBasketElementFormValues extends OneVariantBasketItem { }

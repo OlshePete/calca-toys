@@ -3,6 +3,7 @@
 import { CacheProvider } from "@chakra-ui/next-js";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import localFont from "next/font/local";
+import { StoreProviders } from "./GlobalRedux/provider";
 const colors = {
   brand: {
     900: "#FEF7E6",
@@ -55,10 +56,14 @@ const ts_remarker = localFont({
     }
   ],
 });
+console.log('====================================');
+console.log(blue_curve);
+console.log(ts_remarker);
+console.log('====================================');
 export const theme = extendTheme({
   colors,
   fonts: {
-    heading: blue_curve.style.fontFamily,
+    heading: ts_remarker.style.fontFamily,
     text: lato.style.fontFamily,
     body: blue_curve.style.fontFamily,
   },
@@ -320,13 +325,18 @@ export const theme = extendTheme({
         },
         full_product_text_sub: {
           fontFamily: lato.style.fontFamily,
-        margin:0,
+          margin:0,
           color: "brand.200",
           fontSize: "14px",
           fontStyle: "normal",
           fontWeight: "400",
           lineHeight: "20px",
         },
+        test_text_name: {
+          fontFamily: ts_remarker.style.fontFamily,
+          color:'teal',
+          fontSize:'36px',
+        }
       },
     },
     Heading: {
@@ -336,7 +346,7 @@ export const theme = extendTheme({
       },
       variants: {
         main_header: {
-          fontFamily:blue_curve.style.fontFamily,
+          fontFamily:ts_remarker.style.fontFamily,
           color: "#FFF",
           textShadow: "0px 4px 4px rgba(255, 255, 255, 0.05)",
           // fontFamily:'Orchidea Pro',
@@ -349,7 +359,7 @@ export const theme = extendTheme({
           maxWidth: "min(620px, 100%)",
         },
         sub_header: {
-          fontFamily:blue_curve.style.fontFamily,
+          fontFamily:ts_remarker.style.fontFamily,
           color: "#FFF",
           fontSize:  ["32px", "36px", "44px"],
           fontStyle: "normal",
@@ -361,17 +371,13 @@ export const theme = extendTheme({
         },
         post_header: {
           color: "brand.100",
-          textShadow: "0px 4px 4px rgba(255, 255, 255, 0.05)",
-          textAlign: "right",
-          fontFamily:blue_curve.style.fontFamily,
-          fontSize: ["30px"],
+          fontFamily:ts_remarker.style.fontFamily,
+          fontSize: "40px",
           fontStyle: "normal",
-          fontWeight: "400",
-          lineHeight: "119.5%",
-          letterSpacing: "2.64px",
+          fontWeight: 400,
+          lineHeight: "48px",
           textTransform: "uppercase",
-          maxWidth: "min(720px, 100%)",
-        },
+        }
       },
     },
     Button: {
@@ -429,7 +435,11 @@ export const theme = extendTheme({
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <CacheProvider>
-      <ChakraProvider theme={theme}>{children}</ChakraProvider>
+      <ChakraProvider theme={theme}>
+        <StoreProviders>
+          {children}
+        </StoreProviders>
+      </ChakraProvider>
     </CacheProvider>
   );
 }

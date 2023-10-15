@@ -5,8 +5,11 @@ import HeaderGlobalInfo from "./HeaderGlobalInfo";
 import NavStack from "./NavStack";
 import SearchBar from "../SearchBar/SearchBar";
 import ContentContainer from "../ContentContainer/ContentContainer";
+import BasketPopover from "@/modules/popovers/BasketPopover";
+import BasketUpdateNotification from "@/modules/modals/BasketUpdateNotification";
 
 function Header() {
+  console.log('Header')
   return (
     <header>
       {/* <HeaderGlobalInfo theme="dark" /> */}
@@ -23,6 +26,7 @@ function Header() {
             priority
           />
         </Link>
+        <p className="text_test">text_test</p>
         <NavStack>
           <>
             <Link href={"/catalog"}> шары</Link>
@@ -34,6 +38,9 @@ function Header() {
         </NavStack>
         <NavStack>
           <SearchBar />
+          {/* <BasketPopover
+          /> */}
+          {/* <BasketUpdateNotification/> */}
           <Link href={"/basket"} className="basket-icon">
             <Image
               src="/basket.svg"

@@ -1,35 +1,89 @@
 "use client";
 import { useState } from "react";
 import { items } from "../../public/start_items_carousel.json";
-import { Carousel } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import styles from "../../styles/Bootstrap.module.css";
 import CustomStack from "../../components/CustomStack/CustomStack";
-import CustomTitle from "@/ui/typographies/CustomTitle";
-import CustomText from "@/ui/typographies/CustomText";
-import { Button, Heading, Icon, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, Icon, IconButton, Text, useBreakpointValue } from "@chakra-ui/react";
+import Slider from 'react-slick'
+import ContentContainer from "@/components/ContentContainer/ContentContainer";
+// Settings for the slider
+const settings = {
+  dots: false,
+  arrows: false,
+  fade: true,
+  infinite: true,
+  autoplay: true,
+  speed: 2000,
+  autoplaySpeed: 10000,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+}
+type CustomSlider = InstanceType<typeof Slider>
 export default function MainCarousel() {
-  const { bootstrap } = items;
   const [index, setIndex] = useState(0);
+  const [slider, setSlider] = useState<Slider | null>(null)
 
-  const handleSelect = (selectedIndex: number) => {
-    setIndex(selectedIndex);
-  };
+  // These are the breakpoints which changes the position of the
+  // buttons as the screen size changes
+  const top = useBreakpointValue({ base: '90%', md: '50%' },
+    {
+      // Breakpoint to use when mediaqueries cannot be used, such as in server-side rendering
+      // (Defaults to 'base')
+      fallback: 'md',
+    })
+  const side = useBreakpointValue({ base: '30%',sm:"2%", md: '10%' },
+    {
+      // Breakpoint to use when mediaqueries cannot be used, such as in server-side rendering
+      // (Defaults to 'base')
+      fallback: 'md',
+    })
+
+  // const handleSelect = (selectedIndex: number) => {
+  //   setIndex(selectedIndex);
+  // };
+
   return (
-    <Carousel
-      activeIndex={index}
-      onSelect={handleSelect}
-      indicators={false}
-      prevIcon={
-        <Icon viewBox="0 0 44 44" width={"44px"} height={"44px"}>
+    <Box position={'relative'} height={'100vh'} width={'100vw'} overflow={'hidden'}>
+      {/* CSS files for react-slick */}
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+      />
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+      />
+      {/* Left Icon */}
+      <IconButton
+        aria-label="left-arrow"
+        colorScheme="messenger"
+        borderRadius="full"
+        position="absolute"
+        left={side}
+        top={top}
+        transform={'translate(0%, -50%)'}
+        zIndex={2}
+        onClick={() => slider?.slickPrev()}>
+            <Icon viewBox="0 0 44 44" width={"44px"} height={"44px"}>
           <circle cx="22" cy="22" r="22" fill="#FEF7E6" />
           <path
             d="M12.6464 21.6464C12.4512 21.8417 12.4512 22.1583 12.6464 22.3536L15.8284 25.5355C16.0237 25.7308 16.3403 25.7308 16.5355 25.5355C16.7308 25.3403 16.7308 25.0237 16.5355 24.8284L13.7071 22L16.5355 19.1716C16.7308 18.9763 16.7308 18.6597 16.5355 18.4645C16.3403 18.2692 16.0237 18.2692 15.8284 18.4645L12.6464 21.6464ZM31 21.5L13 21.5L13 22.5L31 22.5L31 21.5Z"
             fill="#90BCE4"
           />
         </Icon>
-      }
-      nextIcon={
+      </IconButton>
+      {/* Right Icon */}
+      <IconButton
+        aria-label="right-arrow"
+        colorScheme="messenger"
+        borderRadius="full"
+        position="absolute"
+        right={side}
+        top={top}
+        transform={'translate(0%, -50%)'}
+        zIndex={2}
+        onClick={() => slider?.slickNext()}>
         <Icon viewBox="0 0 44 44" width={"44px"} height={"44px"}>
           <circle cx="22" cy="22" r="22" fill="#FEF7E6" />
           <path
@@ -37,34 +91,37 @@ export default function MainCarousel() {
             fill="#90BCE4"
           />
         </Icon>
-      }
-    >
-      {bootstrap.map((item) => (
-        <Carousel.Item
-          key={item.id}
-          className={styles.itemP}
-          interval={8000}
-          style={{}}
-        >
-          <img src={item.imageUrl} alt="slides" />
-          {/* <Image
-          alt="slides"
-          src={item.imageUrl}
-          width={1000}
-          height={1000}
-          /> */}
-          {/* <img src={} alt="slides" /> */}
-          <Carousel.Caption className={styles.caption}>
-            <div
+      </IconButton>
+      {/* Slider */}
+      <Slider {...settings} ref={(slider) => setSlider(slider)}>
+        {items.map(({imageUrl,...item}, index) => (
+            <Box
+            height={'100vh'}
+            key={index}
+            backgroundPosition="center"
+            backgroundRepeat="no-repeat"
+            textAlign={'center'}
+            backgroundSize="cover"
+            backgroundImage={`url(${imageUrl})`}
+          >
+          <ContentContainer>
+<div
               style={{
+                padding:"110px 0 110px 100px",
+                height:'100vh',
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
                 justifyContent: "flex-end",
-                padding: "110px 0",
-                height: "100vh",
-              }}
-            >
+              }}>
+                <Text style={{
+                  fontFamily:'TS_Remarker',
+                  fontStyle:'normal',
+                  color:'white',
+                  fontWeight:400,
+                  textTransform:"uppercase",
+                  fontSize:'60px'
+                }}>Тест ШРИФТА Ts-remarker</Text>
               <CustomStack variant="column" gap={76}>
                 <CustomStack variant="column" gap={17}>
                   <CustomStack variant="column" gap={0}>
@@ -77,11 +134,11 @@ export default function MainCarousel() {
                 <Button variant="solid" width={200}>
                   выбрать
                 </Button>
-              </CustomStack>
-            </div>
-          </Carousel.Caption>
-        </Carousel.Item>
-      ))}
-    </Carousel>
-  );
+              </CustomStack></div>
+          </ContentContainer>
+          </Box>
+        ))}
+      </Slider>
+    </Box>
+  )
 }

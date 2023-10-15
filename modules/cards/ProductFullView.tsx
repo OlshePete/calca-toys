@@ -1,5 +1,6 @@
 "use client";
 import {
+  Product,
   ProductColor,
   ProductFullViewProps,
   ProductPreviewProps,
@@ -17,12 +18,18 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { ColorPicker } from "chakra-color-picker";
 import { color } from "framer-motion";
 import ProductInfoAccordion from "../accordions/ProductInfoAccordion";
 import ProductFullViewForm from "../forms/ProductFullViewForm";
+import { useLocalStorage } from "@/hooks/UseLocalStorage";
+import ProductsCarousel from "../carousels/ProductsCarousel";
+import { RootState } from "@/app/GlobalRedux/store";
+import { clearBasket } from "@/app/GlobalRedux/Feature/basket/basketSlice";
+import { addViewedItem } from "@/app/GlobalRedux/Feature/viewed/viewedSlice";
 
 function _getSizes(h?: number, w?: number): string {
   let str = "";
@@ -50,15 +57,25 @@ function ProductFullView({ product }: ProductFullViewProps) {
     comment,
     stock,
     article,
+    connected,
   } = product;
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+  const viewed: Product[] = useSelector(
+    (state: RootState) => state.viewed.items
+  );
+  const dispatch = useDispatch();
+  console.log("viewed", viewed);
+
   const handleColorChange = (value: string) => {
     setCurrentIndex((p) =>
       variants.findIndex((v) => v.color === value.slice(1))
     );
   };
-  
+  // const [value,setValue] = useLocalStorage('viewed',[product])
+  useEffect(() => {
+    if (product) dispatch(addViewedItem(product));
+  }, [product]);
+
   return (
     <div style={{}}>
       <Text fontSize={14} fontWeight={400} lineHeight={"22px"}>
@@ -80,30 +97,39 @@ function ProductFullView({ product }: ProductFullViewProps) {
             }}
           />
         </GridItem>
-        <GridItem w="100%" minH="703" display={'flex'} flexDirection={'column'} gap={'20px'}>
-          <HStack gap={'8px'}>
-          {mustHave && <Badge>Хит продаж</Badge>}
-          {discount_price && (
-            <Badge variant={"discount"}>
-              {`-${(((price - discount_price) / price) * 100).toFixed(0)}%`}
-            </Badge>
-          )}
+        <GridItem
+          w="100%"
+          minH="703"
+          display={"flex"}
+          flexDirection={"column"}
+          gap={"20px"}
+        >
+          <HStack gap={"8px"}>
+            {mustHave && <Badge>Хит продаж</Badge>}
+            {discount_price && (
+              <Badge variant={"discount"}>
+                {`-${(((price - discount_price) / price) * 100).toFixed(0)}%`}
+              </Badge>
+            )}
           </HStack>
-          <VStack align={'flex-start'}>
+          <VStack align={"flex-start"}>
+            <Text variant={"full_product_name"}>
+              {name}
+              {variants && variants.map((v) => v.color).length > 1
+                ? ` - ${variants.map((v) => v.label).join(", ")}`
+                : ""}
+            </Text>
+            {previewComment && (
+              <Text variant={"full_product_text"} color={"#515151"}>
+                {previewComment}
+              </Text>
+            )}
 
-          <Text variant={"full_product_name"}>
-            {name}
-            {variants && variants.map((v) => v.color).length > 1
-              ? ` - ${variants.map((v) => v.label).join(", ")}`
-              : ""}
-          </Text>
-          {previewComment && (
-            <Text variant={"full_product_text"} color={'#515151'}>{previewComment}</Text>
-          )}
-
-          {(height || width) && (
-            <Text variant={"full_product_text"} color={'#515151'}>{_getSizes(height, width)}</Text>
-          )}
+            {(height || width) && (
+              <Text variant={"full_product_text"} color={"#515151"}>
+                {_getSizes(height, width)}
+              </Text>
+            )}
           </VStack>
 
           {!discount_price ? (
@@ -116,32 +142,66 @@ function ProductFullView({ product }: ProductFullViewProps) {
               </Text>
             </Box>
           )}
-          <HStack gap={'24px'}>
-          {
-            variants && variants.map(({image, label, color}, index)=>{
-              return <Image
-              key={label + index +"-"+id}
-            alt={label}
-            src={image}
-            width={100}
-            height={130}
-            onClick={()=>setCurrentIndex(index)}
-            style={{
-              transition:'all .2s ease',
-              borderRadius: "14px",
-              cursor:'pointer',
-              objectFit: "cover",
-              width: "100px",
-              height: "130px",
-              border:currentIndex===index?'3px solid #71BBFF':'none'
-            }}
-          />
-            })
-          }
+          <HStack gap={"24px"}>
+            {variants &&
+              variants.map(({ image, label, color }, index) => {
+                return (
+                  <Image
+                    key={label + index + "-" + id}
+                    alt={label}
+                    src={image}
+                    width={100}
+                    height={130}
+                    onClick={() => setCurrentIndex(index)}
+                    style={{
+                      transition: "all .2s ease",
+                      borderRadius: "14px",
+                      cursor: "pointer",
+                      objectFit: "cover",
+                      width: "100px",
+                      height: "130px",
+                      border:
+                        currentIndex === index ? "3px solid #71BBFF" : "none",
+                    }}
+                  />
+                );
+              })}
           </HStack>
-          <ProductFullViewForm max={stock[currentIndex].inStock}/>
-              <Text variant={"full_product_text"}>{comment}</Text>
-        <ProductInfoAccordion product={product}/>
+          <ProductFullViewForm max={stock[currentIndex].inStock} item={{
+            product:product,
+            variant:{
+              ...variants[currentIndex],
+              value:1
+            },
+          }} />
+          <Text variant={"full_product_text"}>{comment}</Text>
+          <ProductInfoAccordion product={product} />
+        </GridItem>
+
+        {connected && (
+          <GridItem
+            colSpan={2}
+            w="100%"
+            minH="560"
+            // display={"flex"}
+            // flexDirection={"column"}
+            // gap={"20px"}
+          >
+            <ProductsCarousel
+              label="С этим товаром покупают"
+              products={connected}
+            />
+          </GridItem>
+        )}
+        <GridItem
+          colSpan={2}
+          w="100%"
+          minH="560"
+          // display={"flex"}
+          // flexDirection={"column"}
+          // gap={"20px"}
+        >
+          <ProductsCarousel label="Недавно просмотренные" products={viewed} />
         </GridItem>
       </Grid>
 

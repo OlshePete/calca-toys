@@ -1,35 +1,34 @@
+@font-face {
+  font-family: "TS_Remarker";
+  src: url('../public/fonts/TS_remarker/TS\ Remarker.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* Указываем box sizing */
-*,
-*::before,
-*::after {
+
+* {
   box-sizing: border-box;
+
+  &::before, &::after {
+    box-sizing: border-box;
+  }
 }
 
 /* Убираем внутренние отступы */
-ul[class],
-ol[class] {
+
+ul[class], ol[class] {
   padding: 0;
 }
 
 /* Убираем внешние отступы */
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-ul[class],
-ol[class],
-li,
-figure,
-figcaption,
-blockquote,
-dl,
-dd {
+
+body, h1, h2, h3, h4, p, ul[class], ol[class], li, figure, figcaption, blockquote, dl, dd {
   margin: 0;
 }
 
 /* Выставляем основные настройки по-умолчанию для body */
+
 body {
   min-height: 100vh;
   scroll-behavior: smooth;
@@ -38,32 +37,33 @@ body {
 }
 
 /* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
-ul[class],
-ol[class] {
+
+ul[class], ol[class] {
   list-style: none;
 }
 
 /* Элементы a, у которых нет класса, сбрасываем до дефолтных стилей */
+
 a:not([class]) {
   text-decoration-skip-ink: auto;
 }
 
 /* Упрощаем работу с изображениями */
+
 img {
   max-width: 100%;
   display: block;
 }
 
 /* Указываем понятную периодичность в потоке данных у article*/
-article>*+* {
+
+article > * + * {
   margin-top: 1em;
 }
 
 /* Наследуем шрифты для инпутов и кнопок */
-input,
-button,
-textarea,
-select {
+
+input, button, textarea, select {
   font: inherit;
 }
 
@@ -78,49 +78,63 @@ select {
 }
 
 /* scroll bar styles */
-body,
-.withScroll {
+
+body {
   scrollbar-width: thin;
+
   /* "auto" или "thin"  */
   /* scrollbar-color: rgba(2, 142, 74, 1) rgba(255, 255, 255, 0.8); */
   scrollbar-color: rgb(63, 64, 64) rgba(255, 255, 255, 0.8);
+
   /* плашка скролла и дорожка */
 }
 
-.withScroll.opposite {
-  direction: rtl;
+.withScroll {
+  scrollbar-width: thin;
+
+  /* "auto" или "thin"  */
+  /* scrollbar-color: rgba(2, 142, 74, 1) rgba(255, 255, 255, 0.8); */
+  scrollbar-color: rgb(63, 64, 64) rgba(255, 255, 255, 0.8);
+
+  /* плашка скролла и дорожка */
+
+  &.opposite {
+    direction: rtl;
+  }
 }
 
-body::-webkit-scrollbar,
-.withScroll::-webkit-scrollbar {
+body::-webkit-scrollbar, .withScroll::-webkit-scrollbar {
   width: 12px;
+
   /* ширина scrollbar */
 }
 
-body::-webkit-scrollbar-track,
-.withScroll::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track, .withScroll::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 1);
   border-radius: 12px;
+
   /* цвет дорожки */
 }
 
-body::-webkit-scrollbar-thumb,
-.withScroll::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb, .withScroll::-webkit-scrollbar-thumb {
   background-color: #F49AA5;
+
   /* цвет плашки */
   border-radius: 20px;
+
   /* закругления плашки */
   border: 4px solid rgba(255, 255, 255, 1);
+
   /* padding вокруг плашки */
 }
 
 .hideScroll {
   scrollbar-width: none;
-}
 
-.hideScroll::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 }
 
 .chakra-input__left-element {
@@ -139,16 +153,16 @@ body::-webkit-scrollbar-thumb,
 
 .crossed {
   position: relative;
-}
 
-.crossed::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 110%;
-  left: -10%;
-  height: 2px;
-  background-color: #FA6B6B;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 110%;
+    left: -10%;
+    height: 2px;
+    background-color: #FA6B6B;
+  }
 }
 
 .color_picker {
@@ -158,16 +172,44 @@ body::-webkit-scrollbar-thumb,
   border-radius: 25px;
   display: flex;
   cursor: pointer;
+
+  > {
+    button {
+      transform: scale(0.5) translateY(-14px) translateX(-8px);
+    }
+
+    svg {
+      transform: translateY(10px) translateX(-1px);
+    }
+
+    button:hover {
+      transform: scale(0.5) translateY(-14px) translateX(-8px);
+    }
+  }
 }
 
-.color_picker>button {
-  transform: scale(0.5) translateY(-14px) translateX(-8px);
+h4 {
+  font-family: 'TS_Remarker';
 }
 
-.color_picker>svg {
-  transform: translateY(10px) translateX(-1px);
+/* Стили для ссылок*/
+
+
+body > a {
+  outline: none;
+  text-decoration: none!important;
+}
+a:link {
 }
 
-.color_picker>button:hover {
-  transform: scale(0.5) translateY(-14px) translateX(-8px);
+a:visited {
+}
+
+a:focus {
+}
+
+a:hover {
+}
+
+a:active {
 }
