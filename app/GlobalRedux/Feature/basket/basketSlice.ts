@@ -19,9 +19,9 @@ export const basketSlice = createSlice({
         if (prev) {
           const alreadyHasThatVariant = prev.variants.find(v => v.label === newItem.variant.label)
           const newVariants = alreadyHasThatVariant ? prev.variants.map(v => {
-            if (v.label === newItem.variant.label) return {
+            if (v.label === newItem.variant.label && newItem.variant.value) return {
               ...v,
-              value: v.value + newItem.variant.value
+              value: (v?.value || 0) + newItem.variant.value
             }
             return v
           }) : [...prev.variants, newItem.variant]
