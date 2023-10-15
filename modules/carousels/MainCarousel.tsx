@@ -1,11 +1,44 @@
 "use client";
 import { useState } from "react";
-import { items } from "../../public/start_items_carousel.json";
 import CustomStack from "../../components/CustomStack/CustomStack";
 import { Box, Button, Heading, Icon, IconButton, Text, useBreakpointValue } from "@chakra-ui/react";
 import Slider from 'react-slick'
 import ContentContainer from "@/components/ContentContainer/ContentContainer";
+
+
+  const items =  [
+      {
+        id: 1,
+        title: "Оформление",
+        subtitle:"надувными шарами",
+        body: "Широкий выбор оформления праздника для вашего ребенка",
+        imageUrl: "https://storage.yandexcloud.net/calca-web/oformlenie.png"
+      },
+      {
+        id: 2,
+        title: "Оформление",
+        subtitle:"надувными шарами",
+        body: "Широкий выбор оформления праздника для вашего ребенка",
+        imageUrl: "https://res.cloudinary.com/kizmelvin/image/upload/v1587785064/kizmelvin/michael-BcgEo2CNeYA-unsplash_cdaruk.jpg"
+      },
+      {
+        id: 3,
+        title: "Оформление",
+        subtitle:"надувными шарами",
+        body: "Широкий выбор оформления праздника для вашего ребенка",
+        imageUrl: "https://res.cloudinary.com/kizmelvin/image/upload/v1586799827/kizmelvin/brownlion_qm8hah.jpg"
+      },
+      {
+        id: 4,
+        title: "Оформление",
+        subtitle:"надувными шарами",
+        body: "Широкий выбор оформления праздника для вашего ребенка",
+        imageUrl: "https://res.cloudinary.com/kizmelvin/image/upload/v1587870308/kizmelvin/edvin-johansson-5AylXcpJn1I-unsplash_lbhgod.jpg"
+      }
+    ]
+
 // Settings for the slider
+
 const settings = {
   dots: false,
   arrows: false,
