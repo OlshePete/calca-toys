@@ -21,7 +21,6 @@ export default function ContactsPage() {
           <DinamicContactSummary/>
         </GridItem>
       </Grid>
-
      </ContentContainer>
     </div>
   )

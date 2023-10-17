@@ -207,7 +207,7 @@ function ProductFullView({ product }: ProductFullViewProps) {
 
       {/*  <Image
         src="/basket.svg"
-        alt="Basket icon"
+        alt="BasketItem icon"
         width={44}
         height={44}
         priority

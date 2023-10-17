@@ -1,13 +1,7 @@
-import Image from 'next/image'
+import BasketWrapper from "@/components/Basket/BasketWrapper";
 
 export default function Home() {
-  return (
-    <main>
-      <div>
-        <p>
-         Basket Page
-        </p>
-      </div>
-    </main>
-  )
+    return (
+        <BasketWrapper/>
+    )
 }
