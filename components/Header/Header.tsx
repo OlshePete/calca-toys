@@ -44,7 +44,7 @@ function Header() {
           <Link href={"/basket"} className="basket-icon">
             <Image
               src="/basket.svg"
-              alt="Basket icon"
+              alt="BasketItem icon"
               width={40}
               height={40}
               priority
