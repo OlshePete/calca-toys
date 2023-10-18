@@ -23,13 +23,12 @@ const BasketWrapper = () => {
                 <Grid
                     templateColumns='repeat(12, 1fr)'
                     gap={'0px'}>
-                    <GridItem minH={'530px'} colSpan={7}>
+                    <GridItem minH={'530px'} colSpan={8}>
                         <BasketItem/>
                     </GridItem>
                     <GridItem
                         minH={'530px'}
-                        colStart={9}
-                        colEnd={13}
+                        colSpan={4}
                     >
                        <BasketSummary/>
                     </GridItem>
