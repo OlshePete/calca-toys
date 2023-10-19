@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, {useState} from 'react';
 import {Box, Button, Image, Text} from '@chakra-ui/react'
 import {Product} from "@/types";
 import {AddIcon, DeleteIcon, MinusIcon} from '@chakra-ui/icons'
@@ -10,7 +10,7 @@ type BasketItemProps = {
     setQuantity: any
 }
 
-const BasketItem: React.FC<BasketItemProps> = ({basketItem, quantity, setQuantity}) => {
+const BasketItem: React.FC<BasketItemProps>  = ({basketItem,quantity,setQuantity}) => {
 
     return (
         <Box style={{
