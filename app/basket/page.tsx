@@ -1,11 +1,11 @@
 import BasketWrapper from "@/components/Basket/BasketWrapper";
 import {Product} from "@/types";
 
-const basketItem: Product[] = [
+const basketItems: Product[] = [
     {
         id: 1231231,
         type: 'balloon',
-        name: 'Red baloon',
+        name: 'Green baloon',
         price: 1000,
         discount_price: 800,
         height: 35,
@@ -36,8 +36,8 @@ const basketItem: Product[] = [
         id: 123123,
         type: 'balloon',
         name: 'Red baloon',
-        price: 1000,
-        discount_price: 800,
+        price: 1200,
+        discount_price: 900,
         height: 35,
         width: 25,
         previewComment: 'preview comment',
@@ -66,6 +66,6 @@ const basketItem: Product[] = [
 
 export default function Home() {
     return (
-        <BasketWrapper basketItem={basketItem}/>
+        <BasketWrapper basketItems={basketItems}/>
     )
 }

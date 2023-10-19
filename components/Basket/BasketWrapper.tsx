@@ -6,17 +6,24 @@ import {Grid, GridItem, Heading} from "@chakra-ui/react";
 import BasketItem from "@/components/Basket/BasketItem";
 import {Product} from "@/types";
 import BasketSummary from "@/components/Basket/BasketSummary";
+import {number} from "yup";
 
 type BasketWrapperProps = {
-    basketItem: Product[]
+    basketItems: Product[]
 }
 
-const BasketWrapper: React.FC<BasketWrapperProps> = ({basketItem}) => {
-    const [quantity, setQuantity] = useState(1)
+const BasketWrapper: React.FC<BasketWrapperProps> = ({basketItems}) => {
     const [price, setPrice] = useState()
     const [discountPrice, setDiscountPrice] = useState()
     const [discount, setDiscount] = useState()
     const [total, setTotal] = useState()
+
+    const totalQuantity = basketItems.reduce((accumulator, object) => {
+        return accumulator + object.price;
+    }, 0);
+
+    const [quantity, setQuantity] = useState(1)
+
 
     return (
         <div
@@ -35,7 +42,7 @@ const BasketWrapper: React.FC<BasketWrapperProps> = ({basketItem}) => {
                     templateColumns='repeat(12, 1fr)'
                 >
                     <GridItem colSpan={8}>
-                        {basketItem && basketItem.map((el, i) => (
+                        {basketItems && basketItems.map((el, i) => (
                             <BasketItem
                                 key={i}
                                 basketItem={el}
