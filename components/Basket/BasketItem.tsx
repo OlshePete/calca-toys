@@ -1,42 +1,16 @@
 "use client"
-import React, {useState} from 'react';
+import React from 'react';
 import {Box, Button, Image, Text} from '@chakra-ui/react'
 import {Product} from "@/types";
 import {AddIcon, DeleteIcon, MinusIcon} from '@chakra-ui/icons'
 
-const basketItem: Product = {
-    id: 123123,
-    type: 'balloon',
-    name: 'Red baloon',
-    price: 1000,
-    discount_price: 800,
-    height: 35,
-    width: 25,
-    previewComment: 'preview comment',
-    mustHave: false,
-    variants: [
-        {
-            image: 'https://i.etsystatic.com/19549347/r/il/0eae3c/1837539739/il_570xN.1837539739_ly99.jpg',
-            value: 1,
-            label: "red baloon",
-            color: "red"
-        }
-    ],
-    comment: 'comment on this product',
-    productDescription: 'product description',
-    productCharacteristic: 'product characteristic',
-    stock: [
-        {
-            label: 'stock',
-            color: 'red',
-            inStock: 5
-        }
-    ],
-    article: 'TP-213EW'
+type BasketItemProps = {
+    basketItem: Product,
+    quantity: any,
+    setQuantity: any
 }
 
-const BasketItem = () => {
-    const [quantity, useQuantity] = useState(1)
+const BasketItem: React.FC<BasketItemProps> = ({basketItem, quantity, setQuantity}) => {
 
     return (
         <Box style={{
@@ -78,7 +52,7 @@ const BasketItem = () => {
                         fontWeight={400}
                         lineHeight={'22px'}
                     >
-                        Количество шаров: {basketItem.variants[0].value} шт
+                        Количество шаров: {quantity} шт
                     </Text>
                 </Box>
                 <Box
@@ -100,7 +74,7 @@ const BasketItem = () => {
                             justifyContent: 'space-between',
                             alignItems: 'center'
                         }}>
-                        <Button disabled={quantity === 1} variant={'text'} onClick={() => useQuantity(quantity - 1)}>
+                        <Button disabled={quantity === 1} variant={'text'} onClick={() => setQuantity(quantity - 1)}>
                             <MinusIcon/>
                         </Button>
                         <Box>
@@ -112,7 +86,7 @@ const BasketItem = () => {
                                 {quantity}
                             </Text>
                         </Box>
-                        <Button variant={'text'} onClick={() => useQuantity(quantity + 1)}>
+                        <Button variant={'text'} onClick={() => setQuantity(quantity + 1)}>
                             <AddIcon/>
                         </Button>
                     </Box>
@@ -166,9 +140,9 @@ const BasketItem = () => {
                     <DeleteIcon/>
                 </Button>
             </Box>
+            <hr/>
         </Box>
     )
-        ;
 };
 
 export default BasketItem;
