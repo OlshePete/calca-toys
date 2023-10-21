@@ -2,6 +2,7 @@ import MainCarousel from "@/modules/carousels/MainCarousel";
 import ProductsCarousel from "@/modules/carousels/ProductsCarousel";
 import ServicesCarousel from "@/modules/carousels/ServicesCarousel";
 import SubscribeCarousel from "@/modules/carousels/SubscribeCarousel";
+import CommercialBlock from "@/modules/commercial/CommercialBlock";
 import { products, services, subscride_images } from "@/public/products";
 
 export default function Home() {
@@ -16,8 +17,8 @@ export default function Home() {
       <div className="section" style={{}}>
         <ServicesCarousel label="Оформление шарами" services={services}/>
       </div>
-      <div className="section" style={{ background: "green" }}>
-        <p>НАДУЕМ ваши</p>
+      <div className="section" style={{ minHeight:'auto' }}>
+        <CommercialBlock/>
       </div>
       <div className="section" style={{ background: "#FEF7E6",padding:'110px 0'  }}>
         <ProductsCarousel label="игрушки" products={products.filter(p=>p?.type==="toy")}/>

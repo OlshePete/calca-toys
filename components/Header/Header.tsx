@@ -26,7 +26,6 @@ function Header() {
             priority
           />
         </Link>
-        <p className="text_test">text_test</p>
         <NavStack>
           <>
             <Link href={"/catalog"}> шары</Link>
