@@ -27,7 +27,9 @@ function SubscribeCarousel({ images }: SubscribeCarouselProps) {
         
       <Box display={"flex"} justifyContent={"space-between"} height={'auto'}
       >
-        <Heading variant={"post_header"}>подпишись на нас <a href='https://instagram.com' style={{color:'#90BCE4',fontSize:'1em',fontFamily:'TS Remarker'}}>@vellum.paper</a></Heading>
+        <Heading variant={"post_header"} style={{
+        fontFamily:"TS Remarker"
+      }}>подпишись на нас <a href='https://instagram.com' style={{color:'#90BCE4',fontSize:'1em',fontFamily:'TS Remarker'}}>@vellum.paper</a></Heading>
         <ButtonGroup variant="outline" spacing="6">
           <IconButton
             onClick={(e) => handleScroll(e, true)}
@@ -94,14 +96,6 @@ function SubscribeCarousel({ images }: SubscribeCarouselProps) {
           );
         })}
       </div>
-      <Box
-      display={'flex'}
-      justifyContent={'center'}
-      >
-      <Button onClick={() => router.push("/catalog")} variant="outline" className="text">
-        смотреть все
-      </Button>
-      </Box>
     </Box>
   );
 }

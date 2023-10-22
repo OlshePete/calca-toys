@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import Service1PosterContent from './Service1PosterContent'
+import ImageAbsoluteWrapper from './ImageAbsoluteWrapper'
 type Service1BlockProps = {
 }
 
@@ -13,17 +14,18 @@ const Service1Block:React.FC<Service1BlockProps> = ()=> {
         flexDirection:"column",
         justifyContent:'flex-end',
       }}>
+        <ImageAbsoluteWrapper>
+
         <Image
         src={"https://storage.yandexcloud.net/calca-web/commercial1.png"}
         alt='commercial background'
         width={518}
         height={598}
         style={{
-          position:"absolute",
-          bottom:0,
-          right:'130px'
         }}
         />
+        </ImageAbsoluteWrapper>
+
           <Service1PosterContent/> 
       </div>
   )

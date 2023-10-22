@@ -41,8 +41,12 @@ function ServicePreview({service}:ServicePreviewProps) {
         
         <VStack position={'absolute'}bottom={"50px"} left={"40px"} alignItems={'flex-start'} gap={'40px'}>
           <VStack alignItems={'flex-start'} gap={0}>
-            <Heading variant="post_header" fontSize={28} lineHeight={'120%'}>{name}</Heading>
-            <Heading variant="post_header" fontSize={36} lineHeight={'120%'}>{title}</Heading>
+            <Heading variant="post_header" fontSize={28} lineHeight={'120%'} style={{
+        fontFamily:"TS Remarker"
+      }}>{name}</Heading>
+            <Heading variant="post_header" fontSize={36} lineHeight={'120%'} style={{
+        fontFamily:"TS Remarker"
+      }}>{title}</Heading>
           </VStack>
           <Button  variant="solid" width={150}>Перейти</Button>
         </VStack>

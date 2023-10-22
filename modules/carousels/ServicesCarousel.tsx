@@ -34,7 +34,9 @@ function ServicesCarousel({ label, services }: ServicesCarouselProps) {
         
       <Box display={"flex"} justifyContent={"space-between"} height={'auto'}
       >
-        <Heading variant={"post_header"}>{label}</Heading>
+        <Heading variant={"post_header"} style={{
+        fontFamily:"TS Remarker"
+      }}>{label}</Heading>
         <ButtonGroup variant="outline" spacing="6">
           <IconButton
             onClick={(e) => handleScroll(e, true)}

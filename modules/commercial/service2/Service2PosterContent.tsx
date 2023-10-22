@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Heading, Stack, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 
 function Service2PosterContent() {
@@ -10,14 +10,13 @@ function Service2PosterContent() {
         display: "flex",
         flexGrow: 1,
         flexDirection: "column",
-        justifyContent: "space-between",
         padding: "100px 70px",
         borderRadius: "14px",
         color: "#313131",
         gap:'16px'
       }}
     >
-      <VStack alignItems={"flex-start"} gap={0}>
+      <VStack alignItems={"flex-start"} gap={'4px'}>
         <Text
           variant={"banner_text"}
           color={"#F49AA5"}
@@ -27,8 +26,11 @@ function Service2PosterContent() {
           Подарочная упаковка
         </Text>
         <Heading variant={"sub_header"} color={"#313131"}
-        lineHeight={"116%"}
-          fontSize={50}>
+        lineHeight={"58px"}
+          fontSize={50} style={{
+        fontFamily:"TS Remarker",
+        letterSpacing:0,
+      }}>
           Подарок — это всегда
           небольшой секрет, тайна
         </Heading>
@@ -38,9 +40,12 @@ function Service2PosterContent() {
         Упаковкой для подарка могут служить красивые яркие подарочные пакеты,
         коробочки или упаковочная бумага
       </Text>
+<Stack pt={"39px"}>
+
       <Button variant="solid" width={200} bg={"#F49AA5"} minH={"48px"}>
         каталог
       </Button>
+      </Stack>
     </Box>
   );
 }

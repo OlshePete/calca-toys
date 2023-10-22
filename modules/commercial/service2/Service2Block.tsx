@@ -7,7 +7,7 @@ type Service2BlockProps = {
 const Service2Block:React.FC<Service2BlockProps> = ()=> {
   return (
       <div style={{
-        height:'598px',
+        height:'538px',
       background:"#E1ECEE",
         borderRadius:"14px",
         // position:'relative',
@@ -22,8 +22,9 @@ const Service2Block:React.FC<Service2BlockProps> = ()=> {
         height={538}
         style={{
           flexGrow:1,
-          width:'50%',
-          objectFit:'fill',
+          width:'min(50%,585px)',
+          objectFit:'cover',
+          objectPosition:' right center',
           // position:"absolute",
           bottom:0,
           right:0
