@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import CustomStack from '../CustomStack/CustomStack'
+import CustomText from '@/ui/typographies/CustomText'
 
 function FooterSummary() {
   return (
@@ -15,10 +16,15 @@ function FooterSummary() {
               priority
             /></Link>
             <CustomStack variant="column" gap={16}>
-            <p style={{maxWidth:108, fontSize:'14px'}}>
+            <CustomText fontSize={14} style={{
+              maxWidth:'108px',
+              lineHeight:'20px',
+            }}>
               Мы&nbsp;принимаем к оплате:
-            </p>
-            <CustomStack variant="row" gap={16}>
+            </CustomText>
+            <CustomStack variant="row" gap={16} style={{
+              alignItems:'center'
+            }}>
 
             <Image
               src="/masterCard.svg"
@@ -43,9 +49,9 @@ function FooterSummary() {
             />
             </CustomStack>
             </CustomStack>
-            <p style={{whiteSpace:'nowrap', fontSize:'14px', lineHeight:"22px", letterSpacing:'-0.14px', color:"#515151"}}>
+            <CustomText style={{whiteSpace:'nowrap', fontSize:'14px', lineHeight:"22px", letterSpacing:'-0.14px', color:"#515151"}}>
               © 2023 «Vellum.paper» все права защищены 
-            </p>
+            </CustomText>
             </div>
   )
 }

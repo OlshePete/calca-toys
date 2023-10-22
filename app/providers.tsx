@@ -18,7 +18,7 @@ const colors = {
   },
 };
 
-const lato = localFont({
+export const lato = localFont({
   variable:"--font--lato",
   src: [
     {
@@ -35,7 +35,7 @@ const lato = localFont({
     },
   ],
 });
-const blue_curve = localFont({
+export const blue_curve = localFont({
   src: [
     {
       path: "../public/fonts/Blue_curve/Bluecurve-Light.ttf",
@@ -48,7 +48,7 @@ const blue_curve = localFont({
     },
   ],
 });
-const ts_remarker = localFont({
+export const ts_remarker = localFont({
   variable:"--font--ts-remarker",
   src: [
     {

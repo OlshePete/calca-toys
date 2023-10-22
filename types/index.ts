@@ -18,6 +18,7 @@ export interface CustomStackProps extends ChildrenComponentProps {
   variant: "column" | "row",
   gap?: number,
   justify?: 'flex-start' | 'flex-end' | 'center'
+  style?: object
 }
 export interface CustomTitleProps extends ChildrenComponentProps {
   fontSize?: number,
@@ -26,6 +27,7 @@ export interface CustomTitleProps extends ChildrenComponentProps {
 export interface CustomTextProps extends ChildrenComponentProps {
   fontSize?: number,
   color?: string,
+  style?: object
 }
 export interface ProductColor {
   label: string,
