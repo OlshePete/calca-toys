@@ -2,7 +2,7 @@
 import { Box, Button, Heading, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
 
-function PosterContent() {
+function Service1PosterContent() {
   return (
     <Box 
     sx={{
@@ -27,4 +27,4 @@ function PosterContent() {
   )
 }
 
-export default PosterContent
+export default Service1PosterContent

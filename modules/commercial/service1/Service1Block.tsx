@@ -1,11 +1,11 @@
-import ContentContainer from '@/components/ContentContainer/ContentContainer'
 import Image from 'next/image'
 import React from 'react'
-import PosterContent from './PosterContent'
+import Service1PosterContent from './Service1PosterContent'
+type Service1BlockProps = {
+}
 
-function CommercialBlock() {
+const Service1Block:React.FC<Service1BlockProps> = ()=> {
   return (
-    <ContentContainer>
       <div style={{
         height:'598px',
         position:'relative',
@@ -24,10 +24,9 @@ function CommercialBlock() {
           right:'130px'
         }}
         />
-        <PosterContent/>
+          <Service1PosterContent/> 
       </div>
-    </ContentContainer>
   )
 }
 
-export default CommercialBlock
+export default Service1Block
