@@ -7,7 +7,6 @@ const data: FooterNavNextElement[][] = [
   [
     {
       label: "Каталог",
-      link: "catalog",
     },
     {
       label: "Шары",
@@ -29,37 +28,35 @@ const data: FooterNavNextElement[][] = [
   [
     {
       label: "Информация",
-      link: "catalog",
     },
     {
       label: "Новости",
-      link: "catalog",
+      link: "news",
     },
     {
       label: "Вакансии",
-      link: "catalog",
+      link: "news",
     },
     {
       label: "Контакты и реквизиты",
-      link: "catalog",
+      link: "contacts",
     },
   ],
   [
     {
       label: "Помощь",
-      link: "catalog",
     },
     {
       label: "Способы оплаты",
-      link: "catalog",
+      link: "payments",
     },
     {
       label: "Гарантии и качество",
-      link: "catalog",
+      link: "warranty",
     },
     {
       label: "Политика конфиденциальности",
-      link: "catalog",
+      link: "privacy",
     },
   ],
 ];
@@ -92,6 +89,21 @@ function FooterNav() {
               key={new Date().toString() + index}
             >
               {block?.map(({ label, link }, elIndex) => {
+                if (!link)
+                  return (
+                    <CustomText
+                      key={new Date().toString() + label + elIndex}
+                      style={{
+                        listStyleType: "none",
+                        lineHeight: "20px",
+                        fontSize: "16px",
+                        fontWeight: 500,
+                        maxWidth: "150px",
+                      }}
+                    >
+                      {label}
+                    </CustomText>
+                  );
                 return (
                   <Link
                     href={{
@@ -100,16 +112,13 @@ function FooterNav() {
                     key={new Date().toString() + label + elIndex}
                     style={{
                       listStyleType: "none",
-                      // fontSize: elIndex === 0 ? "16px" : "14px",
-                      // maxWidth: "150px",
                     }}
                   >
                     <CustomText
                       style={{
-                        listStyleType: "none",
                         lineHeight: "20px",
-                        fontSize: elIndex === 0 ? "16px" : "14px",
-                        fontWeight: elIndex === 0 ? "500" : "400",
+                        fontSize: "14px",
+                        fontWeight: 400,
                         maxWidth: "150px",
                       }}
                     >
@@ -121,9 +130,7 @@ function FooterNav() {
             </CustomStack>
           );
         })}
-      <CustomStack
-              variant="column"
-              gap={6}>
+      <CustomStack variant="column" gap={6}>
         {contacts.map(({ label, caption }, blIndex) => {
           return (
             <CustomStack
@@ -131,31 +138,42 @@ function FooterNav() {
               variant="column"
               gap={6}
             >
-              {caption && <CustomText style={{ fontSize: "14px",color:'rgba(0, 0, 0, 0.75)',  lineHeight:'22px', }}>{caption}</CustomText>}
+              {caption && (
+                <CustomText
+                  style={{
+                    fontSize: "14px",
+                    color: "rgba(0, 0, 0, 0.75)",
+                    lineHeight: "22px",
+                  }}
+                >
+                  {caption}
+                </CustomText>
+              )}
               {Array.isArray(label) ? (
                 label.map((text) => (
                   <CustomText
                     style={{
                       fontSize: "16px",
-                    lineHeight:'22px',
+                      lineHeight: "22px",
                       fontWeight: blIndex === 0 ? 500 : 400,
                     }}
                     key={text + new Date().toDateString()}
                   >
-                    {text}1
+                    {text}
                   </CustomText>
                 ))
               ) : (
                 <CustomText
                   style={{
                     fontSize: "16px",
-                    lineHeight:'22px',
+                    lineHeight: "22px",
                     fontWeight: blIndex === 0 ? 500 : 400,
                   }}
                 >
                   {label}
                 </CustomText>
-              )}1
+              )}
+              1
             </CustomStack>
           );
         })}

@@ -187,6 +187,15 @@ export const theme = extendTheme({
     },
   },
   components: {
+    Tab:{
+      baseStyle: {
+        borderRadius:"49px",
+        fontSize:'12px',
+        lineHeight:'14px',
+        fontWeight:400,
+        fontFamily:lato.style.fontFamily,
+      },
+    },
     Badge: {
       baseStyle: {
         backgroundColor: "brand.700",
@@ -244,6 +253,14 @@ export const theme = extendTheme({
           _hover: {
             color: "brand.900",
           },
+        },
+        privacy_text: {
+          color: "brand.200",
+          fontFamily:lato.style.fontFamily,
+          fontSize: "14px",
+          fontStyle: "normal",
+          fontWeight: 400,
+          lineHeight: "20px",
         },
         products_link: {
           color: "brand.800",
@@ -372,7 +389,17 @@ export const theme = extendTheme({
           fontWeight: 400,
           lineHeight: "48px",
           textTransform: "uppercase",
-        }
+        },
+        privacy_header: {
+          color: "brand.100",
+          fontFamily:lato.style.fontFamily,
+          fontSize: "16px",
+          fontStyle: "normal",
+          fontWeight: 500,
+          lineHeight: "26px",
+          textTransform: "uppercase",
+          paddingTop:'28px'
+        },
       },
     },
     Button: {
