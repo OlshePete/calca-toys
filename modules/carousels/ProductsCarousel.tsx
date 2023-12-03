@@ -23,6 +23,7 @@ function ProductsCarousel({ label,products }: ProductsCarouselProps) {
         behavior: "smooth",
       });
   }
+  const marginLeft = window?.innerWidth>1170?(window.innerWidth-1170)/2:16 + "px"
   return (
     <Box  
     // pr={"240px"}
@@ -79,7 +80,8 @@ function ProductsCarousel({ label,products }: ProductsCarouselProps) {
           gap: "30px",
           height: "494px",
           overflowX: "scroll",
-          margin: "20px 0 20px 200px",
+          margin: "20px 0 20px 0",
+          marginLeft:marginLeft,
           paddingRight:'120px'
         }}
       >
