@@ -50,10 +50,10 @@ const blue_curve = localFont({
 //     }
 //   ],
 // });
-export const metadata: Metadata = {
-  title: "Калька, магазин игрушек",
-  description: "Интернет магазин игрушек",
-};
+// export const metadata: Metadata = {
+//   title: "Калька, магазин игрушек",
+//   description: "Интернет магазин игрушек",
+// };
 
 export default function RootLayout({
   children,
