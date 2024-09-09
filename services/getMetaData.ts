@@ -14,7 +14,7 @@ const headers = {
         }
     });
   
-    if (!response.ok) throw new Error("Ошибка при загрузке мета информации.");
+    if (!response.ok) throw new Error(`Ошибка при загрузке мета информации. ${JSON.stringify(response)}`);
     
     const data:IWebMeta = await response.json()
     console.log("Мета информация успешно получена!", data);
