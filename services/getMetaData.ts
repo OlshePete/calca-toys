@@ -7,7 +7,7 @@ const headers = {
 }
 
  const getStartPageMetaDate = async () => {
-    const response = await fetch(`${API_URL}/api/web-setting`, {
+    const response = await fetch(`http://cms:1337/api/web-setting`, {
         headers,
         next:{
             revalidate:60,
