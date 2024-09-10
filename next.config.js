@@ -12,13 +12,7 @@ const nextConfig = {
                 hostname: 'cms:1337',
                 pathname: '**'
             },
-        ],
-        async rewrites() {
-            return [{
-                source: '/api/:path*',
-                destination: `${API_URL}/:path*`,
-            }, ]
-        },
+        ]
     },
 }
 
