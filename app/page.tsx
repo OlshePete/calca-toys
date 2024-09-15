@@ -7,6 +7,7 @@ import CommercialWrapper from "@/modules/commercial/CommercialWrapper";
 import { products, services, subscride_images } from "@/public/products";
 import { getStartPageMetaDate } from "@/services/getMetaData";
 import { getStartPageContent } from '@/services/getContent';
+import TestApi from '@/components/test/TestApi';
 
 export async function generateMetadata(): Promise<Metadata> {
   const globalMeta = await getStartPageMetaDate()
@@ -26,6 +27,7 @@ export default async function Home() {
     <main>
       <div className="section fullH" style={{}}>
         {JSON.stringify(res, null, 2)}
+        <TestApi/>
         {/* <MainCarousel/> */}
       </div>
       {/* <div className="section" style={{background:"#FEF7E6",padding:'110px 0' }}>
