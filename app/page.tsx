@@ -9,24 +9,24 @@ import { getStartPageMetaDate } from "@/services/getMetaData";
 import { getStartPageContent } from '@/services/getContent';
 import TestApi from '@/components/test/TestApi';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const globalMeta = await getStartPageMetaDate()
-  return {
-    title: globalMeta.data.attributes.title,
-    description: globalMeta.data.attributes.description
-  }
-}
+// export async function generateMetadata(): Promise<Metadata> {
+//   const globalMeta = await getStartPageMetaDate()
+//   return {
+//     title: globalMeta.data.attributes.title,
+//     description: globalMeta.data.attributes.description
+//   }
+// }
 
 export default async function Home() {
 
-  const res = await getStartPageMetaDate() 
+  // const res = await getStartPageMetaDate() 
   // const mainContent = await getStartPageContent()
-  console.log("%%%%%$$$$",JSON.stringify(res, null, 2));
+  // console.log("%%%%%$$$$",JSON.stringify(res, null, 2));
   
   return (
     <main>
       <div className="section fullH" style={{}}>
-        {JSON.stringify(res, null, 2)}
+        {/* {JSON.stringify(res, null, 2)} */}
         <TestApi/>
         {/* <MainCarousel/> */}
       </div>
