@@ -7,28 +7,17 @@ const headers = {
 }
 
  const getStartPageMetaDate = async () => {
-   console.log(API_TOKEN);
-   
-    const response = await fetch(`http://cms:1337/api/web-setting`, {
-        headers,
-        next:{
-            revalidate:60,
-        }
-    });
-    const response2 = await fetch(`http://cms:1337/cms/api/web-setting`, {
-        headers,
-        next:{
-            revalidate:60,
-        }
-    });
-    const response3 = await fetch(`http://cms:1337/cms/api/web-settings`, {
+    console.log('API_TOKEN',API_TOKEN);
+    console.log('API_URL',API_URL);
+    
+    const response = await fetch(`${API_URL}/api/web-setting`, {
         headers,
         next:{
             revalidate:60,
         }
     });
   
-    if (!response.ok) throw new Error(`Ошибка при загрузке мета информации. ${JSON.stringify({1:response.status, 2:response2.status,3:response3.status, })}`);
+    if (!response.ok) throw new Error(`Ошибка при загрузке мета информации. ${JSON.stringify({1:response.status})}`);
     
     const data:IWebMeta = await response.json()
     console.log("Мета информация успешно получена!", data);
