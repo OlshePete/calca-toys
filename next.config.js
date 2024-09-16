@@ -1,11 +1,18 @@
 /** @type {import('next').NextConfig} */
-const API_URL = process.env.API_URL | 'http://cms:1337'
 const nextConfig = {
     output: "standalone",
+    env: {
+        BASE_URL: process.env.BASE_URL,
+    },
     images: {
         remotePatterns: [{
                 protocol: 'https',
                 hostname: 'storage.yandexcloud.net'
+            },
+            {
+                protocol: 'http',
+                hostname: 'localhost',
+                pathname: '**'
             },
             {
                 protocol: 'http',
