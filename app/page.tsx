@@ -19,9 +19,9 @@ import TestApi from '@/components/test/TestApi';
 
 export default async function Home() {
 
-  // const res = await getStartPageMetaDate() 
+  const res = await getStartPageMetaDate() 
   // const mainContent = await getStartPageContent()
-  // console.log("%%%%%$$$$ static server\n",JSON.stringify(res, null, 2),'\n');
+  console.log("%%%%%$$$$ static server\n",JSON.stringify(res, null, 2),'\n');
   
   return (
     <main>

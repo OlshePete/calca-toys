@@ -14,6 +14,8 @@ COPY . .
 
 # Builder stage
 FROM installer AS builder
+WORKDIR /app
+COPY . .
 RUN yarn build || npm run build || pnpm run build
 
 # Runner stage
