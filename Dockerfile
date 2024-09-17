@@ -1,6 +1,6 @@
 FROM node:18-alpine AS base
 
-FROM base AS deps
+# Install dependencies only when needed
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
@@ -13,25 +13,27 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-
+# Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
-COPY . .
 
 ENV NODE_ENV production
 
-RUN mkdir .next
-RUN chown node .next
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-USER node
+# Only copy necessary files
+COPY --from=base /app/node_modules /app/node_modules
+COPY . .
+
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+USER nextjs
 
 EXPOSE 3000
 
 ENV PORT 3000
 
-CMD ["npm", "run", "start"]
+# Start command that builds the app and then starts the server
+CMD ["/bin/sh", "-c", "yarn build && node server.js"]
