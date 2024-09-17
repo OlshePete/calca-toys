@@ -1,11 +1,16 @@
+# Base stage
 FROM node:18-alpine AS base
 
-# Install dependencies only when needed
+# Install dependencies
 RUN apk add --no-cache libc6-compat
+
+# Set working directory
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
+# Copy package files
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+
+# Install dependencies
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm ci; \
@@ -13,27 +18,48 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# Production image, copy all the files and run next
-FROM base AS runner
-WORKDIR /app
-
-ENV NODE_ENV production
-
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-# Only copy necessary files
-COPY --from=base /app/node_modules /app/node_modules
+# Copy application files
 COPY . .
 
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
+# Set up build stage
+FROM base AS builder
 
+# Create and set correct permissions for the .next directory
+RUN mkdir -p .next && chown -R node:node /app
+
+# Set working directory
+WORKDIR /app
+
+# Build the application
+RUN yarn build
+
+# Production stage
+FROM node:18-alpine AS runner
+
+# Set environment
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# Set working directory
+WORKDIR /app
+
+# Create and set up user/group
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 --ingroup nodejs nextjs
+
+# Copy necessary files from the build stage
+COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/.next /app/.next
+COPY --from=builder /app/public /app/public
+
+# Set permissions
+RUN chown -R nextjs:nodejs /app
+
+# Switch to non-root user
 USER nextjs
 
+# Expose port
 EXPOSE 3000
 
-ENV PORT 3000
-
-# Start command that builds the app and then starts the server
-CMD ["/bin/sh", "-c", "yarn build && node server.js"]
+# Start the application
+CMD ["yarn", "start"]
