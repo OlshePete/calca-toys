@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 function TestApi() {
     const [data, setData] = useState<IWebMeta | null>(null)
     const {API_URL} =  process.env
-    async function getData(cld:(data:IWebMeta)=>void) {
+    async function getData(cld:(data:IWebMeta | null)=>void) {
         const res = await getStartPageMetaDate()
         cld(res)
     }
