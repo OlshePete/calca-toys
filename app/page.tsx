@@ -9,19 +9,21 @@ import { getStartPageMetaDate } from "@/services/getMetaData";
 import { getStartPageContent } from '@/services/getContent';
 import TestApi from '@/components/test/TestApi';
 
-// export async function generateMetadata(): Promise<Metadata> {
-//   const globalMeta = await getStartPageMetaDate()
-//   return {
-//     title: globalMeta.data.attributes.title,
-//     description: globalMeta.data.attributes.description
-//   }
-// }
+export async function generateMetadata(): Promise<Metadata> {
+  const globalMeta = await getStartPageMetaDate()
+  const title = globalMeta?.data.attributes.title ?? 'test'
+  const description = globalMeta?.data.attributes.description ?? 'test test test'
+  return {
+    title,
+    description
+  }
+}
 
 export default async function Home() {
 
-  const res = await getStartPageMetaDate() 
+  // const res = await getStartPageMetaDate() 
   // const mainContent = await getStartPageContent()
-  console.log("%%%%%$$$$ static server\n",JSON.stringify(res, null, 2),'\n');
+  // console.log("%%%%%$$$$ static server\n",JSON.stringify(res, null, 2),'\n');
   
   return (
     <main>
