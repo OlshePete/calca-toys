@@ -33,7 +33,7 @@ export default function ProductInfoAccordion({product}:ProductFullViewProps) {
             <path
               d="M1 1L10.5 8L20 1"
               stroke="#313131"
-              stroke-linecap="round"
+              strokeLinecap="round"
             />
           </Icon>
         </AccordionButton>
@@ -62,7 +62,7 @@ export default function ProductInfoAccordion({product}:ProductFullViewProps) {
                 <path
                   d="M1 1L10.5 8L20 1"
                   stroke="#313131"
-                  stroke-linecap="round"
+                  strokeLinecap="round"
                 />
               </Icon>
             </AccordionButton>
@@ -92,7 +92,7 @@ export default function ProductInfoAccordion({product}:ProductFullViewProps) {
             <path
               d="M1 1L10.5 8L20 1"
               stroke="#313131"
-              stroke-linecap="round"
+              strokeLinecap="round"
             />
           </Icon>
         </AccordionButton>

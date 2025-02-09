@@ -5,7 +5,7 @@ import React from 'react'
 
 function ContentContainer({children}:ContentContainerProps) {
   return (
-    <Container maxW={'1170px'} position={'relative'}>
+    <Container maxW={'1170px'} position={'relative'} overflow={'hidden'}>
       {children}
     </Container>
   )

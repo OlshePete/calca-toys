@@ -22,8 +22,9 @@ function _getSizes(h?: number, w?: number): string {
 }
 
 function ProductPreview({ product }: ProductPreviewProps) {
+  const id = product.id
+  
   const {
-    id,
     name,
     price,
     height,
@@ -31,8 +32,8 @@ function ProductPreview({ product }: ProductPreviewProps) {
     mustHave,
     discount_price,
     previewComment,
-    variants,
-  } = product;
+    variant:variants,
+  } = product.attributes;
   const [currentIndex, setCurrentIndex] = useState(0)
   
   const router = useRouter();
@@ -40,6 +41,8 @@ function ProductPreview({ product }: ProductPreviewProps) {
 const handleColorChange = (value:string) => {
     setCurrentIndex(p=>variants.findIndex(v=>v.color===value.slice(1)))
   };
+  console.log("$$$$$$$$$$$$", variants);
+  
   return (
     <Box
       className="product-sm"
@@ -61,7 +64,7 @@ const handleColorChange = (value:string) => {
       {
         variants &&  <Image
           alt={name}
-          src={variants[currentIndex].image}
+          src={"https://calca-toys.ru/cms"+variants[currentIndex].image.data.attributes.url}
           width={270}
           height={320}
           style={{
@@ -86,7 +89,7 @@ const handleColorChange = (value:string) => {
       >
         <Text variant={"product_name"}>
           {name}
-          {variants && variants.map(v=>v.color).length > 1 ? ` - ${variants.map(v=>v.label).join(", ")}` : ""}
+          {variants && variants.map(v=>v.color).length > 1 ? ` - ${variants.map(v=>v.name).join(", ")}` : ""}
         </Text>
 
         {previewComment && <Text variant={"product_text_sub"}>{previewComment}</Text>}
@@ -163,7 +166,7 @@ const handleColorChange = (value:string) => {
         >
           <ColorPicker onChange={handleColorChange} colors={variants.map(v=>"#"+v.color)}/>
           <Icon width="16px" height="7px" viewBox="0 0 16 7" fill={'none'}>
-              <path d="M1 1L8 6L15 1" stroke="#313131" stroke-linecap="round"/>
+              <path d="M1 1L8 6L15 1" stroke="#313131" strokeLinecap="round"/>
           </Icon>
         </Box>
       }

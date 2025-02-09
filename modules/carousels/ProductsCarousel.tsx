@@ -1,6 +1,6 @@
 "use client";
 import ContentContainer from "@/components/ContentContainer/ContentContainer";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProductPreview from "../cards/ProductPreview";
 import { ProductsCarouselProps } from "@/types";
 import { useRouter } from "next/navigation";
@@ -13,9 +13,10 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 
-function ProductsCarousel({ label,products }: ProductsCarouselProps) {
+function ProductsCarousel({ label,products:baseProducts }: ProductsCarouselProps) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
+  const products = baseProducts//.map(prod=>({id:prod.id,...prod.attributes}))
   function handleScroll(e: React.MouseEvent<HTMLButtonElement>, flag: boolean) {
     if (containerRef.current)
       containerRef.current.scrollBy({
@@ -23,7 +24,11 @@ function ProductsCarousel({ label,products }: ProductsCarouselProps) {
         behavior: "smooth",
       });
   }
-  const marginLeft = window?.innerWidth>1170?(window.innerWidth-1170)/2:16 + "px"
+  const [marginLeft, setMarginLeft] = useState<string|number|undefined>(window ? (window.innerWidth>1170?(window.innerWidth-1170)/2:16) + "px":undefined)
+  useEffect(() => {
+    if(window)
+      setMarginLeft((window.innerWidth>1170?(window.innerWidth-1170)/2:16) + "px")
+  }, [window])
   return (
     <Box  
     // pr={"240px"}
@@ -35,7 +40,6 @@ function ProductsCarousel({ label,products }: ProductsCarouselProps) {
       <Box display={"flex"} justifyContent={"space-between"} height={'auto'}
       >
         <Heading variant={"post_header"}  style={{
-        fontFamily:"TS Remarker"
       }}>{label}</Heading>
         <ButtonGroup variant="outline" spacing="6">
           <IconButton
@@ -85,9 +89,9 @@ function ProductsCarousel({ label,products }: ProductsCarouselProps) {
           paddingRight:'120px'
         }}
       >
-        {products.map((product) => {
+        {products && products.map((product) => {
           return (
-            <ProductPreview key={product.id + product.name} product={product} />
+            <ProductPreview key={product.id + product.attributes.name} product={product} />
           );
         })}
       </div>

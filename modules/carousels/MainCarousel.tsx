@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CustomStack from "../../components/CustomStack/CustomStack";
 import {
   Box,
@@ -12,43 +12,44 @@ import {
 } from "@chakra-ui/react";
 import Slider from "react-slick";
 import ContentContainer from "@/components/ContentContainer/ContentContainer";
+import { IMainCarouselContent } from "@/types/api";
 
-const items = [
-  {
-    id: 1,
-    title: "Оформление",
-    subtitle: "надувными шарами",
-    body: "Широкий выбор оформления праздника для вашего ребенка",
-    imageUrl: "https://storage.yandexcloud.net/calca-web/oformlenie.png",
-  },
-  {
-    id: 2,
-    title: "Оформление",
-    subtitle: "надувными шарами",
-    body: "Широкий выбор оформления праздника для вашего ребенка",
-    // imageUrl: "https://storage.yandexcloud.net/calca-web/oformlenie.png",
-    imageUrl:
-      "https://res.cloudinary.com/kizmelvin/image/upload/v1587785064/kizmelvin/michael-BcgEo2CNeYA-unsplash_cdaruk.jpg",
-  },
-  {
-    id: 3,
-    title: "Оформление",
-    subtitle: "надувными шарами",
-    body: "Широкий выбор оформления праздника для вашего ребенка",
-    imageUrl: "https://storage.yandexcloud.net/calca-web/oformlenie.png",
-    // imageUrl:
-    //   "https://res.cloudinary.com/kizmelvin/image/upload/v1586799827/kizmelvin/brownlion_qm8hah.jpg",
-  },
-  {
-    id: 4,
-    title: "Оформление",
-    subtitle: "надувными шарами",
-    body: "Широкий выбор оформления праздника для вашего ребенка",
-    // imageUrl: "https://storage.yandexcloud.net/calca-web/oformlenie.png",
-    imageUrl:
-      "https://res.cloudinary.com/kizmelvin/image/upload/v1587870308/kizmelvin/edvin-johansson-5AylXcpJn1I-unsplash_lbhgod.jpg",
-  },
-];
+// const items2 = [
+//   {
+//     id: 1,
+//     title: "Оформление",
+//     subtitle: "надувными шарами",
+//     body: "Широкий выбор оформления праздника для вашего ребенка",
+//     imageUrl: "https://storage.yandexcloud.net/calca-web/oformlenie.png",
+//   },
+//   {
+//     id: 2,
+//     title: "Оформление",
+//     subtitle: "надувными шарами",
+//     body: "Широкий выбор оформления праздника для вашего ребенка",
+//     // imageUrl: "https://storage.yandexcloud.net/calca-web/oformlenie.png",
+//     imageUrl:
+//       "https://res.cloudinary.com/kizmelvin/image/upload/v1587785064/kizmelvin/michael-BcgEo2CNeYA-unsplash_cdaruk.jpg",
+//   },
+//   {
+//     id: 3,
+//     title: "Оформление",
+//     subtitle: "надувными шарами",
+//     body: "Широкий выбор оформления праздника для вашего ребенка",
+//     imageUrl: "https://storage.yandexcloud.net/calca-web/oformlenie.png",
+//     // imageUrl:
+//     //   "https://res.cloudinary.com/kizmelvin/image/upload/v1586799827/kizmelvin/brownlion_qm8hah.jpg",
+//   },
+//   {
+//     id: 4,
+//     title: "Оформление",
+//     subtitle: "надувными шарами",
+//     body: "Широкий выбор оформления праздника для вашего ребенка",
+//     // imageUrl: "https://storage.yandexcloud.net/calca-web/oformlenie.png",
+//     imageUrl:
+//       "https://res.cloudinary.com/kizmelvin/image/upload/v1587870308/kizmelvin/edvin-johansson-5AylXcpJn1I-unsplash_lbhgod.jpg",
+//   },
+// ];
 
 // Settings for the slider
 
@@ -63,39 +64,32 @@ const settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
 };
-type CustomSlider = InstanceType<typeof Slider>;
-export default function MainCarousel() {
-  const [index, setIndex] = useState(0);
+interface ICarouselProps {
+  data:IMainCarouselContent
+}
+export default function MainCarousel({data}:ICarouselProps) {
+  const items = data.data
   const [slider, setSlider] = useState<Slider | null>(null);
-
-  // These are the breakpoints which changes the position of the
-  // buttons as the screen size changes
   const top = useBreakpointValue(
     { base: "90%", md: "50%" },
     {
-      // Breakpoint to use when mediaqueries cannot be used, such as in server-side rendering
-      // (Defaults to 'base')
       fallback: "md",
     }
   );
   const side = useBreakpointValue(
-    { base: "14%", sm: "2%", xl: "14%" },
+    { base: "2%", sm: "2%", md: "2%", lg: "10%", xl: "10%",xxl:"15%" },
     {
-      // Breakpoint to use when mediaqueries cannot be used, such as in server-side rendering
-      // (Defaults to 'base')
-      fallback: "xl",
+      fallback: "md",
     }
   );
-  // const handleSelect = (selectedIndex: number) => {
-  //   setIndex(selectedIndex);
-  // };
-
+  
   return (
     <Box
       position={"relative"}
-      height={"100vh"}
+      height={"100svh"}
       width={"100vw"}
       overflow={"hidden"}
+      outline={'1px solid blue'}
     >
       {/* CSS files for react-slick */}
       <link
@@ -150,62 +144,63 @@ export default function MainCarousel() {
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {items.map(({ imageUrl, ...item }, index) => (
-          <Box
-            height={"100vh"}
-            key={index}
-            backgroundPosition="center"
-            backgroundRepeat="no-repeat"
-            textAlign={"center"}
-            backgroundSize="cover"
-            backgroundImage={`url(${imageUrl})`}
-          >
-            <ContentContainer>
-              <div
-                style={{
-                  padding: "110px 0 110px 100px",
-                  height: "100vh",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  justifyContent: "center",
-                }}
-              >
-                <CustomStack variant="column" gap={80}>
-                  <CustomStack variant="column" gap={20}>
-                    <CustomStack variant="column" gap={0}>
-                      <Heading
-                        variant={"main_header"}
-                        style={{
-                          fontSize: "90px",
-                          lineHeight: "90px",
-                          fontFamily: "TS Remarker",
-                        }}
-                      >
-                        {item.title}
-                      </Heading>
-                      <Heading
-                        variant={"sub_header"}
-                        style={{
-                          fontSize: "57px",
-                          lineHeight: "57px",
-                          fontFamily: "TS Remarker",
-                        }}
-                      >
-                        {item.subtitle}
-                      </Heading>
+        {items && items.map((initial, index) => {
+          const item = initial.attributes
+          const imageUrl = item.image.data.attributes.url
+          return (
+            <Box
+              height={"100svh"}
+              key={index}
+              backgroundPosition={useBreakpointValue({ base: "64% top", md: "center" })}
+              backgroundRepeat="no-repeat"
+              textAlign={"center"}
+              backgroundSize="cover"
+              backgroundImage={`url(https://calca-toys.ru/cms${imageUrl})`}
+            >
+              <ContentContainer>
+                <div
+                  style={{
+                    padding: useBreakpointValue({ base: "110px 0 110px 0", md: "110px 0 110px 100px" }),
+                    height: "100svh",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    justifyContent: "center",
+                  }}
+                >
+                  <CustomStack variant="column" gap={80}>
+                    <CustomStack variant="column" gap={20}>
+                      <CustomStack variant="column" gap={0}>
+                        <Heading
+                          variant={"main_header"}
+                          style={{
+                            display:"inline",
+                            whiteSpace:"nowrap",
+                          }}
+                        >
+                          {item.title}
+                        </Heading>
+                        <Heading
+                          variant={"sub_header"}
+                          style={{
+                            textAlign:'left'
+                          }}
+                        >
+                          {item.subtitle}
+                        </Heading>
+                      </CustomStack>
+  
+                      <Text variant={"banner_text"}>{item.body}</Text>
                     </CustomStack>
-
-                    <Text variant={"banner_text"}>{item.body}</Text>
+                    <Button variant="solid" width={200} height={55}>
+                      выбрать
+                    </Button>
                   </CustomStack>
-                  <Button variant="solid" width={200} height={55}>
-                    выбрать
-                  </Button>
-                </CustomStack>
-              </div>
-            </ContentContainer>
-          </Box>
-        ))}
+                </div>
+              </ContentContainer>
+            </Box>
+          )
+        })}
       </Slider>
     </Box>
   );

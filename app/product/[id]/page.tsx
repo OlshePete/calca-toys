@@ -1,6 +1,7 @@
 import ContentContainer from "@/components/ContentContainer/ContentContainer";
 import ProductFullView from "@/modules/cards/ProductFullView";
 import { products } from "@/public/products";
+import { getProductById } from "@/services/ products/getProducts";
 import {} from "module";
 type Props = {
   params: {
@@ -8,8 +9,9 @@ type Props = {
   };
 };
 
-export default function Home({ params: { id } }: Props) {
-  const product = products.find((p) => p.id === Number(id));
+export default async function Home({ params: { id } }: Props) {
+  const product = await getProductById(id)
+  // const product = products.find((p) => p.id === Number(id));
   if (!product) return <p>К сожалению товар не найден</p>;
   return (
     <div

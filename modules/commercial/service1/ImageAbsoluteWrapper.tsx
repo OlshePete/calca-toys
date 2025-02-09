@@ -6,16 +6,16 @@ import React from 'react'
 function ImageAbsoluteWrapper({children}:ChildrenComponentProps) {
   const right = useBreakpointValue(
     {
-      base: '0px',
+      base: '-220px',
       md: '40px',
-      lg: '130px',
+      lg: '60px',
+      xl: '130px',
     },
     {
-      // Breakpoint to use when mediaqueries cannot be used, such as in server-side rendering
-      // (Defaults to 'base')
       fallback: 'base',
     },
   )
+  
   return (
     <Box
     right={right}

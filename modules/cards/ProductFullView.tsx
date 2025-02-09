@@ -44,8 +44,8 @@ function _getSizes(h?: number, w?: number): string {
 }
 
 function ProductFullView({ product }: ProductFullViewProps) {
+  const id = product.data.id
   const {
-    id,
     name,
     price,
     height,
@@ -53,12 +53,11 @@ function ProductFullView({ product }: ProductFullViewProps) {
     mustHave,
     discount_price,
     previewComment,
-    variants,
+    variant:variants,
     comment,
-    stock,
     article,
     connected,
-  } = product;
+  } = product.data.attributes;
   const [currentIndex, setCurrentIndex] = useState(0);
   const viewed: Product[] = useSelector(
     (state: RootState) => state.viewed.items
@@ -86,7 +85,7 @@ function ProductFullView({ product }: ProductFullViewProps) {
         <GridItem w="100%" h="703">
           <Image
             alt={name}
-            src={variants[currentIndex].image}
+            src={"https://calca-toys.ru/cms"+variants[currentIndex].image.data.attributes.url}
             width={600}
             height={703}
             style={{
@@ -116,7 +115,7 @@ function ProductFullView({ product }: ProductFullViewProps) {
             <Text variant={"full_product_name"}>
               {name}
               {variants && variants.map((v) => v.color).length > 1
-                ? ` - ${variants.map((v) => v.label).join(", ")}`
+                ? ` - ${variants.map((v) => v.name).join(", ")}`
                 : ""}
             </Text>
             {previewComment && (
@@ -144,12 +143,12 @@ function ProductFullView({ product }: ProductFullViewProps) {
           )}
           <HStack gap={"24px"}>
             {variants &&
-              variants.map(({ image, label, color }, index) => {
+              variants.map(({ image, name, color }, index) => {
                 return (
                   <Image
-                    key={label + index + "-" + id}
-                    alt={label}
-                    src={image}
+                    key={name + index + "-" + id}
+                    alt={name}
+                    src={"https://calca-toys.ru/cms"+image.data.attributes.url}
                     width={100}
                     height={130}
                     onClick={() => setCurrentIndex(index)}
@@ -167,18 +166,18 @@ function ProductFullView({ product }: ProductFullViewProps) {
                 );
               })}
           </HStack>
-          <ProductFullViewForm max={stock[currentIndex].inStock} item={{
+          {/* <ProductFullViewForm max={stock[currentIndex].inStock} item={{
             product:product,
             variant:{
               ...variants[currentIndex],
               value:1
             },
-          }} />
+          }} /> */}
           <Text variant={"full_product_text"}>{comment}</Text>
           <ProductInfoAccordion product={product} />
         </GridItem>
 
-        {connected && (
+        {/* {connected && (
           <GridItem
             colSpan={2}
             w="100%"
@@ -192,8 +191,8 @@ function ProductFullView({ product }: ProductFullViewProps) {
               products={connected}
             />
           </GridItem>
-        )}
-        <GridItem
+        )} */}
+        {/* <GridItem
           colSpan={2}
           w="100%"
           minH="560"
@@ -202,7 +201,7 @@ function ProductFullView({ product }: ProductFullViewProps) {
           // gap={"20px"}
         >
           <ProductsCarousel label="Недавно просмотренные" products={viewed} />
-        </GridItem>
+        </GridItem> */}
       </Grid>
 
       {/*  <Image
@@ -223,7 +222,7 @@ function ProductFullView({ product }: ProductFullViewProps) {
         >
           <ColorPicker onChange={handleColorChange} colors={colors.map((c:ProductColor)=>"#"+c.color)}/>
           <Icon width="16px" height="7px" viewBox="0 0 16 7" fill={'none'}>
-              <path d="M1 1L8 6L15 1" stroke="#313131" stroke-linecap="round"/>
+              <path d="M1 1L8 6L15 1" stroke="#313131" strokeLinecap="round"/>
           </Icon>
         </Box>
       } */}

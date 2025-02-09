@@ -8,6 +8,9 @@ const nextConfig = {
         remotePatterns: [{
                 protocol: 'https',
                 hostname: 'storage.yandexcloud.net'
+            }, {
+                protocol: 'https',
+                hostname: 'calca-toys.ru'
             },
             {
                 protocol: 'http',

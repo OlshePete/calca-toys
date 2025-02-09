@@ -25,14 +25,11 @@ export const lato = localFont({
       path: "../public/fonts/Lato/Lato-Bold.woff",
     },
     {
-      path: "../public/fonts/Lato/Lato-Medium.woff",
-    },
-    {
       path: "../public/fonts/Lato/Lato-Regular.woff",
     },
     {
-      path: "../public/fonts/Lato/Lato-Semibold.woff",
-    },
+      path: "../public/fonts/Lato/Lato-Medium.woff",
+    }
   ],
 });
 export const blue_curve = localFont({
@@ -52,19 +49,22 @@ export const ts_remarker = localFont({
   variable:"--font--ts-remarker",
   src: [
     {
-      path: "../public/fonts/TS_remarker/TS Remarker Regular.otf",
+      path: "../public/fonts/TS_remarker/TS_Remarker_Regular.otf",
+    },
+    {
+      path: "../public/fonts/TS_remarker/TS_Remarker.ttf",
     }
   ],
 });
 console.log('====================================');
-console.log(blue_curve);
+console.log(lato);
 console.log(ts_remarker);
 console.log('====================================');
 export const theme = extendTheme({
   colors,
   fonts: {
     heading: ts_remarker.style.fontFamily,
-    text: lato.style.fontFamily,
+    // text: lato.style.fontFamily,
     body: blue_curve.style.fontFamily,
   },
   styles: {
@@ -109,7 +109,7 @@ export const theme = extendTheme({
           minWidth: "100vw",
           backgroundColor: "rgba(0,0,0,0)",
           position: "absolute",
-          top: "34px",
+          top: ["14px","18px","34px"],
           left: 0,
           height: "77px",
           padding: 0,
@@ -125,7 +125,7 @@ export const theme = extendTheme({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          backgroundColor: "#FFF",
+          backgroundColor: ["rgba(0,0,0,0)","rgba(0,0,0,0)","#FFF"],
           // position:'sticky',
           // top:'74px',
           // left:"calc(100vh)",
@@ -230,10 +230,11 @@ export const theme = extendTheme({
           textTransform: "uppercase",
         },
         banner_text:{
+          fontFamily:lato.style.fontFamily,
           color: "#FFF",
           fontSize: "18px",
           fontStyle: "normal",
-          fontWeight: "400",
+          fontWeight: "200",
           lineHeight: "24px",
           maxWidth:'360px',
           textAlign:'left',
@@ -361,11 +362,10 @@ export const theme = extendTheme({
           fontFamily:ts_remarker.style.fontFamily,
           color: "#FFF",
           textShadow: "0px 4px 4px rgba(255, 255, 255, 0.05)",
-          // fontFamily:'Orchidea Pro',
-          fontSize: ["32px", "36px", "70px"],
+          fontSize: ["32px", "36px", "70px", "90px"],
           fontStyle: "normal",
           fontWeight: "200",
-          lineHeight: "119.5%",
+          lineHeight: ["32px", "36px", "70px", "90px"],
           letterSpacing: "2.64px",
           textTransform: "uppercase",
           maxWidth: "min(620px, 100%)",
@@ -373,13 +373,13 @@ export const theme = extendTheme({
         sub_header: {
           fontFamily:ts_remarker.style.fontFamily,
           color: "#FFF",
-          fontSize:  ["32px", "36px", "44px"],
+          fontSize:  ["32px", "36px", "44px", "57px"],
           fontStyle: "normal",
           fontWeight: "200",
-          lineHeight: "119.5%",
+          lineHeight: ["32px", "36px", "44px", "57px"],
           letterSpacing: "2.64px",
           textTransform: "uppercase",
-          maxWidth: "min(720px, 100%)",
+          maxWidth: "min(720px, 100%)"
         },
         post_header: {
           color: "brand.100",
