@@ -1,6 +1,6 @@
 "use client";
 import ContentContainer from "@/components/ContentContainer/ContentContainer";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProductPreview from "../cards/ProductPreview";
 import { ServicesCarouselProps } from "@/types";
 import { useRouter } from "next/navigation";
@@ -24,8 +24,12 @@ function ServicesCarousel({ label, services }: ServicesCarouselProps) {
         behavior: "smooth",
       });
   }   
-  const marginLeft = window?.innerWidth>1170?(window.innerWidth-1170)/2:16 + "px"
- 
+  const [marginLeft, setMarginLeft] = useState<string|number|undefined>(window ? (window.innerWidth>1170?(window.innerWidth-1170)/2:16) + "px":undefined)
+  useEffect(() => {
+    if(window)
+      setMarginLeft((window.innerWidth>1170?(window.innerWidth-1170)/2:16) + "px")
+  }, [window])
+  
   return (
     <Box  
     // pr={"240px"}
@@ -37,7 +41,6 @@ function ServicesCarousel({ label, services }: ServicesCarouselProps) {
       <Box display={"flex"} justifyContent={"space-between"} height={'auto'}
       >
         <Heading variant={"post_header"} style={{
-        fontFamily:"TS Remarker"
       }}>{label}</Heading>
         <ButtonGroup variant="outline" spacing="6">
           <IconButton

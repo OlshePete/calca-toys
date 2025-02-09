@@ -13,6 +13,7 @@ const Service1Block:React.FC<Service1BlockProps> = ()=> {
         display:"flex",
         flexDirection:"column",
         justifyContent:'flex-end',
+        outline:'1px solid red'
       }}>
         <ImageAbsoluteWrapper>
 

@@ -15,7 +15,7 @@ function Header() {
       {/* <HeaderGlobalInfo theme="dark" /> */}
   <div className="header-nav-container" >
      <div className="header-nav" style={{
-      zIndex:1000
+      zIndex:1000,
       }}>
         <Link href={"/"}>
           <Image
@@ -37,10 +37,10 @@ function Header() {
         </NavStack>
         <NavStack>
           <SearchBar />
-          {/* <BasketPopover
-          /> */}
+          <BasketPopover
+          />
           {/* <BasketUpdateNotification/> */}
-          <Link href={"/basket"} className="basket-icon">
+          {/* <Link href={"/basket"} className="basket-icon">
             <Image
               src="/basket.svg"
               alt="Basket icon"
@@ -48,7 +48,7 @@ function Header() {
               height={40}
               priority
             />
-          </Link>
+          </Link> */}
         </NavStack>
       </div> 
       </div> 

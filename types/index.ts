@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { number } from "yup";
+import { IProduct, IProductByIdContent, IResponseData } from "./api";
 export interface IPost {
   id: number
   title: string
@@ -59,14 +60,14 @@ export interface Product {
   article: string
 }
 export interface ProductPreviewProps {
-  product: Product
+  product: IResponseData<IProduct>
 }
 export interface ProductFullViewProps {
-  product: Product
+  product: IProductByIdContent
 }
 export interface ProductsCarouselProps {
   label: string,
-  products: Product[]
+  products: IResponseData<IProduct>[]
 }
 export interface CustomButtonProps {
   width?: number,

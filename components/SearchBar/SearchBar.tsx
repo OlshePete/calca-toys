@@ -1,11 +1,12 @@
 'use client'
-import { Icon, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
+import { Icon, Input, InputGroup, InputLeftElement, useBreakpointValue } from '@chakra-ui/react'
 import React from 'react'
 
 function SearchBar() {
   return (
   <InputGroup className='search-bar disabled' style={{
     maxWidth:129,
+    display:useBreakpointValue({base:'none', md:'inherit'})
   }}>
     <InputLeftElement pointerEvents='none'>
       <Icon  viewBox='0 0 18 18' color='brand.800' width={18} height={18}>

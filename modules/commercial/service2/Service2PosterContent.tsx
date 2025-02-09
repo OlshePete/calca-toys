@@ -28,7 +28,6 @@ function Service2PosterContent() {
         <Heading variant={"sub_header"} color={"#313131"}
         lineHeight={"58px"}
           fontSize={50} style={{
-        fontFamily:"TS Remarker",
         letterSpacing:0,
       }}>
           Подарок — это всегда
