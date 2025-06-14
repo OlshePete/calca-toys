@@ -1,28 +1,35 @@
-import { FooterContactElement, FooterNavNextElement } from "@/types";
+import { FooterNavNextElement } from "@/types";
 import React from "react";
 import Link from "next/link";
-import CustomStack from "../CustomStack/CustomStack";
+import { getContacts } from "@/services/getContent";
+import FooterCustomStack from "../CustomStack/FooterCustomStack";
 import CustomText from "@/ui/typographies/CustomText";
+import { IContacts } from "@/types/api";
+import Image from "next/image";
+import CustomContactBox from "./CustomContactBox";
+import { Box } from "@chakra-ui/react";
+
 const data: FooterNavNextElement[][] = [
   [
     {
       label: "Каталог",
+      link: "catalog",
     },
     {
       label: "Шары",
-      link: "catalog",
+      link: "catalog/balloon",
     },
     {
       label: "Игрушки",
-      link: "catalog",
+      link: "catalog/toy",
     },
     {
       label: "Упаковка",
-      link: "catalog",
+      link: "catalog/services/packing",
     },
     {
       label: "Товары для праздника",
-      link: "catalog",
+      link: "catalog/supplies",
     },
   ],
   [
@@ -36,6 +43,7 @@ const data: FooterNavNextElement[][] = [
     {
       label: "Вакансии",
       link: "news",
+      query: { type: "job" }
     },
     {
       label: "Контакты и реквизиты",
@@ -60,125 +68,135 @@ const data: FooterNavNextElement[][] = [
     },
   ],
 ];
-const contacts: FooterContactElement[] = [
-  {
-    label: "Контакты",
-  },
-  {
-    label: ["ТК «Космос»", "г. Санкт-Петербург", "ул. Типанова 27/39"],
-    caption: "Адрес:",
-  },
-  {
-    label: "с 9:00 - 10:00 без выходных",
-    caption: "Часы работы:",
-  },
-  {
-    label: "+7 921 952-21-69",
-    caption: "Телефон:",
-  },
-];
-function FooterNav() {
+
+async function FooterNav() {
+  const contacts = await getContacts()
+  
+  const API_URL = process.env.API_URL
+  const blockNames:Pick<IContacts,'address' & 'time' & 'phone'> = {
+    address:'Адрес',
+    time:'Часы работы',
+    phone:'Телефон'
+  }
   return (
-    <div className="footer-nav">
-      {data &&
-        data.map((block, index) => {
-          return (
-            <CustomStack
-              variant="column"
-              gap={10}
-              key={new Date().toString() + index}
-            >
-              {block?.map(({ label, link }, elIndex) => {
-                if (!link)
-                  return (
-                    <CustomText
-                      key={new Date().toString() + label + elIndex}
-                      style={{
-                        listStyleType: "none",
-                        lineHeight: "20px",
-                        fontSize: "16px",
-                        fontWeight: 500,
-                        maxWidth: "150px",
-                      }}
-                    >
-                      {label}
-                    </CustomText>
-                  );
+  <Box
+    as="nav"
+    gap={2}
+    display={'flex'}
+    py={6}
+    bg="transparent"
+  >
+      {data && data.map((block, index, arr) => {
+        const isLast = index === arr.length-1
+        return (
+          <FooterCustomStack
+            key={new Date().toString() + index}
+            width={'30%'}
+            display={{ base:'none', sm:'none',md:isLast?'none':'flex', lg:'flex' }}
+            flexGrow={2}
+            direction="column"
+            gap={10}
+            variant='links'
+          >
+            {block?.map(({ label, link, query }, elIndex) => {
+              if (!link)
                 return (
-                  <Link
-                    href={{
-                      pathname: `/${link || "#"}`,
-                    }}
-                    key={new Date().toString() + label + elIndex}
-                    style={{
-                      listStyleType: "none",
-                    }}
-                  >
-                    <CustomText
-                      style={{
-                        lineHeight: "20px",
-                        fontSize: "14px",
-                        fontWeight: 400,
-                        maxWidth: "150px",
-                      }}
-                    >
-                      {label}
-                    </CustomText>
-                  </Link>
-                );
-              })}
-            </CustomStack>
-          );
-        })}
-      <CustomStack variant="column" gap={6}>
-        {contacts.map(({ label, caption }, blIndex) => {
-          return (
-            <CustomStack
-              key={new Date().toString() + blIndex + label}
-              variant="column"
-              gap={6}
-            >
-              {caption && (
-                <CustomText
-                  style={{
-                    fontSize: "14px",
-                    color: "rgba(0, 0, 0, 0.75)",
-                    lineHeight: "22px",
-                  }}
-                >
-                  {caption}
-                </CustomText>
-              )}
-              {Array.isArray(label) ? (
-                label.map((text) => (
                   <CustomText
+                    key={new Date().toString() + label + elIndex}
+                    variant={'post_text'}
                     style={{
-                      fontSize: "16px",
-                      lineHeight: "22px",
-                      fontWeight: blIndex === 0 ? 500 : 400,
+                      fontSize: "18px",
                     }}
-                    key={text + new Date().toDateString()}
                   >
-                    {text}
+                    {label}
                   </CustomText>
-                ))
-              ) : (
-                <CustomText
-                  style={{
-                    fontSize: "16px",
-                    lineHeight: "22px",
-                    fontWeight: blIndex === 0 ? 500 : 400,
+                );
+              return (
+                <Link
+                  href={{
+                    pathname: `/${link}`,
+                    query
                   }}
+                  key={new Date().toString() + label + elIndex}
+                  style={{
+                    listStyleType: "none",
+                  }}
+                  className="hover:text-primary transition-colors"
+                  aria-label={`Перейти к разделу ${label}`}
                 >
-                  {label}
-                </CustomText>
-              )}
-              1
-            </CustomStack>
-          );
-        })}
-      </CustomStack>
-    </div>
+                  <CustomText
+                    variant={'post_text'}
+                    style={{
+                      fontSize: "14px",
+                    }}
+                  >
+                    {label}
+                  </CustomText>
+                </Link>
+              );
+            })}
+          </FooterCustomStack>
+        );
+      })}
+      <CustomContactBox flexGrow={1} variant="">
+        <FooterCustomStack
+          direction="column"
+          gap={6}
+          display={'flex'} 
+          flexDirection={'column'}
+          padding={2}
+        >
+          {Object.keys(blockNames).map((key,index)=>{
+            const text = contacts.data.attributes[key as keyof typeof blockNames]
+            return <React.Fragment key={key}>
+              <CustomText
+                style={{
+                  fontSize: "14px",
+                  color: "rgba(0, 0, 0, 0.75)",
+                  lineHeight: "22px",
+                }}
+              >
+                {blockNames[key as keyof typeof blockNames]}
+              </CustomText>
+              <CustomText
+                style={{
+                  fontSize: "16px",
+                  lineHeight: "22px",
+                  fontWeight: index === 0 ? 500 : 400,
+                }}
+              >
+                {text}
+              </CustomText>
+            </React.Fragment>
+          })}
+          <FooterCustomStack 
+            direction="row" 
+            gap={8} 
+            display={'flex'} 
+            flexWrap={'wrap'} 
+            marginTop={4} 
+          >
+            {contacts.data.attributes.socials.map((item,index)=>{
+              return <Link 
+                key={item.title + index} 
+                href={item.link} 
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Перейти на страницу ${item.title}`}
+                className="hover:opacity-80 transition-opacity"
+              >
+                <Image
+                  alt={`${item.title} иконка`}
+                  width={28}
+                  height={28}
+                  src={`${API_URL}/cms${item.icon.data.attributes.url}`}
+                />
+              </Link>
+            })}
+          </FooterCustomStack>
+        </FooterCustomStack>
+      </CustomContactBox>
+    </Box>
   );
 }
 

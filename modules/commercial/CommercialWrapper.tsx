@@ -1,18 +1,18 @@
 import ContentContainer from '@/components/ContentContainer/ContentContainer'
 import React from 'react'
-import Service1Block from './service1/Service1Block'
-import Service2Block from './service2/Service2Block'
+import AloneBlock from './alone/AloneBlock'
+import ListBlock from './list/ListBlock'
 type CommercialWrapperProps = {
-    variant: "service1" | "service2"
+    variant: "alone" | "list",
+    internal?: string | null
 }
 
-const CommercialWrapper:React.FC<CommercialWrapperProps> = ({variant="service1"})=> {
+const CommercialWrapper:React.FC<CommercialWrapperProps> = ({variant="alone",internal=null})=> {
   return (
     <ContentContainer>
         {
-          variant==="service1" ?<Service1Block/> :<Service2Block/> 
+          variant==="alone" ? <AloneBlock internal={internal}/> : <ListBlock internal={internal}/> 
         }
-        
     </ContentContainer>
   )
 }

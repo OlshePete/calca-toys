@@ -1,23 +1,12 @@
-import { Button, HStack, Icon, Input, useNumberInput } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Button, HStack, Icon, Input, useNumberInput, UseNumberInputProps } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+function HookUsage(props: UseNumberInputProps) {
 
-function CountPicker({ max,handler, current }: { max: number,handler:(v:string)=>void, current:number }) {
-  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps,value } =
-    useNumberInput({
-      step: 1,
-      defaultValue: current,
-      min: 1,
-      max: max,
-      // precision: 2,
-    });
+  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps, valueAsNumber } =
+    useNumberInput(props);
   const inc = getIncrementButtonProps();
   const dec = getDecrementButtonProps();
-  const input = getInputProps();
-
-  useEffect(() => {
-    handler(value)
-  }, [value])
-  
+  const input = getInputProps()
   return (
     <HStack
       maxW="138px"
@@ -30,7 +19,7 @@ function CountPicker({ max,handler, current }: { max: number,handler:(v:string)=
           <path d="M1 1H16" stroke="#515151" strokeLinecap="round" />
         </Icon>
       </Button>
-      <Input {...input} w={"43px"} border={"none"} p={0} textAlign={"center"} onChange={(props)=>console.log('handler',props)} />
+      <Input {...input} w={"43px"} border={"none"} p={0} textAlign={"center"} color={"brand.100"}/>
       <Button {...inc} bg={"rgba(0,0,0,0)"} variant={"ghost"}>
         <Icon
           width={"16px"}
@@ -48,6 +37,30 @@ function CountPicker({ max,handler, current }: { max: number,handler:(v:string)=
       </Button>
     </HStack>
   );
+}
+function CountPicker({ max, handler, current }: { max: number, handler: (v: number) => void, current: number }) {
+  const props: UseNumberInputProps = {
+    step: 1,
+    defaultValue: current,
+    min: 1,
+    max: max,
+  }
+  const [value, setValue] = useState(current);
+
+  useEffect(() => {
+    if(value!==current) handler(value);
+  }, [value]);
+
+  useEffect(() => {
+    setValue(current);
+  }, [current]);
+
+  return <><HookUsage
+    value={value}
+    onChange={(value, valueAsNumber) => { setValue(valueAsNumber>max?max:valueAsNumber) }}
+    {...props}
+  />
+  </>
 }
 
 export { CountPicker };

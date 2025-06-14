@@ -1,35 +1,24 @@
 "use client";
 import {
-  Product,
-  ProductColor,
   ProductFullViewProps,
-  ProductPreviewProps,
 } from "@/types";
 import {
   Badge,
   Box,
   Grid,
   GridItem,
-  Heading,
-  Icon,
-  Select,
   Text,
   HStack,
   VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-
-import { ColorPicker } from "chakra-color-picker";
-import { color } from "framer-motion";
 import ProductInfoAccordion from "../accordions/ProductInfoAccordion";
-import ProductFullViewForm from "../forms/ProductFullViewForm";
-import { useLocalStorage } from "@/hooks/UseLocalStorage";
 import ProductsCarousel from "../carousels/ProductsCarousel";
-import { RootState } from "@/app/GlobalRedux/store";
-import { clearBasket } from "@/app/GlobalRedux/Feature/basket/basketSlice";
-import { addViewedItem } from "@/app/GlobalRedux/Feature/viewed/viewedSlice";
+import { useViewedStore } from "@/store/viewedStore";
+import ProductFullViewForm from "../forms/ProductFullViewForm";
+import AvailableInStock from "@/components/AvailableInStock";
+import { useBasketStore } from "@/store/basketStore";
 
 function _getSizes(h?: number, w?: number): string {
   let str = "";
@@ -44,6 +33,7 @@ function _getSizes(h?: number, w?: number): string {
 }
 
 function ProductFullView({ product }: ProductFullViewProps) {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
   const id = product.data.id
   const {
     name,
@@ -53,39 +43,31 @@ function ProductFullView({ product }: ProductFullViewProps) {
     mustHave,
     discount_price,
     previewComment,
-    variant:variants,
+    variant: variants,
     comment,
     article,
     connected,
   } = product.data.attributes;
   const [currentIndex, setCurrentIndex] = useState(0);
-  const viewed: Product[] = useSelector(
-    (state: RootState) => state.viewed.items
-  );
-  const dispatch = useDispatch();
-  console.log("viewed", viewed);
-
-  const handleColorChange = (value: string) => {
-    setCurrentIndex((p) =>
-      variants.findIndex((v) => v.color === value.slice(1))
-    );
-  };
-  // const [value,setValue] = useLocalStorage('viewed',[product])
+  const { viewed, addViewedItem } = useViewedStore()
+  const {basket} = useBasketStore()
+  const inBasket = Object.values(basket.items).find(item=>item.product.id===id && Object.values(item.variant).map(variant=>variant.id).includes(currentIndex))?.variant[currentIndex].value ?? 0
+  const stock = variants[currentIndex].stock - inBasket
+  
   useEffect(() => {
-    if (product) dispatch(addViewedItem(product));
+    if (product) addViewedItem(product);
   }, [product]);
 
   return (
-    <div style={{}}>
+    <div style={{paddingTop: '44px'}}>
       <Text fontSize={14} fontWeight={400} lineHeight={"22px"}>
-        {" "}
         Артикул: {article}
       </Text>
       <Grid templateColumns="repeat(2, 1fr)" gap={6}>
         <GridItem w="100%" h="703">
           <Image
             alt={name}
-            src={"https://calca-toys.ru/cms"+variants[currentIndex].image.data.attributes.url}
+            src={`${API_URL}/cms` + variants[currentIndex].image.data.attributes.url}
             width={600}
             height={703}
             style={{
@@ -113,10 +95,8 @@ function ProductFullView({ product }: ProductFullViewProps) {
           </HStack>
           <VStack align={"flex-start"}>
             <Text variant={"full_product_name"}>
-              {name}
-              {variants && variants.map((v) => v.color).length > 1
-                ? ` - ${variants.map((v) => v.name).join(", ")}`
-                : ""}
+              {name}{" "}
+              {variants && variants[currentIndex].name}
             </Text>
             {previewComment && (
               <Text variant={"full_product_text"} color={"#515151"}>
@@ -126,7 +106,7 @@ function ProductFullView({ product }: ProductFullViewProps) {
 
             {(height || width) && (
               <Text variant={"full_product_text"} color={"#515151"}>
-                {_getSizes(height, width)}
+                Размер: {_getSizes(height, width)}
               </Text>
             )}
           </VStack>
@@ -148,7 +128,7 @@ function ProductFullView({ product }: ProductFullViewProps) {
                   <Image
                     key={name + index + "-" + id}
                     alt={name}
-                    src={"https://calca-toys.ru/cms"+image.data.attributes.url}
+                    src={`${API_URL}/cms` + image.data.attributes.url}
                     width={100}
                     height={130}
                     onClick={() => setCurrentIndex(index)}
@@ -166,66 +146,40 @@ function ProductFullView({ product }: ProductFullViewProps) {
                 );
               })}
           </HStack>
-          {/* <ProductFullViewForm max={stock[currentIndex].inStock} item={{
-            product:product,
-            variant:{
-              ...variants[currentIndex],
-              value:1
-            },
-          }} /> */}
+          <ProductFullViewForm max={stock} item={product.data} currentVariant={variants[currentIndex]} />
+          <AvailableInStock stock={stock}/>
           <Text variant={"full_product_text"}>{comment}</Text>
           <ProductInfoAccordion product={product} />
         </GridItem>
 
-        {/* {connected && (
+        {connected && connected.data.length > 0 && (
           <GridItem
             colSpan={2}
             w="100%"
             minH="560"
-            // display={"flex"}
-            // flexDirection={"column"}
-            // gap={"20px"}
+            paddingTop='110px'
           >
             <ProductsCarousel
               label="С этим товаром покупают"
-              products={connected}
+              products={connected.data}
+              dinamicMarginLeft={false}
             />
           </GridItem>
-        )} */}
-        {/* <GridItem
+        )}
+        {viewed.length > 0 && <GridItem
           colSpan={2}
           w="100%"
           minH="560"
-          // display={"flex"}
-          // flexDirection={"column"}
-          // gap={"20px"}
+          paddingTop='110px'
         >
-          <ProductsCarousel label="Недавно просмотренные" products={viewed} />
-        </GridItem> */}
+          <ProductsCarousel 
+            label="Недавно просмотренные" 
+            products={viewed.map(item => item.data)}
+            dinamicMarginLeft={false}
+          />
+        </GridItem>}
       </Grid>
 
-      {/*  <Image
-        src="/basket.svg"
-        alt="Basket icon"
-        width={44}
-        height={44}
-        priority
-        style={{
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-        }}
-      />
-      {
-        colors && <Box position={'absolute'} top={'22px'} right={'16px'} 
-        className="color_picker"
-        >
-          <ColorPicker onChange={handleColorChange} colors={colors.map((c:ProductColor)=>"#"+c.color)}/>
-          <Icon width="16px" height="7px" viewBox="0 0 16 7" fill={'none'}>
-              <path d="M1 1L8 6L15 1" stroke="#313131" strokeLinecap="round"/>
-          </Icon>
-        </Box>
-      } */}
     </div>
   );
 }

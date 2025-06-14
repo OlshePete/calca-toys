@@ -1,15 +1,16 @@
 'use client'
 import { ProductPreviewProps } from "@/types";
-import { Box, Heading, Icon, Select, Text } from "@chakra-ui/react";
+import { Box, Button, Icon, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import React,{useState} from "react";
+import React, { useState } from "react";
 
-import { ColorPicker } from "chakra-color-picker"; 
-import { color } from "framer-motion";
+import { ColorPicker } from "chakra-color-picker";
 import { useRouter } from "next/navigation";
+import { IBasketItem } from "@/types/basket";
+import { useBasketStore } from "@/store/basketStore";
 
 
-function _getSizes(h?: number, w?: number): string {
+ export function _getSizes(h?: number, w?: number): string {
   let str = "";
   if (h) {
     str = `${h}`;
@@ -22,8 +23,8 @@ function _getSizes(h?: number, w?: number): string {
 }
 
 function ProductPreview({ product }: ProductPreviewProps) {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
   const id = product.id
-  
   const {
     name,
     price,
@@ -32,25 +33,45 @@ function ProductPreview({ product }: ProductPreviewProps) {
     mustHave,
     discount_price,
     previewComment,
-    variant:variants,
+    variant: variants,
   } = product.attributes;
   const [currentIndex, setCurrentIndex] = useState(0)
-  
+  const { setItem } = useBasketStore();
+ 
   const router = useRouter();
 
-const handleColorChange = (value:string) => {
-    setCurrentIndex(p=>variants.findIndex(v=>v.color===value.slice(1)))
+  const handleColorChange = (value: string) => {
+    setCurrentIndex(p => variants.findIndex(v => v.color === value.slice(1)))
   };
-  console.log("$$$$$$$$$$$$", variants);
-  
+
+  const handleMoveToBasket:React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation()
+    if (typeof window === 'undefined') return;
+    const basketItem:Omit<IBasketItem,'id'> = {
+      product:product,
+      variant:{
+        [variants[currentIndex].id]:{
+          id:variants[currentIndex].id,
+          value:1
+        },
+      }
+    }
+    if(window)setItem(basketItem)
+  }
+
   return (
     <Box
       className="product-sm"
-      onClick={()=>{
-        console.log('click',id);
-        router.push('/product/'+id)
+      onClick={() => {
+        router.push('/product/' + id)
+      }}
+      _hover={{
+        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+        transform: "translateY(-4px)", 
+        borderColor: "#a0a0a0", 
       }}
       style={{
+        cursor: "pointer",
         margin: 0,
         position: "relative",
         width: "270px",
@@ -62,64 +83,70 @@ const handleColorChange = (value:string) => {
       }}
     >
       {
-        variants &&  <Image
+        variants && <Image
           alt={name}
-          src={"https://calca-toys.ru/cms"+variants[currentIndex].image.data.attributes.url}
+          src={`${API_URL}/cms` + variants[currentIndex].image.data.attributes.url}
           width={270}
           height={320}
           style={{
             borderRadius: "14px",
             objectFit: "cover",
             minWidth: "270px",
-            minHeight: "320px",
+            minHeight: "340px",
             maxWidth: "270px",
-            maxHeight: "320px",
+            maxHeight: "340px",
           }}
         />
       }
-     
+ 
+    
       <div
         style={{
           flexGrow: 1,
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          paddingBottom: "4px",
+          padding: "4px",
         }}
       >
-        <Text variant={"product_name"}>
-          {name}
-          {variants && variants.map(v=>v.color).length > 1 ? ` - ${variants.map(v=>v.name).join(", ")}` : ""}
+        <Text variant={"product_name"} maxH={'44px'} minH={'44px'}>
+          {name}{" "}
+          {variants && variants[currentIndex].name}
         </Text>
 
         {previewComment && <Text variant={"product_text_sub"}>{previewComment}</Text>}
         {!previewComment && (height || width) && (
           <Text variant={"product_text_sub"}>{_getSizes(height, width)}</Text>
         )}
-        {!discount_price ? (
-          <Text variant={"product_text"}>{price} ₽</Text>
-        ) : (
-          <Box display={"flex"} gap={"24px"}>
-            <Text variant={"product_text"}>{discount_price} ₽</Text>
-            <Text variant={"product_text"} className="crossed">
-              {discount_price} ₽
-            </Text>
-          </Box>
-        )}
+        {price && (
+          <Box display={"flex"} gap={"24px"} alignItems={'flex-end'}>
+         {discount_price  &&  <Text variant={"product_text"}>{discount_price} ₽</Text>}
+          <Text variant={"product_text"} className={discount_price?"crossed":""}>
+            {price} ₽
+          </Text>
+        </Box>
+        ) 
+        // : (
+        //   <Text variant={"product_text"}>{price} ₽</Text>
+        // )
+        }
+        <Button
+          className="basket_icon"
+          onClick={handleMoveToBasket}
+          position={'absolute'}
+          right={'4px'}
+          bottom={'4px'}
+          >
+          <Image
+            src="/basket.svg"
+            alt="Basket icon"
+            width={44}
+            height={44}
+            priority
+          />
+        </Button>
       </div>
 
-      <Image
-        src="/basket.svg"
-        alt="Basket icon"
-        width={44}
-        height={44}
-        priority
-        style={{
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-        }}
-      />
       {mustHave && (
         <Image
           src="/mustHave.svg"
@@ -145,14 +172,14 @@ const handleColorChange = (value:string) => {
             style={{
               position: "absolute",
               top: "16px",
-              left: mustHave?`${44+17}px`:"17px",
+              left: mustHave ? `${44 + 17}px` : "17px",
             }}
           />
           <p
             style={{
               position: "absolute",
               top: "29px",
-              left: mustHave?`${44+24}px`:"24px",
+              left: mustHave ? `${44 + 24}px` : "24px",
               fontSize: "12px",
               color: "#FFF",
               fontWeight: 500,
@@ -161,12 +188,17 @@ const handleColorChange = (value:string) => {
         </>
       )}
       {
-        variants && variants.map(v=>v.color).length > 1  && <Box position={'absolute'} top={'22px'} right={'16px'} 
-        className="color_picker"
+        variants && variants.map(v => v.color).length > 1 && <Box position={'absolute'} top={'22px'} right={'16px'}
+          className="color_picker"
+          onClick={(event) => {
+            const target = event.currentTarget.children?.[0] as HTMLButtonElement
+            if (target && (target !== event.target)) target.click();
+            event.stopPropagation()
+          }}
         >
-          <ColorPicker onChange={handleColorChange} colors={variants.map(v=>"#"+v.color)}/>
+          <ColorPicker onChange={handleColorChange} colors={variants.map(v => "#" + v.color)} />
           <Icon width="16px" height="7px" viewBox="0 0 16 7" fill={'none'}>
-              <path d="M1 1L8 6L15 1" stroke="#313131" strokeLinecap="round"/>
+            <path d="M1 1L8 6L15 1" stroke="#313131" strokeLinecap="round" />
           </Icon>
         </Box>
       }

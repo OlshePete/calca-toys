@@ -10,10 +10,10 @@ import {
   Icon,
 } from "@chakra-ui/react";
 
-// import { ChevronDownIcon } from '@chakra-ui/icons'
+
 
 export default function ProductInfoAccordion({product}:ProductFullViewProps) {
-  const {productDescription,productCharacteristic} = product
+  const {productDescription,productCharacteristic} = product.data.attributes
   return (
     <Accordion allowMultiple width="100%" maxW="lg">
       <AccordionItem>

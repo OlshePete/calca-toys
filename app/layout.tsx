@@ -6,17 +6,17 @@ import { Providers } from "./providers";
 import CookieStateIntersept from "@/helpers/CookieStateIntersept";
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru">
+    <html lang="ru" suppressHydrationWarning>
       <body className={``}>
         <Providers>
           <main >
-            {/* <CookieStateIntersept/> */}
+            {/* TODO <CookieStateIntersept/> */}
             <Header />
             {children}
             <Footer />

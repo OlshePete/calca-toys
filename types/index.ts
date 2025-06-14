@@ -1,31 +1,42 @@
 import { ReactNode } from "react";
-import { number } from "yup";
 import { IProduct, IProductByIdContent, IResponseData } from "./api";
+import { BoxProps, ButtonProps, ChakraComponent, ContainerProps, HeadingProps, StackProps, TextProps } from "@chakra-ui/react";
+import Image from "next/image";
 export interface IPost {
   id: number
   title: string
   body: string
 }
-export interface ChildrenComponentProps {
+export interface ChildrenComponentProps  {
   children: ReactNode;
 }
-export interface ContentContainerProps extends ChildrenComponentProps {
-  centerContent?: boolean | undefined
+export interface ContentContainerProps  extends ContainerProps {
+  centerContent?: boolean | undefined,
 }
 export interface HeaderInfoProps {
   theme: 'light' | 'dark'
 }
-export interface CustomStackProps extends ChildrenComponentProps {
+export interface ICustomBoxProps extends ChildrenComponentProps, ChakraComponent<"div", {}> {}
+export interface ICustomStackProps extends ChildrenComponentProps {
   variant: "column" | "row",
   gap?: number,
   justify?: 'flex-start' | 'flex-end' | 'center'
-  style?: object
+  style?: object,
+  className?: string
 }
-export interface CustomTitleProps extends ChildrenComponentProps {
+export interface IFooterCustomStackProps extends StackProps {
+  children: ReactNode;
+  gap?: number,
+  justify?: 'flex-start' | 'flex-end' | 'center'
+  style?: object,
+  className?: string,
+  variant?: 'links' | 'contacts'
+}
+export interface CustomTitleProps extends HeadingProps {
   fontSize?: number,
   color?: string,
 }
-export interface CustomTextProps extends ChildrenComponentProps {
+export interface CustomTextProps extends TextProps {
   fontSize?: number,
   color?: string,
   style?: object
@@ -65,9 +76,12 @@ export interface ProductPreviewProps {
 export interface ProductFullViewProps {
   product: IProductByIdContent
 }
-export interface ProductsCarouselProps {
+export interface ProductsCarouselProps extends BoxProps {
   label: string,
-  products: IResponseData<IProduct>[]
+  products: IResponseData<IProduct>[],
+  link?: string,
+  dinamicMarginLeft?:boolean,
+  withButton?:boolean
 }
 export interface CustomButtonProps {
   width?: number,
@@ -78,16 +92,18 @@ export interface CustomButtonProps {
 }
 
 export interface FooterNavNextElement {
-  label: string,
-  link?: string
+  label: string;
+  link?: string;
+  query?: {
+    [key: string]: string;
+  };
 }
 export interface FooterNavBlock {
   [key: string]: FooterNavNextElement
 }
 export interface SummaryContactElement {
-  label: string | string[],
   caption: string,
-  type?: 'mail' | 'phone' | 'address'
+  type: 'email' | 'phone' | 'address' | 'time'
 }
 export interface FooterContactElement {
   label: string | string[],
@@ -97,10 +113,10 @@ export interface BasketItem {
   product: Product,
   variants: ProductVariant[],
 }
-export interface OneVariantBasketItem {
-  product: Product,
-  variant: ProductVariant,
-}
+// export interface OneVariantBasketItem {
+//   product: Product,
+//   variant: ProductVariant,
+// }
 export interface BasketCustomer {
   name: string,
   phone: string,
@@ -125,7 +141,7 @@ export interface Viewed {
   items: Product[] | []
 }
 
-export interface NewBasketElementFormValues extends OneVariantBasketItem { }
+// export interface NewBasketElementFormValues extends OneVariantBasketItem { }
 export interface ServicesCarouselItem {
   id: string,
   name: string,
@@ -143,4 +159,8 @@ export interface SubscribeCarouselItem {
 }
 export interface SubscribeCarouselProps {
   images: SubscribeCarouselItem[]
+}
+export interface IIconButtonProps extends ButtonProps {
+  label: string,
+  icon: typeof Image,
 }

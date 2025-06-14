@@ -25,11 +25,20 @@ function ServicesCarousel({ label, services }: ServicesCarouselProps) {
       });
   }   
   const [marginLeft, setMarginLeft] = useState<string|number|undefined>(window ? (window.innerWidth>1170?(window.innerWidth-1170)/2:16) + "px":undefined)
+
   useEffect(() => {
-    if(window)
-      setMarginLeft((window.innerWidth>1170?(window.innerWidth-1170)/2:16) + "px")
+    const handleResize = () => {
+      if (window) {
+        const newMarg = (window.innerWidth > 1170 ? (window.innerWidth - 1170) / 2 : 16) + "px"
+        setMarginLeft(newMarg)
+      }
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, [window])
-  
   return (
     <Box  
     // pr={"240px"}

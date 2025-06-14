@@ -1,33 +1,56 @@
-import { addBasketItem } from "@/app/GlobalRedux/Feature/basket/basketSlice";
-import { BasketItem, NewBasketElementFormValues, OneVariantBasketItem } from "@/types";
-import { CountPicker } from "@/ui/inputs/CountPicker";
-import { Button, HStack, IconButton } from "@chakra-ui/react";
-import { useFormik } from "formik";
+import React, { useEffect } from "react";
 import Image from "next/image";
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { FormikHelpers, useFormik } from "formik";
+import { Button, HStack, IconButton } from "@chakra-ui/react";
+import { IProduct, IProductVariant, IResponseData } from "@/types/api";
+import { useBasketStore } from "@/store/basketStore";
+import { CountPicker } from "@/ui/inputs/CountPicker";
+import { useRouter } from "next/navigation";
 
-function ProductFullViewForm({ max, item }: { max: number; item: OneVariantBasketItem }) {
-  //  const [count, setCount] = useState<number>(1)
-  const dispatch = useDispatch();
-  const initialValues: NewBasketElementFormValues = {
-    ...item,
-  };
-  const formik = useFormik({
+function ProductFullViewForm({ max, item, currentVariant }: { max: number; item: IResponseData<IProduct>, currentVariant: IProductVariant }) {
+const {setItem, basket} = useBasketStore()
+const { push } = useRouter()
+const countInBasket = Object.values(basket.items).find(item=>item.id === item.id)?.variant[currentVariant.id]?.value ?? 0
+const initialValues={
+  product:{...item},
+  variant:{
+      id:currentVariant.id,
+      value:1
+  }
+}
+const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {
-      console.log("form submitted"), dispatch(addBasketItem(values));
+    onSubmit: (values: typeof initialValues, { resetForm, setValues, setSubmitting }: FormikHelpers<typeof initialValues>) => {
+     if(values.variant.value>0) {
+      formik.setValues(formik.initialValues)
+      const newItem = {
+        product:{...values.product},
+        variant:{
+          [values.variant.id]:{
+            id:values.variant.id,
+            value:values.variant.value
+          }
+        }
+      }
+      setItem(newItem);
+     }
     },
   });
-  console.log("formik",formik.values)
+  useEffect(()=>{
+    formik.setFieldValue('variant',{
+      ...formik.values.variant,
+      id:currentVariant.id
+    })
+  },[currentVariant])
+   
   return (
     <form onSubmit={formik.handleSubmit}>
       <HStack gap={"18px"}>
         <CountPicker
-          max={max}
-          current={formik.values.variant.value ?? 1}
-          handler={(v: string) => {
-            formik.setFieldValue("variant.value", Number(v));
+          max={max-countInBasket}
+          current={formik.values.variant.value}
+          handler={(v: number) => {
+            formik.setFieldValue("variant.value", v);
           }}
         />
         <Button
@@ -36,6 +59,16 @@ function ProductFullViewForm({ max, item }: { max: number; item: OneVariantBaske
           w={"248px"}
           fontSize={"12px"}
           lineHeight={"14px"}
+          onClick={()=>{
+            try {
+              formik.handleSubmit();
+            } catch (error) {
+              console.log('error',error);
+            } finally {
+             console.log('finally')
+             push('/basket/confirm')
+            }
+          }}
         >
           Купить в 1 клик
         </Button>
