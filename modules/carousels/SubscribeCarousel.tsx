@@ -3,6 +3,7 @@ import ContentContainer from '@/components/ContentContainer/ContentContainer';
 import { SubscribeCarouselProps } from '@/types';
 import { Box, Button, ButtonGroup, Heading, Icon, IconButton } from '@chakra-ui/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useRef } from 'react'
 
@@ -31,7 +32,7 @@ function SubscribeCarousel({ images }: SubscribeCarouselProps) {
       >
         <Heading variant={"post_header"} style={{
         fontFamily:"TS Remarker"
-      }}>подпишись на нас <a href='https://instagram.com' style={{color:'#90BCE4',fontSize:'1em',fontFamily:'TS Remarker'}}>@vellum.paper</a></Heading>
+      }}>подпишись на нас <Link href='https://instagram.com' target='_blank' style={{color:'#90BCE4',fontSize:'1em',fontFamily:'TS Remarker'}}>@vellum.paper</Link></Heading>
         <ButtonGroup variant="outline" spacing="6">
           <IconButton
             onClick={(e) => handleScroll(e, true)}

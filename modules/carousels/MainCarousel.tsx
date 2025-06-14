@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import CustomStack from "../../components/CustomStack/CustomStack";
 import {
   Box,
@@ -68,16 +68,17 @@ interface ICarouselProps {
   data:IMainCarouselContent
 }
 export default function MainCarousel({data}:ICarouselProps) {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL
   const items = data.data
   const [slider, setSlider] = useState<Slider | null>(null);
   const top = useBreakpointValue(
-    { base: "90%", md: "50%" },
+    { base: "96dvh", md: "50%" },
     {
       fallback: "md",
     }
   );
   const side = useBreakpointValue(
-    { base: "2%", sm: "2%", md: "2%", lg: "10%", xl: "10%",xxl:"15%" },
+    { base: "2%", sm: "2%", md: "12px", lg: "40px", xl: "6%" },
     {
       fallback: "md",
     }
@@ -86,10 +87,9 @@ export default function MainCarousel({data}:ICarouselProps) {
   return (
     <Box
       position={"relative"}
-      height={"100svh"}
+      height={"100dvh"}
       width={"100vw"}
       overflow={"hidden"}
-      outline={'1px solid blue'}
     >
       {/* CSS files for react-slick */}
       <link
@@ -155,7 +155,7 @@ export default function MainCarousel({data}:ICarouselProps) {
               backgroundRepeat="no-repeat"
               textAlign={"center"}
               backgroundSize="cover"
-              backgroundImage={`url(https://calca-toys.ru/cms${imageUrl})`}
+              backgroundImage={`url(${API_URL}/cms${imageUrl})`}
             >
               <ContentContainer>
                 <div
@@ -171,15 +171,36 @@ export default function MainCarousel({data}:ICarouselProps) {
                   <CustomStack variant="column" gap={80}>
                     <CustomStack variant="column" gap={20}>
                       <CustomStack variant="column" gap={0}>
-                        <Heading
-                          variant={"main_header"}
-                          style={{
-                            display:"inline",
-                            whiteSpace:"nowrap",
-                          }}
-                        >
-                          {item.title}
-                        </Heading>
+                        {(() => {
+                          const words = item.title.split(' ');
+                          const firstWord = words[0];
+                          const restWords = words.slice(1).join(' ');
+                          return (
+                            <>
+                              <Heading
+                                variant={"main_header"}
+                                style={{
+                                  display: "inline",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
+                                {firstWord}
+                              </Heading>
+                              {restWords && (
+                                <Heading
+                                  variant={"main_header"}
+                                  className="sub_header"
+                                  style={{
+                                    display: "inline",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  {restWords}
+                                </Heading>
+                              )}
+                            </>
+                          );
+                        })()}
                         <Heading
                           variant={"sub_header"}
                           style={{

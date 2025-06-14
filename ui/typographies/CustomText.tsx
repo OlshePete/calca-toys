@@ -1,23 +1,17 @@
 "use client";
-import { lato } from "@/app/providers";
 import { CustomTextProps } from "@/types";
 import { Text } from "@chakra-ui/react";
 import React from "react";
 
 function CustomText({
   children,
-  color = "inherit",
+  color = "brand.200",
   fontSize = 14,
-  style={}
+  ...otherProps
 }: CustomTextProps) {
   return (
     <Text
-      color={color}
-      fontSize={fontSize + "px"}
-      margin={0}
-      lineHeight={fontSize + "px"}
-      fontFamily={lato?.style.fontFamily}
-      style={style}
+      {...otherProps}
     >
       {children}
     </Text>

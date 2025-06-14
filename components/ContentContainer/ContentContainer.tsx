@@ -1,11 +1,23 @@
 'use client'
 import { ContentContainerProps } from '@/types'
-import { Container } from '@chakra-ui/react'
+import { Container, useBreakpointValue } from '@chakra-ui/react'
 import React from 'react'
 
-function ContentContainer({children}:ContentContainerProps) {
+function ContentContainer({children, ...props}:ContentContainerProps) {
+   const fullWidth = useBreakpointValue<boolean>(
+      {
+        base: false,
+        sm: true,
+        md: true,
+        lg: true,
+        xl: false,
+      },
+      {
+        fallback: 'base',
+      },
+    )
   return (
-    <Container maxW={'1170px'} position={'relative'} overflow={'hidden'}>
+    <Container maxW={'1170px'} position={'relative'} overflow={'hidden'} padding={fullWidth?'0 14px':0} {...props}>
       {children}
     </Container>
   )

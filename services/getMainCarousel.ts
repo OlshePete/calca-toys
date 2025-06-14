@@ -7,7 +7,7 @@ const headers = {
 }
 
  const getMainCarouselContent = async () => {
-    const response = await fetch(`${API_URL}/api/main-carousels?populate=*`, {
+    const response = await fetch(`${API_URL}/cms/api/main-carousels?populate=*`, {
         headers,
         next:{
             revalidate:60,

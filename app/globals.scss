@@ -45,12 +45,16 @@ dd {
 
 
 /* Выставляем основные настройки по-умолчанию для body */
-
+html {
+    overflow-x: hidden;
+}
 body {
     min-height: 100vh;
+    min-width: 100dvw;
     scroll-behavior: smooth;
     text-rendering: optimizeSpeed;
     line-height: 1.5;
+    overflow-x: hidden;
 }
 
 
@@ -109,13 +113,20 @@ select {
 /* scroll bar styles */
 
 body {
+    width: 100%;
+    overflow-x: hidden;
     scrollbar-width: thin;
     /* "auto" или "thin"  */
     /* scrollbar-color: rgba(2, 142, 74, 1) rgba(255, 255, 255, 0.8); */
     scrollbar-color: rgb(63, 64, 64) rgba(255, 255, 255, 0.8);
     /* плашка скролла и дорожка */
 }
-
+@supports (-webkit-touch-callout: none) {
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+}
 .withScroll {
     scrollbar-width: thin;
     /* "auto" или "thin"  */
@@ -193,6 +204,9 @@ body::-webkit-scrollbar-thumb,
     display: flex;
     cursor: pointer;
     > {
+        * {
+            outline-color: rgba(0,0,0,0)!important;
+        }
         button {
             transform: scale(0.5) translateY(-14px) translateX(-8px);
         }
@@ -239,3 +253,19 @@ a:focus {}
 a:hover {}
 
 a:active {}
+
+button.basket_icon {
+    background-color: transparent;
+    height: 44px;
+    width: 44px;
+    padding: 0;
+    margin: 0;
+    &:hover {
+        opacity: .8;
+    }
+}
+.phoneInput:focus-within {
+    border-color: #3182CE;
+    box-shadow: 0 0 0 1px #3182CE;
+    outline: none
+}
