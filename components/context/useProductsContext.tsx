@@ -1,10 +1,10 @@
-'use client'
+'use client';
 import React, { createContext, useContext, ReactNode, useMemo, useState } from 'react';
 import { IAllProductsContent, IProduct, IResponseData } from '@/types/api';
 
 // Тип для данных, которые возвращает parseProductsData
 interface IProducts {
-  products: IResponseData<IProduct>[]
+  products: IResponseData<IProduct>[];
 }
 
 // Создаем контекст
@@ -16,20 +16,18 @@ interface ProductsProviderProps {
   products: IAllProductsContent;
 }
 
-export const ProductsProvider: React.FC<ProductsProviderProps> = ({ children, products:initialProducts }) => {
-
-  const [products, setProducts] = useState(initialProducts.data)
-  const value = useMemo(()=>{
-    return ({
+export const ProductsProvider: React.FC<ProductsProviderProps> = ({
+  children,
+  products: initialProducts,
+}) => {
+  const [products, setProducts] = useState(initialProducts.data);
+  const value = useMemo(() => {
+    return {
       products,
-      setProducts
-    })
-  },[products, setProducts])
-  return (
-    <ProductsContext.Provider value={value}>
-      {children}
-    </ProductsContext.Provider>
-  );
+      setProducts,
+    };
+  }, [products, setProducts]);
+  return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>;
 };
 
 // Хук для использования контекста

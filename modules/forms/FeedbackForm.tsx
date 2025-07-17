@@ -1,20 +1,31 @@
-'use client'
-import React from 'react';
+'use client';
+import React, { useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Box, Input, FormLabel, FormControl, Button, Textarea, Text, Checkbox, HStack, useToast } from '@chakra-ui/react';
+import {
+  Box,
+  Input,
+  Field as ChakraField,
+  Textarea,
+  Checkbox,
+  HStack,
+  ProgressCircle,
+} from '@chakra-ui/react';
 import Link from 'next/link';
 import PhoneInput from 'react-phone-input-2';
-import { IClient, IClientBase } from '@/types/api';
-
+import CustomButton from '../../ui/Buttons/CustomButton';
+import Text from '../../ui/Text/CustomText';
+import { toaster } from '@components/ui/toaster';
+import { css } from '@emotion/react';
 interface IFormValues {
-  name: string,
-  phone: string,
-  email: string,
-  comment: string,
-  privacy: boolean,
+  name: string;
+  phone: string;
+  email: string;
+  comment: string;
+  privacy: boolean;
 }
-const RUS_PHONE_REGEX = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+const RUS_PHONE_REGEX =
+  /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
 
 const FeedbackSchema = Yup.object().shape({
   name: Yup.string().required('Обязательное поле'),
@@ -22,29 +33,29 @@ const FeedbackSchema = Yup.object().shape({
     .matches(RUS_PHONE_REGEX, 'Неверный формат телефона')
     .required('Обязательное поле'),
   email: Yup.string().email('Неверный формат email'),
-  comment: Yup.string().required('Обязательное поле'),
+  comment: Yup.string(),//.required('Обязательное поле'),
   privacy: Yup.boolean().oneOf([true], 'Необходимо дать согласие'),
 });
 
 const FeedbackForm = () => {
-  const toast = useToast();
-  const initialValues:IFormValues = {
+  const toast = toaster.create;
+  const initialValues: IFormValues = {
     name: '',
     phone: '',
     email: '',
     comment: '',
     privacy: false,
-  }
+  };
   const handleSubmit = async (values: IFormValues, { setSubmitting, resetForm }: any) => {
-    console.log('values',values);
-    
+    console.log('values', values);
+
     try {
       const response = await fetch('/api/clients', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({...values, status:'feedback'}),
+        body: JSON.stringify({ ...values, status: 'feedback' }),
       });
 
       if (!response.ok) {
@@ -52,13 +63,14 @@ const FeedbackForm = () => {
       }
 
       const result = await response.json();
-      
+    console.log('result', result);
+
       toast({
         title: 'Успешно!',
         description: 'Ваша заявка отправлена',
-        status: 'success',
+        type: 'success',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
 
       resetForm();
@@ -66,68 +78,78 @@ const FeedbackForm = () => {
       toast({
         title: 'Ошибка',
         description: (error as Error).message || 'Произошла ошибка при отправке',
-        status: 'error',
+        type: 'error',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
     } finally {
       setSubmitting(false);
     }
   };
-
+  useEffect(() => {
+    // Получаем значение переменной из :root (или другого элемента)
+    const root = document.documentElement;
+    const value = getComputedStyle(root)
+      // .getPropertyValue("--chakra-colors-color-palette-solid")
+      // .trim();
+      console.log('getComputedS', JSON.stringify(value,null,2))
+  }, []);
   return (
-    <Box maxW="100%"
-    mt={8} p={4} sx={{
-      "& *": {
-        borderColor: '#D9D9D9'
-      }
-    }}>
+    <Box
+      maxW="100%"
+      mt={8}
+      pr={[0,0,0,'70px']}
+    >
       <Formik
         initialValues={initialValues}
         validationSchema={FeedbackSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, values, errors, setFieldError, setFieldValue, setFieldTouched }) => (
-          <Form style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '22px'
-          }}>
-            {/* Остальная часть формы остается без изменений */}
-            <FormControl>
-              <FormLabel htmlFor="name" className="feedback_form_label">Ваше имя <span style={{ color: 'red' }}>*</span></FormLabel>
+          <Form
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '22px',
+            }}
+          >
+            <ChakraField.Root>
+              <ChakraField.Label htmlFor="name" className="feedback_form_label">
+                Ваше имя <span style={{ color: 'red' }}>*</span>
+              </ChakraField.Label>
               <Field
                 as={Input}
                 className="feedback_input"
-                h="44px"
                 id="name"
-                fontSize="13px"
                 name="name"
                 type="text"
-                borderRadius="full"
                 placeholder=""
               />
-              <ErrorMessage className="feedback_form_label error" name="name" component={Text} />
-            </FormControl>
+              <ChakraField.ErrorText>
+                <ErrorMessage className="feedback_form_label error" name="name" component={Text} />
+              </ChakraField.ErrorText>
+            </ChakraField.Root>
 
             <HStack>
-              <FormControl>
-                <FormLabel htmlFor="phone" className="feedback_form_label">Телефон <span style={{ color: 'red' }}>*</span></FormLabel>
+              <ChakraField.Root>
+                <ChakraField.Label htmlFor="phone" className="feedback_form_label">
+                  Телефон <span style={{ color: 'red' }}>*</span>
+                </ChakraField.Label>
                 <PhoneInput
                   country={'ru'}
-                  specialLabel=''
-                  inputClass='phoneInput'
+                  specialLabel=""
+                  inputClass="phoneInput"
                   value={values.phone}
                   onChange={(phone) => {
-                    setFieldValue('phone', phone)
+                    setFieldValue('phone', phone);
                     if (errors.phone && RUS_PHONE_REGEX.test(phone)) {
-                      setFieldError('phone', undefined)
+                      setFieldError('phone', undefined);
                     }
                   }}
                   onBlur={() => setFieldTouched('phone', true)}
                   inputStyle={{
                     border: '1px solid #D9D9D9',
-                    background: "transparent",
+                    background: 'transparent',
                     width: '100%',
                     height: '44px',
                     fontSize: '13px',
@@ -137,62 +159,69 @@ const FeedbackForm = () => {
                   }}
                   disableDropdown={true}
                   buttonStyle={{
-                    display: "none"
+                    display: 'none',
                   }}
                 />
                 <ErrorMessage className="feedback_form_label error" name="phone" component={Text} />
-              </FormControl>
+              </ChakraField.Root>
 
-              <FormControl>
-                <FormLabel htmlFor="email" className="feedback_form_label">E-mail <span style={{ color: 'red' }}>*</span></FormLabel>
+              <ChakraField.Root>
+                <ChakraField.Label htmlFor="email" className="feedback_form_label">
+                  E-mail
+                </ChakraField.Label>
                 <Field
                   as={Input}
                   className="feedback_input"
-                  h="44px"
                   id="email"
                   name="email"
                   type="email"
-                  borderRadius="full"
                   placeholder=""
                 />
                 <ErrorMessage className="feedback_form_label error" name="email" component={Text} />
-              </FormControl>
+              </ChakraField.Root>
             </HStack>
 
-            <FormControl>
-              <FormLabel htmlFor="comment" className="feedback_form_label">Комментарий</FormLabel>
+            <ChakraField.Root>
+              <ChakraField.Label htmlFor="comment" className="feedback_form_label">
+                Комментарий
+              </ChakraField.Label>
               <Field
                 as={Textarea}
                 className="feedback_input"
-                h="44px"
                 id="comment"
                 name="comment"
-                borderRadius="lg"
                 placeholder=""
               />
-              <ErrorMessage className="feedback_form_label error" name="comment" component={Text} />
-            </FormControl>
+            </ChakraField.Root>
 
-            <FormControl>
-              <Field
-                as={Checkbox}
-                id="privacy"
-                name="privacy"
-                className="feedback_form_checkbox"
+            <ChakraField.Root position={'relative'}>
+              <Checkbox.Root id="privacy" name="privacy" className='feedback_form_checkbox'
+                checked={values.privacy}
+                onCheckedChange={(e) => setFieldValue('privacy',!!e.checked)}
               >
-                Я даю согласие на обработку моих персональных данных в соответствии c <Link href={'/privacy'} style={{ textDecoration: 'underline' }}>политикой конфиденциальности</Link>
-              </Field>
+                <Checkbox.HiddenInput />
+                <Checkbox.Control/>
+                <Checkbox.Label>
+                  Я даю согласие на обработку моих персональных данных в соответствии c{' '}
+                  <Link href={'/privacy'} style={{ textDecoration: 'underline' }}>
+                    политикой конфиденциальности
+                  </Link>
+                </Checkbox.Label>
+              </Checkbox.Root>
               <ErrorMessage className="feedback_form_label error" name="privacy" component={Text} />
-            </FormControl>
-
-            <Button
+            </ChakraField.Root>   {true &&   <ProgressCircle.Root value={null} size="sm" color={'red'}>
+                  <ProgressCircle.Circle>
+                    <ProgressCircle.Track />
+                    <ProgressCircle.Range />
+                  </ProgressCircle.Circle>
+                </ProgressCircle.Root>} 
+            <CustomButton
               type="submit"
-              variant={'outline_secondary'}
-              isLoading={isSubmitting}
+              visual={'outline_secondary'}
+              loading={isSubmitting}
               borderRadius="full"
-            >
-              ОТПРАВИТЬ
-            </Button>
+              label='ОТПРАВИТЬ'
+            />
           </Form>
         )}
       </Formik>

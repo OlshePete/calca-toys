@@ -1,44 +1,43 @@
-'use client'
-import React from 'react'
-import { IFooterCustomStackProps } from '@/types'
-import { Stack, StackProps } from '@chakra-ui/react'
+'use client';
+import React from 'react';
+import { IFooterCustomStackProps } from '@/types';
+import { Stack, StackProps } from '@chakra-ui/react';
 
 function FooterCustomStack({
   children,
   gap = 44,
-  justify = "flex-start",
+  justify = 'flex-start',
   style = {},
-  className = "",
+  className = '',
   variant,
   ...other
 }: IFooterCustomStackProps) {
-
-  const variantStyles = (key:typeof variant):StackProps=>{
+  const variantStyles = (key: typeof variant): StackProps => {
     switch (key) {
       case 'links':
         return {
-          display:{ base:'none', md:'flex', lg:'flex' },
-        }
+          display: { base: 'none', md: 'flex', lg: 'flex' },
+        };
       case 'contacts':
         return {
-          flexGrow:{ base:1, lg: 0}
-        }
+          flexGrow: { base: 1, lg: 0 },
+        };
       default:
-        return {}
+        return {};
     }
-  }
+  };
   return (
-      <Stack 
-        gap={gap+'px'} 
-        align={justify} 
-        style={style}
-        className={className}
-        {...variantStyles(variant)}
-        {...other}
-      >
-        {children}
-      </Stack>
-  )
+    <Stack
+      gap={gap + 'px'}
+      align={justify}
+      style={style}
+      className={className}
+      {...variantStyles(variant)}
+      {...other}
+    >
+      {children}
+    </Stack>
+  );
 }
 
-export default FooterCustomStack
+export default FooterCustomStack;

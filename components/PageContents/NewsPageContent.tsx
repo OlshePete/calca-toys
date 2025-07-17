@@ -1,20 +1,20 @@
-"use client";
-import { ChildrenComponentProps } from "@/types";
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { FC, useState, ReactElement, Children, useEffect, cloneElement } from "react";
-import SortSelect from "../SortSelect/SortSelect";
-import { INewsResponse, TFilter, TSortVariants } from "@/types/api";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+'use client';
+import { Box, Tabs } from '@chakra-ui/react';
+import { FC, useState, ReactElement, Children, useEffect, cloneElement, FormEventHandler } from 'react';
+import SortSelect from '../SortSelect/SortSelect';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { ChildrenComponentProps } from '@apptypes';
+import { INewsResponse, TFilter, TSortVariants } from '@apptypes/api';
 
 interface IProps extends ChildrenComponentProps {
   news: INewsResponse;
 }
 
 const newsTypes: Record<TFilter, string> = {
-  frash: "новинки",
-  info: "информация",
-  time: "график работы",
-  job: "вакансии",
+  frash: 'новинки',
+  info: 'информация',
+  time: 'график работы',
+  job: 'вакансии',
 };
 
 const tabValues = [null, ...Object.keys(newsTypes)] as const;
@@ -24,37 +24,36 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
-  const [sort, setSort] = useState<TSortVariants>("date");
-  const [sortedFilteredChildrenIds, setSortedFilteredChildrenIds] = useState<string[]>([]);
 
+  const [sort, setSort] = useState<TSortVariants>('date');
+  const [sortedFilteredChildrenIds, setSortedFilteredChildrenIds] = useState<string[]>([]);
+//изменить  вариант фильтра с null на all
+// debugger
   // Получаем текущий фильтр из URL или null
-  const currentFilter = searchParams.get("type") as TFilter | null;
+  const currentFilter = searchParams.get('type') as TFilter | null;
   const currentTabIndex = tabValues.indexOf(currentFilter);
-  
-  // Обновляем URL при смене таба
-  const handleTabChange = (index: number) => {
-    console.log('Обновляем URL при смене таба')
-    const newFilter = tabValues[index];
-    const params = new URLSearchParams(searchParams);
-    
-    if (newFilter) {
-      params.set("type", newFilter);
-    } else {
-      params.delete("type");
-    }
-    
-    router.push(`${pathname}?${params.toString()}`);
-  };
+
+  // // Обновляем URL при смене таба
+  // const handleTabChange= (event) => {
+  //   console.log('Обновляем URL при смене таба', event.value);
+  //   const newFilter = tabValues[index];
+  //   const params = new URLSearchParams(searchParams);
+
+  //   if (newFilter) {
+  //     params.set('type', newFilter);
+  //   } else {
+  //     params.delete('type');
+  //   }
+
+  //   router.push(`${pathname}?${params.toString()}`);
+  // };
 
   const getSortAndFilterChildrenIds = () => {
-    const childrenArray = Children.toArray(children) as ReactElement[];
+    const childrenArray = Children.toArray(children) as ReactElement<any>[];
 
     return childrenArray
       .map((child) => {
-        const newsItem = news.data.find(
-          (item) => item.id.toString() === child.props.id
-        );
+        const newsItem = news.data.find((item) => item.id.toString() === child.props.id);
         return {
           id: child.props.id,
           publishedAt: newsItem?.attributes.publishedAt,
@@ -69,12 +68,13 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
         return true;
       })
       .sort((a, b) => {
-        if (sort === "date") {
+        if (sort === 'date') {
           return (
-            new Date(b.publishedAt as string).getTime() - new Date(a.publishedAt as string).getTime()
+            new Date(b.publishedAt as string).getTime() -
+            new Date(a.publishedAt as string).getTime()
           );
         } else {
-          return (a.title || "").localeCompare(b.title || "");
+          return (a.title || '').localeCompare(b.title || '');
         }
       })
       .map((item) => item.id);
@@ -89,9 +89,9 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
   };
 
   return (
-    <Box as="section" position="relative" minH="560px" p={0}>
+    <Box as="section" position="relative" minH="560px" p={0} >
       <Box position="absolute" right={0} top="14px" zIndex={10}>
-        <SortSelect
+        {/* <SortSelect
           value={sort}
           onChange={handleSortChange}
           options={{
@@ -99,50 +99,69 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
             name: 'заголовку',
           }}
           aria-label="Сортировка новостей"
-        />
+        /> */}
       </Box>
+      <Tabs.Root
+        lazyMount
+        value={currentFilter ?? 'all'}
+        onValueChange={(event) => {
+          console.log('Обновляем URL при смене таба', event.value);
+          const newValue = (event.value === 'all'? null:event.value) as keyof TabValue | null
+          const params = new URLSearchParams(searchParams);
+          console.log('Обновляем URL при смене таба 2', `${event.value}`);
+          if (newValue) {
+            params.set('type', newValue);
+          } else {
+            params.delete('type');
+          }
 
-      <Tabs
-        isLazy
-        variant="soft-rounded"
-        onChange={handleTabChange}
-        index={currentTabIndex !== -1 ? currentTabIndex : 0}
+          router.push(`${pathname}?${params.toString()}`);
+        }}
+        // index={currentTabIndex !== -1 ? currentTabIndex : 0}
         role="navigation"
         aria-label="Фильтры новостей"
       >
-        <TabList
-          maxW="834px"
-          border="1px solid rgba(0,0,0,.15)"
-          borderRadius="49px"
-          p="6px"
-        >
-          <Tab
-            _focus={{ boxShadow: "none" }}
+
+        <Tabs.List maxW="834px" border="1px solid rgba(0,0,0,.15)" borderRadius="49px" p="6px"
+       >
+          <Tabs.Trigger
+            value='all'
+            _focus={{ boxShadow: 'none' }}
             fontSize="xs"
             w="50%"
             textTransform="uppercase"
             fontWeight={500}
-            _selected={{ color: "white", bg: "#F49AA5" }}
+            _selected={{ color: 'white', bg: '#F49AA5' }}
+            display={'flex'}
+            alignItems={'center'}
+            justifyContent={'center'}
+            borderRadius={'40px'}
+            cursor={'pointer'}
           >
             Все новости
-          </Tab>
+          </Tabs.Trigger>
           {Object.entries(newsTypes).map(([key, label]) => (
-            <Tab
+            <Tabs.Trigger
+              value={key}
               key={key}
-              _focus={{ boxShadow: "none" }}
+              _focus={{ boxShadow: 'none' }}
               fontSize="xs"
               w="50%"
               textTransform="uppercase"
               fontWeight={500}
-              _selected={{ color: "white", bg: "#F49AA5" }}
+              _selected={{ color: 'white', bg: '#F49AA5' }}
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'center'}
+              borderRadius={'40px'}
+              cursor={'pointer'}
             >
               {label}
-            </Tab>
+            </Tabs.Trigger>
           ))}
-        </TabList>
+        </Tabs.List>
 
-        <TabPanels minW="100%" pt="24px">
-          <TabPanel p={0}>
+          <Tabs.Content p={0}  value='all' mt={'24px'}>
             <Box
               as="section"
               display="flex"
@@ -153,18 +172,18 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
               aria-label="Список новостей"
             >
               {Children.map(children, (child) => {
-                const childId = (child as ReactElement).props.id;
-                return cloneElement(child as ReactElement, {
+                const childId = (child as ReactElement<any>).props.id;
+                return cloneElement(child as ReactElement<any>, {
                   style: {
-                    display: sortedFilteredChildrenIds.includes(childId) ? "block" : "none",
+                    display: sortedFilteredChildrenIds.includes(childId) ? 'block' : 'none',
                   },
                 });
               })}
             </Box>
-          </TabPanel>
+          </Tabs.Content>
 
-          {Object.keys(newsTypes).map((tab) => (
-            <TabPanel key={`tab-${tab}`} p={0}>
+          {/* {Object.keys(newsTypes).map((tab) => (
+            <Tabs.Content key={`tab-${tab}`} p={0}>
               <Box
                 as="section"
                 display="flex"
@@ -175,18 +194,17 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
                 aria-label={`Список новостей: ${newsTypes[tab as TFilter]}`}
               >
                 {Children.map(children, (child) => {
-                  const childId = (child as ReactElement).props.id;
-                  return cloneElement(child as ReactElement, {
+                  const childId = (child as ReactElement<any>).props.id;
+                  return cloneElement(child as ReactElement<any>, {
                     style: {
-                      display: sortedFilteredChildrenIds.includes(childId) ? "block" : "none",
+                      display: sortedFilteredChildrenIds.includes(childId) ? 'block' : 'none',
                     },
                   });
                 })}
               </Box>
-            </TabPanel>
-          ))}
-        </TabPanels>
-      </Tabs>
+            </Tabs.Content>
+          ))} */}
+      </Tabs.Root>
     </Box>
   );
 };

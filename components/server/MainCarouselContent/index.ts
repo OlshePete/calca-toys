@@ -1,2 +1,2 @@
-import MainCarouselContent from './MainCarouselContent'
-export default MainCarouselContent
+import MainCarouselContent from './MainCarouselContent';
+export default MainCarouselContent;

@@ -1,21 +1,26 @@
-import ContactsPageContent from '@/components/PageContents/ContactsPageContent'
-import { getContacts } from '@/services/getContent'
-import { getStartPageMetaDate } from '@/services/getMetaData'
-import { Metadata } from 'next'
+import { Breadcrumb } from '@chakra-ui/react';
+import ContactsPageContent from '@components/PageContents/ContactsPageContent';
+import { getContacts } from '@services/getContent';
+import { getStartPageMetaDate } from '@services/getMetaData';
+import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const globalMeta = await getStartPageMetaDate()
-  const contacts = await getContacts()
-  const companyName = contacts?.data.attributes.essential.find(item => item.title === "Сокращённое наименование")?.content || 'Калька игрушки'
-  const fullCompanyName = contacts?.data.attributes.essential.find(item => item.title === "Полное наименование")?.content
-  const address = contacts?.data.attributes.address
-  const phone = contacts?.data.attributes.phone
-  const email = contacts?.data.attributes.email
-  const workingHours = contacts?.data.attributes.time
-  
-  const title = `Контакты ${companyName} - Адрес, телефон, время работы`
-  const description = `${companyName}: ${address}. ☎ ${phone}. Время работы: ${workingHours}. Официальные контакты компании для связи.`
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://calca-toys.ru'
+  const globalMeta = await getStartPageMetaDate();
+  const contacts = await getContacts();
+  const companyName =
+    contacts?.data.attributes.essential.find((item) => item.title === 'Сокращённое наименование')
+      ?.content || 'Калька игрушки';
+  const fullCompanyName = contacts?.data.attributes.essential.find(
+    (item) => item.title === 'Полное наименование'
+  )?.content;
+  const address = contacts?.data.attributes.address;
+  const phone = contacts?.data.attributes.phone;
+  const email = contacts?.data.attributes.email;
+  const workingHours = contacts?.data.attributes.time;
+
+  const title = `Контакты ${companyName} - Адрес, телефон, время работы`;
+  const description = `${companyName}: ${address}. ☎ ${phone}. Время работы: ${workingHours}. Официальные контакты компании для связи.`;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://calca-toys.ru';
 
   return {
     title,
@@ -68,16 +73,16 @@ export async function generateMetadata(): Promise<Metadata> {
       'business:contact_data:country_name': 'Россия',
       'business:contact_data:email': email,
       'business:contact_data:phone_number': phone,
-      'business:hours': workingHours
-    }
-  }
+      'business:hours': workingHours,
+    },
+  };
 }
 
 export default async function ContactsPage() {
-  const contacts = await getContacts()
+  const contacts = await getContacts();
   return (
-    <div className='section  fullH'  style={{background:"#FEF7E6",padding:'110px 0' }}>
-      <ContactsPageContent contacts={contacts}/>
+    <div className="section  fullH" style={{ background: '#FEF7E6', paddingTop:'32px'}}>
+      <ContactsPageContent key={'contact-page-contant-extra-key'} contacts={contacts} />
     </div>
-  )
+  );
 }

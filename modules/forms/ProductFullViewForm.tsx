@@ -1,72 +1,85 @@
-import React, { useEffect } from "react";
-import Image from "next/image";
-import { FormikHelpers, useFormik } from "formik";
-import { Button, HStack, IconButton } from "@chakra-ui/react";
-import { IProduct, IProductVariant, IResponseData } from "@/types/api";
-import { useBasketStore } from "@/store/basketStore";
-import { CountPicker } from "@/ui/inputs/CountPicker";
-import { useRouter } from "next/navigation";
+import React, { useEffect } from 'react';
+import Image from 'next/image';
+import { FormikHelpers, useFormik } from 'formik';
+import { Button, HStack, IconButton } from '@chakra-ui/react';
+import { IProduct, IProductVariant, IResponseData } from '@/types/api';
+import { useBasketStore } from '@/store/basketStore';
+import { CountPicker } from '@/ui/inputs/CountPicker';
+import { useRouter } from 'next/navigation';
 
-function ProductFullViewForm({ max, item, currentVariant }: { max: number; item: IResponseData<IProduct>, currentVariant: IProductVariant }) {
-const {setItem, basket} = useBasketStore()
-const { push } = useRouter()
-const countInBasket = Object.values(basket.items).find(item=>item.id === item.id)?.variant[currentVariant.id]?.value ?? 0
-const initialValues={
-  product:{...item},
-  variant:{
-      id:currentVariant.id,
-      value:1
-  }
-}
-const formik = useFormik({
+function ProductFullViewForm({
+  max,
+  item,
+  currentVariant,
+}: {
+  max: number;
+  item: IResponseData<IProduct>;
+  currentVariant: IProductVariant;
+}) {
+  const { setItem, basket } = useBasketStore();
+  const { push } = useRouter();
+  const countInBasket =
+    Object.values(basket.items).find((item) => item.id === item.id)?.variant[currentVariant.id]
+      ?.value ?? 0;
+  const initialValues = {
+    product: { ...item },
+    variant: {
+      id: currentVariant.id,
+      value: 1,
+    },
+  };
+  const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values: typeof initialValues, { resetForm, setValues, setSubmitting }: FormikHelpers<typeof initialValues>) => {
-     if(values.variant.value>0) {
-      formik.setValues(formik.initialValues)
-      const newItem = {
-        product:{...values.product},
-        variant:{
-          [values.variant.id]:{
-            id:values.variant.id,
-            value:values.variant.value
-          }
-        }
+    onSubmit: (
+      values: typeof initialValues,
+      { resetForm, setValues, setSubmitting }: FormikHelpers<typeof initialValues>
+    ) => {
+      if (values.variant.value > 0) {
+        formik.setValues(formik.initialValues);
+        const newItem = {
+          product: { ...values.product },
+          variant: {
+            [values.variant.id]: {
+              id: values.variant.id,
+              value: values.variant.value,
+            },
+          },
+        };
+        setItem(newItem);
       }
-      setItem(newItem);
-     }
     },
   });
-  useEffect(()=>{
-    formik.setFieldValue('variant',{
+  useEffect(() => {
+    formik.setFieldValue('variant', {
       ...formik.values.variant,
-      id:currentVariant.id
-    })
-  },[currentVariant])
-   
+      id: currentVariant.id,
+    });
+  }, [currentVariant]);
+
   return (
     <form onSubmit={formik.handleSubmit}>
-      <HStack gap={"18px"}>
+      <HStack gap={'18px'}>
         <CountPicker
-          max={max-countInBasket}
+          max={max - countInBasket}
           current={formik.values.variant.value}
           handler={(v: number) => {
-            formik.setFieldValue("variant.value", v);
+            formik.setFieldValue('variant.value', v);
           }}
         />
         <Button
-          variant={"solid"}
-          textTransform={"uppercase"}
-          w={"248px"}
-          fontSize={"12px"}
-          lineHeight={"14px"}
-          onClick={()=>{
+          variant={'solid'}
+          textTransform={'uppercase'}
+          w={'248px'}
+          fontSize={'12px'}
+          lineHeight={'14px'}
+          onClick={() => {
             try {
               formik.handleSubmit();
             } catch (error) {
-              console.log('error',error);
+              console.log('error', error);
             } finally {
-             console.log('finally')
-             push('/basket/confirm')
+              console.log('finally');
+              push('/basket/confirm');
             }
           }}
         >
@@ -83,7 +96,7 @@ const formik = useFormik({
               height={40}
               priority
               style={{
-                cursor: "pointer",
+                cursor: 'pointer',
               }}
             />
           }

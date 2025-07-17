@@ -17,7 +17,7 @@ export const useBasketStore = create<BasketState>()(
   persist(
     (set, get) => ({
       basket: { items: {}, customer: null },
-      
+
       setItem: (item) => {
         const itemId = item.product.id;
         let value = item.variant[Object.keys(item.variant)[0]].value;
@@ -44,7 +44,7 @@ export const useBasketStore = create<BasketState>()(
           });
         }
       },
-      
+
       updateCountById: (id, variant) => {
         set((state) => {
           if (!state.basket.items[id] || !state.basket.items[id].variant[variant.id]) return state;
@@ -55,7 +55,7 @@ export const useBasketStore = create<BasketState>()(
           // Удаляем вариант, если количество стало 0 или меньше
           if (newBasket.items[id].variant[variant.id].value <= 0) {
             delete newBasket.items[id].variant[variant.id];
-            
+
             // Если у товара не осталось вариантов, удаляем товар полностью
             if (Object.keys(newBasket.items[id].variant).length === 0) {
               delete newBasket.items[id];
@@ -65,24 +65,27 @@ export const useBasketStore = create<BasketState>()(
           return { basket: newBasket };
         });
       },
-      
+
       removeById: (id) => {
         set((state) => ({
           basket: {
             ...state.basket,
-            items: Object.keys(state.basket.items).reduce<Record<string, IBasketItem>>((acc, key) => {
-              const item = state.basket.items[key];
-              if (item.id !== id) acc[item.id] = item;
-              return acc;
-            }, {}),
+            items: Object.keys(state.basket.items).reduce<Record<string, IBasketItem>>(
+              (acc, key) => {
+                const item = state.basket.items[key];
+                if (item.id !== id) acc[item.id] = item;
+                return acc;
+              },
+              {}
+            ),
           },
         }));
       },
-      
+
       clearAll: () => {
         set({ basket: { items: {}, customer: null } });
       },
-      
+
       setCustomer: (customer) => {
         set((state) => ({
           basket: {
@@ -91,7 +94,7 @@ export const useBasketStore = create<BasketState>()(
           },
         }));
       },
-      
+
       // Хелпер для проверки наличия товара в корзине
       hasItem: (id) => {
         return !!get().basket.items[id];

@@ -1,15 +1,12 @@
-
 import React from 'react';
-import { getMainCarouselContent } from '@/services/getMainCarousel'
-import MainCarousel from '@/modules/carousels/MainCarousel';
+import MainCarousel from '@modules/carousels/MainCarousel';
+import { getMainCarouselContent } from '@services/getMainCarousel';
 
 const MainCarouselContent = async () => {
   const contentData = await getMainCarouselContent();
   return (
     <div>
-      <MainCarousel
-        data={contentData}
-      />
+      <MainCarousel data={contentData} />
     </div>
   );
 };

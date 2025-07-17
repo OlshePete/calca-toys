@@ -1,0 +1,176 @@
+'use client';
+import {
+  HStack,
+  IconButton,
+  List,
+  Popover,
+  PopoverBody,
+  PopoverHeader,
+  useBreakpointValue,
+} from '@chakra-ui/react';
+import { useBasketStore } from '@store/basketStore';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { useEffect, useRef } from 'react';
+import Heading from '../../ui/Heading/CustomHeading';
+import Button from '../../ui/Buttons/CustomButton';
+import Text from '../../ui/Text/CustomText';
+import { IBasketItem } from '@apptypes/basket';
+import { toaster } from '@components/ui/toaster';
+
+function BasketPopover() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const { basket } = useBasketStore();
+  const prevBasket = useRef(basket)
+  const { push } = useRouter();
+  const toast = toaster;
+  
+  const pathname = usePathname();
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  useEffect(() => {
+    console.log('корзина изменилась 1', prevBasket.current.items.length);
+    
+    // Если корзина изменилась
+    // if (JSON.stringify(basket.items) !== JSON.stringify(prevBasket.current.items)) {
+    console.log('корзина изменилась 2');
+      // Находим добавленные товары
+      const addedItems = Object.keys(basket.items).filter(
+        (itemId) => !prevBasket.current.items[itemId]
+      );
+
+      // Если добавлен хотя бы один товар
+      if (addedItems.length > 0) {
+    console.log('корзина изменилась 3',addedItems);
+        // Получаем информацию о добавленных товарах
+        const addedProducts = addedItems.map(itemId => {
+          const item: IBasketItem = basket.items[itemId];
+          const variants = Object.values(item.variant);
+          return {
+            name: item.product.attributes.name,
+            variants: variants.map(v => v.value).join(', ')
+          };
+        });
+    console.log('корзина изменилась 4',addedProducts);
+
+        toast.create({
+          title: 'Успешно! Товар добавлен в корзину!',
+          description: `Добавлено: ${addedProducts.map(p => `${p.name} (${p.variants})`).join(', ')}`,
+          type: 'success',
+          duration: 5000,
+          closable: true,
+        });
+      // }
+
+      // Обновляем предыдущее состояние корзины
+      prevBasket.current = basket;
+    }
+  }, [basket]);
+  const handleMoveToBasket = () => {
+    triggerRef?.current?.click();
+    push('/basket');
+  };
+  const handleMoveToBasketConfirm = () => {
+    triggerRef?.current?.click();
+    push('/basket/confirm');
+  };
+  return (
+    <div style={{ position:'relative' }}>
+    <Popover.Root positioning={{ offset: { crossAxis: 100, mainAxis: -420 } }} >
+      <Popover.Trigger asChild>
+        <IconButton
+          display={useBreakpointValue({ base: 'none', lg: 'inherit' })}
+          ref={triggerRef}
+          aria-label="basket icon"
+          mr={'20px'}
+          bg={'transparent'}
+          cursor={'pointer'}
+        >
+          <Image src="/basket.svg" alt="Basket icon" width={40} height={40} priority />
+        </IconButton>
+      </Popover.Trigger>
+      <Popover.Content
+        position={'absolute'}
+        left={-400}
+        width={'420px'}
+        bg={'#FEF7E6'}
+        p={'0 2rem 2rem'}
+        boxShadow={'0 4px 10px rgba(0, 0, 0, 0.1)'}
+      >
+        <PopoverHeader>
+          <Heading visual={'privacy_header'}>Корзина</Heading>
+        </PopoverHeader>
+        <PopoverBody>
+          {Object.keys(basket.items).length === 0 && (
+            <Text textTransform={'none'}>корзина пуста</Text>
+          )}
+          {Object.keys(basket.items).length > 0 && (
+            <List.Root >
+              {basket.items &&
+                Object.values(basket.items).map((element, i) => {
+                  const item = element as IBasketItem
+                  const baseName = (item).product.attributes.name;
+                  return (
+                    <React.Fragment key={item.id}>
+                      {Object.values(item.variant).length > 0 && (
+                        <List.Item display={'flex'} flexDirection={'column'} gap={'24px'}>
+                          {Object.values(item.variant).map((variant, key) => (
+                            <HStack key={variant.id}>
+                              <Image
+                                alt="product small pict"
+                                height={60}
+                                width={40}
+                                src={`${API_URL}/cms${item.product.attributes.variant[key].image.data.attributes.url}`}
+                              />
+                              <Text flexGrow={1} visual={'product_name'}>
+                                {baseName} {item.product.attributes.variant[key].name}
+                              </Text>
+                              <Text visual={'product_text'}>{variant.value}</Text>
+                            </HStack>
+                          ))}
+                        </List.Item>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              {Object.keys(basket.items).length > 0 && (
+                <HStack gap={'20px'}>
+                  <Link href={'/basket'}>
+                    <Button
+                      mt={'2rem'}
+                      height={44}
+                      visual={'outline_secondary'}
+                      bg={'transparent'}
+                      color={'#313131'}
+                      width={160}
+                      fontSize={'11px'}
+                      onClick={handleMoveToBasket}
+                    >
+                      Перейти в корзину
+                    </Button>
+                  </Link>
+                  <Link href={'/basket/confirm'}>
+                    <Button
+                      mt={'2rem'}
+                      visual={'outline_secondary'}
+                      className={'opposite'}
+                      height={44}
+                      width={160}
+                      fontWeight={300}
+                      fontSize={'11px'}
+                    >
+                      Оформить заказ
+                    </Button>
+                  </Link>
+                </HStack>
+              )}
+            </List.Root>
+          )}
+        </PopoverBody>
+      </Popover.Content>
+    </Popover.Root>
+</div>
+  );
+}
+
+export default BasketPopover;

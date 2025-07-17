@@ -1,9 +1,9 @@
-'use client'
-import { ChildrenComponentProps } from '@/types'
-import { Box, useBreakpointValue } from '@chakra-ui/react'
-import React from 'react'
+'use client';
+import { ChildrenComponentProps } from '@/types';
+import { Box, useBreakpointValue } from '@chakra-ui/react';
+import React from 'react';
 
-function ImageAbsoluteWrapper({children}:ChildrenComponentProps) {
+function ImageAbsoluteWrapper({ children }: ChildrenComponentProps) {
   const right = useBreakpointValue(
     {
       base: '-220px',
@@ -13,18 +13,20 @@ function ImageAbsoluteWrapper({children}:ChildrenComponentProps) {
     },
     {
       fallback: 'base',
-    },
-  )
-  
+    }
+  );
+
   return (
     <Box
-    right={right}
-    style={{
-          position:"absolute",
-          bottom:0,
-    }}
-    >{children}</Box>
-  )
+      right={right}
+      style={{
+        position: 'absolute',
+        bottom: 0,
+      }}
+    >
+      {children}
+    </Box>
+  );
 }
 
-export default ImageAbsoluteWrapper 
+export default ImageAbsoluteWrapper;
