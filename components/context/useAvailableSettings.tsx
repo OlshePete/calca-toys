@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { createContext, useContext, ReactNode, useMemo } from 'react';
 import { IAllProductsContent } from '@/types/api';
 
@@ -17,7 +17,10 @@ interface AvailableSettingsProviderProps {
   products: IAllProductsContent;
 }
 
-export const AvailableSettingsProvider: React.FC<AvailableSettingsProviderProps> = ({ children, products }) => {
+export const AvailableSettingsProvider: React.FC<AvailableSettingsProviderProps> = ({
+  children,
+  products,
+}) => {
   // Функция parseProductsData
   const parseProductsData = (data: IAllProductsContent): IAvailableSettings => {
     const colorsSet = new Set<string>();
@@ -31,8 +34,11 @@ export const AvailableSettingsProvider: React.FC<AvailableSettingsProviderProps>
       });
 
       product.attributes.tags.data.forEach((tag) => {
-        console.log('test provider 0',`${tag.attributes.category.data.attributes.paramName}#${tag.attributes.title}`);
-        
+        console.log(
+          'test provider 0',
+          `${tag.attributes.category.data.attributes.paramName}#${tag.attributes.title}`
+        );
+
         tagsSet.add(`${tag.attributes.category.data.attributes.paramName}#${tag.attributes.title}`);
       });
     });
@@ -41,9 +47,9 @@ export const AvailableSettingsProvider: React.FC<AvailableSettingsProviderProps>
       colors: Array.from(colorsSet),
       tags: Array.from(tagsSet).reduce<Record<string, string[]>>((acc, tag) => {
         const [group, value] = tag.split('#');
-        if(!acc[group]) acc[group] = [value];
-          else acc[group].push(value)
-        console.log('test provider 1',acc);
+        if (!acc[group]) acc[group] = [value];
+        else acc[group].push(value);
+        console.log('test provider 1', acc);
 
         return acc;
       }, {}),

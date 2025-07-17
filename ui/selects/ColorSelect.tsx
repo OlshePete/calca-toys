@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 function ColorSelect() {
-  return (
-    <div>ColorSelect</div>
-  )
+  return <div>ColorSelect</div>;
 }
 
-export default ColorSelect
+export default ColorSelect;

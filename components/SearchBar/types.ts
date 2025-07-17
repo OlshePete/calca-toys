@@ -4,4 +4,4 @@ export interface SearchResult {
   description: string;
   url: string;
   type: 'product' | 'category';
-} 
+}

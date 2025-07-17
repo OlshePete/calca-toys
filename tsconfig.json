@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "skipLibCheck": true,
     "target": "es2015",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution":"node",
+    // "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -19,7 +20,17 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"],
+      "@modules/*": ["./modules/*"],
+      "@public/*": ["./public/*"],
+      "@services/*": ["./services/*"],
+      "@components/*": ["./components/*"],
+      "@theme/*": ["./theme/*"],
+      "@store/*": ["./store/*"],
+      "@apptypes": ["./types/index"],
+      "@apptypes/api": ["./types/api"],
+      "@apptypes/basket": ["./types/basket"],
+      "@apptypes/order": ["./types/order"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -1,2 +1,2 @@
-import AvailableInStock from './AvailableInStock'
-export default AvailableInStock
+import AvailableInStock from './AvailableInStock';
+export default AvailableInStock;

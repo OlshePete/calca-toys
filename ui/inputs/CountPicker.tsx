@@ -1,32 +1,26 @@
-import { Button, HStack, Icon, Input, useNumberInput, UseNumberInputProps } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Button, HStack, Icon, Input, useNumberInput, UseNumberInputProps } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
 function HookUsage(props: UseNumberInputProps) {
-
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps, valueAsNumber } =
     useNumberInput(props);
   const inc = getIncrementButtonProps();
   const dec = getDecrementButtonProps();
-  const input = getInputProps()
+  const input = getInputProps();
   return (
     <HStack
       maxW="138px"
-      borderRadius={"33px"}
-      justifyContent={"space-between"}
+      borderRadius={'33px'}
+      justifyContent={'space-between'}
       border={'2px solid #90BCE4'}
     >
-      <Button {...dec} bg={"rgba(0,0,0,0)"} variant={"ghost"} p={"16px"}>
-        <Icon width={"17px"} height={"2px"} viewBox={"0 0 17 2"} fill={"none"}>
+      <Button {...dec} bg={'rgba(0,0,0,0)'} variant={'ghost'} p={'16px'}>
+        <Icon width={'17px'} height={'2px'} viewBox={'0 0 17 2'} fill={'none'}>
           <path d="M1 1H16" stroke="#515151" strokeLinecap="round" />
         </Icon>
       </Button>
-      <Input {...input} w={"43px"} border={"none"} p={0} textAlign={"center"} color={"brand.100"}/>
-      <Button {...inc} bg={"rgba(0,0,0,0)"} variant={"ghost"}>
-        <Icon
-          width={"16px"}
-          height={"16px"}
-          viewBox={"0 0 16 16"}
-          fill={"none"}
-        >
+      <Input {...input} w={'43px'} border={'none'} p={0} textAlign={'center'} color={'brand.100'} />
+      <Button {...inc} bg={'rgba(0,0,0,0)'} variant={'ghost'}>
+        <Icon width={'16px'} height={'16px'} viewBox={'0 0 16 16'} fill={'none'}>
           <path
             fillRule="evenodd"
             clipRule="evenodd"
@@ -38,29 +32,42 @@ function HookUsage(props: UseNumberInputProps) {
     </HStack>
   );
 }
-function CountPicker({ max, handler, current }: { max: number, handler: (v: number) => void, current: number }) {
+function CountPicker({
+  max,
+  handler,
+  current,
+}: {
+  max: number;
+  handler: (v: number) => void;
+  current: number;
+}) {
   const props: UseNumberInputProps = {
     step: 1,
     defaultValue: current,
     min: 1,
     max: max,
-  }
+  };
   const [value, setValue] = useState(current);
 
   useEffect(() => {
-    if(value!==current) handler(value);
+    if (value !== current) handler(value);
   }, [value]);
 
   useEffect(() => {
     setValue(current);
   }, [current]);
 
-  return <><HookUsage
-    value={value}
-    onChange={(value, valueAsNumber) => { setValue(valueAsNumber>max?max:valueAsNumber) }}
-    {...props}
-  />
-  </>
+  return (
+    <>
+      <HookUsage
+        value={value}
+        onChange={(value, valueAsNumber) => {
+          setValue(valueAsNumber > max ? max : valueAsNumber);
+        }}
+        {...props}
+      />
+    </>
+  );
 }
 
 export { CountPicker };
