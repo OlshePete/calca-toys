@@ -14,11 +14,12 @@ export const buttonRecipe = defineRecipe({
   variants: {
     visual: {
       solid: {
-        fontFamily: lato.style.fontFamily,
+        fontFamily: lato.style.fontFamily+'!important',
         textTransform: 'uppercase',
         background: 'brand.500',
         color: '#FFF',
         fontSize: '14px',
+        letterSpacing:"120%",
         fontWeight: 500,
         '&:hover': {
           background: 'brand.300',

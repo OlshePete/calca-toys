@@ -1,5 +1,5 @@
-import { IAllProductsContent } from '@/types/api';
-import * as qs from 'qs';
+import { IAllProductsContent } from '@apptypes/api';
+import qs from 'qs';
 
 interface ISearchParams {
   type?: string;
@@ -7,8 +7,9 @@ interface ISearchParams {
     title?: string;
   };
   material?: string;
-  page?: string; // Параметр страницы
-  [key: string]: string | { title?: string } | undefined; // Динамические параметры
+  color?: string;
+  page?: string; 
+  [key: string]: string | { title?: string } | undefined; 
 }
 
 const { API_TOKEN, API_URL } = process.env;
@@ -22,62 +23,75 @@ const getSearchProducts = async (
   categoryParamKeys: string[]
 ) => {
   // Формируем query-строку с параметрами фильтрации
-  console.log('$#$#$#', JSON.stringify({ params, type, categoryParamKeys } as unknown));
+  // console.log('$#$#$#', JSON.stringify({ params, type, categoryParamKeys } as unknown));
   // Получаем список параметров, которые есть в categoryParamKeys
   const categoryParams = Object.keys(params).filter((key) => {
     return categoryParamKeys.includes(key);
   });
-  console.log('test6', params?.material);
+  console.log('test6', params, type, categoryParamKeys);
 
-  // Разделяем строку materials на массив
+  // Формируем фильтры
   const materialFilters = params?.material
     ? params.material.split(',').map((material) => material.trim())
     : [];
-
-  // Формируем фильтры для tags
+  const colorFilters = params?.color
+      ? params.color.split(',').map((color) => color.trim().toUpperCase())
+      : [];
   const tagFilters = categoryParams.map((param) => {
+    const paramValues = params[param] 
+      ? String(params[param]).split(',').map(v => v.trim())
+      : [];
     return {
       tags: {
         category: {
-          paramName: { $eq: param }, // Проверяем, что paramName совпадает
+          paramName: { $eq: param },
         },
-        title: { $eq: params[param] }, // Сравниваем title с значением из params
+        title: paramValues.length > 0 ? { $in: paramValues } : undefined,
       },
     };
-  });
+  }).filter(filter => filter.tags.title !== undefined);
+
+  const variantColorFilter = colorFilters.length > 0
+    ? {
+        variant: {
+          color: { $in: colorFilters }
+        }
+      }
+    : undefined;
 
   // Определяем текущую страницу и количество элементов на странице
-  const page = params.page ? parseInt(params.page, 10) : 1; // По умолчанию страница 1
-  const pageSize = 15; // Офсет (количество элементов на странице)
+  const page = params.page ? parseInt(params.page, 10) : 1;
+  const pageSize = 15;
 
   const query = qs.stringify(
     {
       filters: {
         $and: [
-          type ? { type: { internal: { $eq: type } } } : undefined, // Фильтр по типу
+          type ? { type: { internal: { $eq: type } } } : undefined,
           materialFilters.length > 0
             ? {
                 materials: {
-                  title: { $in: materialFilters }, // Фильтр по материалам с использованием $in
+                  title: { $in: materialFilters },
                 },
               }
             : undefined,
-          ...tagFilters, // Добавляем фильтры для tags
-        ].filter(Boolean), // Убираем undefined
+          ...tagFilters,
+          variantColorFilter,
+        ].filter(Boolean),
       },
       populate: {
         type: '*',
         variant: {
           populate: {
             image: {
-              fields: ['url'], // Указываем поля, которые нужно получить
+              fields: ['url'],
             },
           },
         },
         materials: '*',
         tags: {
           populate: {
-            category: '*', // Включаем поле category внутри каждого tag
+            category: '*',
           },
         },
         connected: {
@@ -93,8 +107,8 @@ const getSearchProducts = async (
         },
       },
       pagination: {
-        page: page, // Текущая страница
-        pageSize: pageSize, // Количество элементов на странице
+        page: page,
+        pageSize: pageSize,
       },
     },
     {
@@ -118,8 +132,8 @@ const getSearchProducts = async (
 
   const data: IAllProductsContent = await response.json();
   console.log(
-    'Поиск товаров успешно завершен! Найдено товаров: получен! 99999',
-    JSON.stringify(data?.data[0], null, 4)
+    'Поиск товаров успешно завершен! Найдено товаров: ',
+    data?.data.length
   );
 
   return data;

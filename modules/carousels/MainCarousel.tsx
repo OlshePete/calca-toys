@@ -1,13 +1,14 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import CustomStack from '../../components/CustomStack/CustomStack';
-import { Box, Button, Heading, Icon, IconButton, Text, useBreakpointValue } from '@chakra-ui/react';
+import { Box, useBreakpointValue } from '@chakra-ui/react';
 import Slider from 'react-slick';
 import ContentContainer from '@components/ContentContainer/ContentContainer';
 import { IMainCarouselContent } from '../../types/api';
 import CustomHeading from '../../ui/Heading/CustomHeading';
 import CustomText from '../../ui/Text/CustomText';
 import CustomButton from '../../ui/Buttons/CustomButton';
+import Arrow from '../../ui/icons/Arrow';
 
 const settings = {
   dots: false,
@@ -54,45 +55,37 @@ export default function MainCarousel({ data }: ICarouselProps) {
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
       {/* Left Icon */}
-      <IconButton
-        aria-label="left-arrow"
+      <Arrow
+        format='left'
         colorScheme="messenger"
-        borderRadius="full"
+        borderRadius="100%"
         position="absolute"
+        background={'brand.900'}
+        _hover={{
+          border:'2px solid #FEF7E6'
+        }}
         left={side}
         top={top}
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickPrev()}
-      >
-        <Icon viewBox="0 0 44 44" width={'44px'} height={'44px'}>
-          <circle cx="22" cy="22" r="22" fill="#FEF7E6" />
-          <path
-            d="M12.6464 21.6464C12.4512 21.8417 12.4512 22.1583 12.6464 22.3536L15.8284 25.5355C16.0237 25.7308 16.3403 25.7308 16.5355 25.5355C16.7308 25.3403 16.7308 25.0237 16.5355 24.8284L13.7071 22L16.5355 19.1716C16.7308 18.9763 16.7308 18.6597 16.5355 18.4645C16.3403 18.2692 16.0237 18.2692 15.8284 18.4645L12.6464 21.6464ZM31 21.5L13 21.5L13 22.5L31 22.5L31 21.5Z"
-            fill="#90BCE4"
-          />
-        </Icon>
-      </IconButton>
+      />
       {/* Right Icon */}
-      <IconButton
-        aria-label="right-arrow"
+      <Arrow
+        format='rigth'
         colorScheme="messenger"
-        borderRadius="full"
+        borderRadius="100%"
         position="absolute"
+        background={'brand.900'}
+        _hover={{
+          border:'2px solid #FEF7E6'
+        }}
         right={side}
         top={top}
         transform={'translate(0%, -50%)'}
         zIndex={2}
         onClick={() => slider?.slickNext()}
-      >
-        <Icon viewBox="0 0 44 44" width={'44px'} height={'44px'}>
-          <circle cx="22" cy="22" r="22" fill="#FEF7E6" />
-          <path
-            d="M31.3536 21.6464C31.5488 21.8417 31.5488 22.1583 31.3536 22.3536L28.1716 25.5355C27.9763 25.7308 27.6597 25.7308 27.4645 25.5355C27.2692 25.3403 27.2692 25.0237 27.4645 24.8284L30.2929 22L27.4645 19.1716C27.2692 18.9763 27.2692 18.6597 27.4645 18.4645C27.6597 18.2692 27.9763 18.2692 28.1716 18.4645L31.3536 21.6464ZM13 21.5L31 21.5L31 22.5L13 22.5L13 21.5Z"
-            fill="#90BCE4"
-          />
-        </Icon>
-      </IconButton>
+      />
       {/* Slider */}
       <Slider {...settings} ref={slider => {
         setSlider(slider);

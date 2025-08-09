@@ -7,6 +7,7 @@ export interface IMeta {
   };
 }
 export type TSortVariants = 'date' | 'name';
+export type TSortProdcutVariant = 'price_inc' | 'price_dec';
 export type TFilter = 'time' | 'frash' | 'info' | 'job';
 export type TypeLabel = 'toy' | 'balloon' | 'supplies';
 export interface ITypeLabels extends Record<TypeLabel, string> {}
@@ -254,6 +255,12 @@ export interface IPaymentVariant {
   title: string;
   content: string;
 }
+export interface ISubscribeItem extends IAttributeMeta {
+  title: string;
+  link: string;
+  linkTitle: string;
+  images: IImageArray;
+}
 export interface IPaymentItem extends IAttributeMeta {
   title: string;
   subtitle: string;
@@ -265,6 +272,7 @@ export interface IPrivacyResponse extends IResponseItemWithDataMeta<IResponseDat
 export interface IWarrantyResponse
   extends IResponseItemWithDataMeta<IResponseData<IWarrantyItem>> {}
 export interface IPaymentResponse extends IResponseItemWithDataMeta<IResponseData<IPaymentItem>> {}
+export interface ISubscribeResponse extends IResponseItemWithDataMeta<IResponseData<ISubscribeItem>> {}
 
 export interface ISearchParams {
   type?: string;

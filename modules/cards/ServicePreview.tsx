@@ -1,8 +1,10 @@
-import { ServicesCarouselItem } from '@/types';
+import { ServicesCarouselItem } from '@apptypes';
 import { Box, Button, Heading, VStack } from '@chakra-ui/react';
 import Image from 'next/image';
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import CustomHeading from '../../ui/Heading/CustomHeading';
+import CustomButton from '../../ui/Buttons/CustomButton';
 
 interface ServicePreviewProps {
   service: ServicesCarouselItem;
@@ -48,16 +50,16 @@ function ServicePreview({ service }: ServicePreviewProps) {
         gap={'40px'}
       >
         <VStack alignItems={'flex-start'} gap={0}>
-          <Heading variant="post_header" fontSize={28} lineHeight={'120%'} style={{}}>
+          <CustomHeading visual="post_header" fontSize={28} lineHeight={'120%'} style={{}}>
             {name}
-          </Heading>
-          <Heading variant="post_header" fontSize={36} lineHeight={'120%'} style={{}}>
+          </CustomHeading>
+          <CustomHeading visual="post_header" fontSize={36} lineHeight={'120%'} style={{}}>
             {title}
-          </Heading>
+          </CustomHeading>
         </VStack>
-        <Button variant="solid" width={150}>
+        <CustomButton visual="solid" width={150}>
           Перейти
-        </Button>
+        </CustomButton>
       </VStack>
     </Box>
   );

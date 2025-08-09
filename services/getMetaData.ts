@@ -1,4 +1,4 @@
-import { IWebMeta } from '@/types/api';
+import { IWebMeta } from '@apptypes/api';
 
 const { API_TOKEN, API_URL } = process.env;
 const headers = {

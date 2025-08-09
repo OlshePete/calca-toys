@@ -14,7 +14,7 @@ const SearchResults = ({ results, isVisible }: SearchResultsProps) => {
     <Box
       position="absolute"
       top="100%"
-      right="0"
+      right="380px"
       mt={2}
       bg="white"
       boxShadow="lg"

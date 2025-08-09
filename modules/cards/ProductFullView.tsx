@@ -1,15 +1,15 @@
 'use client';
-import { ProductFullViewProps } from '@/types';
-import { Badge, Box, Grid, GridItem, Text, HStack, VStack, useBreakpointValue } from '@chakra-ui/react';
+import { ProductFullViewProps } from '@apptypes';
+import { Badge, Box, Grid, GridItem,  HStack, VStack, useBreakpointValue } from '@chakra-ui/react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import ProductInfoAccordion from '../accordions/ProductInfoAccordion';
 import ProductsCarousel from '../carousels/ProductsCarousel';
-import { useViewedStore } from '@/store/viewedStore';
 import ProductFullViewForm from '../forms/ProductFullViewForm';
 import AvailableInStock from '@components/AvailableInStock';
-import { useBasketStore } from '@/store/basketStore';
-
+import { useViewedStore } from '@store/viewedStore';
+import { useBasketStore } from '@store/basketStore';
+import Text from '../../ui/Text/CustomText';
 function _getSizes(h?: number, w?: number): string {
   let str = '';
   if (h) {
@@ -86,34 +86,34 @@ function ProductFullView({ product }: ProductFullViewProps) {
           <HStack gap={'8px'}>
             {mustHave && <Badge>Хит продаж</Badge>}
             {discount_price && (
-              <Badge variant={'discount'}>
+              <Badge backgroundColor={'brand.500'}>
                 {`-${(((price - discount_price) / price) * 100).toFixed(0)}%`}
               </Badge>
             )}
           </HStack>
           <VStack align={'flex-start'}>
-            <Text variant={'full_product_name'}>
+            <Text visual={'full_product_name'}>
               {name} {variants && variants[currentIndex].name}
             </Text>
             {previewComment && (
-              <Text variant={'full_product_text'} color={'#515151'}>
+              <Text visual={'full_product_text'} color={'#515151'}>
                 {previewComment}
               </Text>
             )}
 
             {(height || width) && (
-              <Text variant={'full_product_text'} color={'#515151'}>
+              <Text visual={'full_product_text'} color={'#515151'}>
                 Размер: {_getSizes(height, width)}
               </Text>
             )}
           </VStack>
 
           {!discount_price ? (
-            <Text variant={'product_text'}>{price} ₽</Text>
+            <Text visual={'product_text'}>{price} ₽</Text>
           ) : (
             <Box display={'flex'} gap={'24px'}>
-              <Text variant={'product_text'}>{discount_price} ₽</Text>
-              <Text variant={'product_text'} className="crossed">
+              <Text visual={'product_text'}>{discount_price} ₽</Text>
+              <Text visual={'product_text'} className="crossed">
                 {discount_price} ₽
               </Text>
             </Box>
@@ -148,7 +148,7 @@ function ProductFullView({ product }: ProductFullViewProps) {
             currentVariant={variants[currentIndex]}
           />
           <AvailableInStock stock={stock} />
-          <Text variant={'full_product_text'}>{comment}</Text>
+          <Text visual={'full_product_text'}>{comment}</Text>
           <ProductInfoAccordion product={product} />
         </GridItem>
 

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { IBasket, IBasketCustomer, IBasketItem, IProductBasketVariant } from '@/types/basket';
+import { IBasket, IBasketCustomer, IBasketItem, IProductBasketVariant } from '@apptypes/basket';
 
 interface BasketState {
   basket: IBasket;

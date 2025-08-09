@@ -16,6 +16,7 @@ function NavLinkStack({ categoryNames }: INavLinkStackProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const buttonProps:CustomButtonProps = {
     asChild:true,
+    className:'header-link',
     visual:'header_link',
     width:'fit-content',
     height:'100%',

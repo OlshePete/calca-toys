@@ -9,6 +9,20 @@ import {
 import { FC, useState, useEffect } from 'react';
 import { useAvailableSettings } from '../context/useAvailableSettings';
 
+function checkItem(
+  item: string,
+  tagList: Record<string, string[]>,
+  currentTag: string,
+  exeptDisable: boolean
+): boolean {
+  return !exeptDisable &&
+    !(
+      (currentTag in tagList) &&
+      Object.values(tagList)
+        .flat()
+        .some(t => t.toLowerCase() === item.toLowerCase())
+    );
+}
 interface ICheckBoxProps extends CheckboxGroupProps {
   labels: string[];
   value: string[];
@@ -30,7 +44,12 @@ const CheckBoxGroup: FC<ICheckBoxProps> = ({
   const [isAllSelected, setIsAllSelected] = useState(false);
 
   useEffect(() => {
-    setIsAllSelected(value.length === labels.length);
+    if(window) {
+
+      const res = value.filter(item=>!checkDisable(item))
+      console.log('ressss', value ,paramName, res)
+      setIsAllSelected(res.length  === labels.length);
+    }
   }, [value, labels]);
 
   const handleSetValue = (newValue: string[]) => {
@@ -44,41 +63,44 @@ const CheckBoxGroup: FC<ICheckBoxProps> = ({
       setIsAllSelected(false);
     }
   };
+  const checkDisable = (item:string) => checkItem(item, tags, paramName, exeptDisable)
 
   const handleAllChange = () => {
     if (isAllSelected) {
       setValue([]);
       setIsAllSelected(false);
     } else {
-      setValue([...labels]);
+      setValue([...labels.filter(item=>!checkDisable(item))]);
       setIsAllSelected(true);
     }
   };
 
   return (
-    <CCheckBoxGroup onChange={handleSetValue} value={value}>
-      <Stack spacing={[1, 5]} direction={['column', 'column']}>
+    <CCheckBoxGroup onValueChange={handleSetValue} value={value}>
+      <Stack 
+      // spacing={[1, 5]}
+      direction={['column', 'column']}>
         {labels.map((item) => {
           const [firstLetter, ...label] = item;
-          const disabled =
-            !exeptDisable &&
-            !(
-              Object.keys(tags).includes(paramName) &&
-              Object.values(tags)
-                .flat()
-                .map((t) => t.toLowerCase())
-                .includes(item.toLowerCase())
-            );
           return (
-            <Checkbox key={item} value={item} disabled={disabled}>
-              <Text>{firstLetter.toUpperCase() + label.join('')}</Text>
-            </Checkbox>
+            <Checkbox.Root key={item} value={item} disabled={checkDisable(item) && !value.includes(item)}>
+              <Checkbox.HiddenInput />
+              <Checkbox.Control />
+              <Checkbox.Label asChild>
+                <Text>{firstLetter.toUpperCase() + label.join('')}</Text>
+              </Checkbox.Label>
+            </Checkbox.Root>
           );
+
         })}
         {withAll && (
-          <Checkbox key={allValue} isChecked={isAllSelected} onChange={handleAllChange}>
-            <Text>{allValue}</Text>
-          </Checkbox>
+          <Checkbox.Root key={allValue} checked={isAllSelected} onChange={handleAllChange}>
+              <Checkbox.HiddenInput />
+              <Checkbox.Control />
+              <Checkbox.Label asChild>
+                <Text>{allValue}</Text>
+              </Checkbox.Label>
+          </Checkbox.Root>
         )}
       </Stack>
     </CCheckBoxGroup>

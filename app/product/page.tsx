@@ -1,5 +1,5 @@
 import { getAllProducts } from '@services/products/getProducts';
-import { IProduct, IResponseData } from '@/types/api';
+import { IProduct, IResponseData } from '@apptypes/api';
 import ProductPreview from '@modules/cards/ProductPreview';
 import { Box, SimpleGrid } from '@chakra-ui/react';
 import ContentContainer from '@components/ContentContainer/ContentContainer';
@@ -14,7 +14,7 @@ export default async function ProductsPage() {
       <ContentContainer>
         <Breadcrumbs />
         <Box p={4}>
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6} justifyItems="center">
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} justifyItems="center">
             {products.data.map((productData: IResponseData<IProduct>) => (
               <ProductPreview key={productData.id} product={productData} />
             ))}

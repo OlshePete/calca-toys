@@ -8,12 +8,12 @@ export default function Home() {
   return (
     <div>
       <div className="section  fullH" style={{ background: '#FEF7E6', padding: '44px 0' }}>
-                <Suspense fallback={<>Loading...</>}>
-        <ContentContainer>
-          <Breadcrumbs />
-          <ConfirmBasketContent />
-        </ContentContainer>
-                </Suspense>
+        <Suspense fallback={<>Loading...</>}>
+          <ContentContainer>
+            <Breadcrumbs />
+            <ConfirmBasketContent />
+          </ContentContainer>
+        </Suspense>
       </div>
     </div>
   );

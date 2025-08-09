@@ -1,12 +1,11 @@
 'use client'
-import { createSystem, defaultConfig, defineConfig, defineRecipe, RecipeDefinition } from "@chakra-ui/react"
+import { createSystem, defaultConfig, RecipeDefinition } from "@chakra-ui/react"
 import { globalStyles } from './globalStyles';
-import { lato, ts_remarker, blue_curve } from '../app/providers';
+import { lato, ts_remarker } from '../app/providers';
 import { buttonRecipe } from "./recipes/buttonRecipe";
 import { textRecipe } from "./recipes/textRecipe";
 import { headingRecipe } from "./recipes/headingRecipe";
     
-console.log('№№№',Object.keys(defaultConfig.theme?.recipes ?? {}))
 const tokens  = ({
   ...defaultConfig.theme?.tokens,
   colors: {
@@ -26,8 +25,9 @@ const tokens  = ({
   fonts: {
     ...defaultConfig.theme?.tokens?.fonts,
     heading: { value: ts_remarker.style.fontFamily },
-    body: { value: blue_curve.style.fontFamily },
-    text:{ value: lato.style.fontFamily}
+    body: { value: lato.style.fontFamily },
+    text:{ value: lato.style.fontFamily},
+    input:{ value: lato.style.fontFamily}
   }
 });
 
@@ -36,7 +36,6 @@ const recipes:Record<string, RecipeDefinition> = {
   text: textRecipe,
   button: buttonRecipe,
   heading: headingRecipe,
-  // Другие рецепты
 };
 export const system = createSystem(defaultConfig,{
   globalCss:globalStyles,

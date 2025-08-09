@@ -1,5 +1,5 @@
 'use client';
-import { Box, Icon } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
@@ -10,6 +10,7 @@ import { useBasketStore } from '@store/basketStore';
 import { IBasketItem } from '@apptypes/basket';
 import Text from '../../ui/Text/CustomText';
 import Button from '../../ui/Buttons/CustomButton';
+import ColorPicker from '@components/ColorPicker/ColorPicker';
 export function _getSizes(h?: number, w?: number): string {
   let str = '';
   if (h) {
@@ -41,7 +42,7 @@ function ProductPreview({ product }: ProductPreviewProps) {
   const router = useRouter();
 
   const handleColorChange = (value: string) => {
-    setCurrentIndex((p) => variants.findIndex((v) => v.color === value.slice(1)));
+    setCurrentIndex((p) => variants.findIndex((v) => v.color === value));
   };
 
   const handleMoveToBasket: React.MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -56,7 +57,9 @@ function ProductPreview({ product }: ProductPreviewProps) {
         },
       },
     };
-    if (window) setItem(basketItem);
+    console.log('basketItem', basketItem);
+    
+    // if (window) setItem(basketItem);
   };
 
   return (
@@ -125,9 +128,6 @@ function ProductPreview({ product }: ProductPreviewProps) {
               </Text>
             </Box>
           )
-          // : (
-          //   <Text variant={"product_text"}>{price} ₽</Text>
-          // )
         }
         <Button
           className="basket_icon"
@@ -187,15 +187,17 @@ function ProductPreview({ product }: ProductPreviewProps) {
           right={'16px'}
           className="color_picker"
           onClick={(event) => {
-            const target = event.currentTarget.children?.[0] as HTMLButtonElement;
-            if (target && target !== event.target) target.click();
+            // const target = event.currentTarget.children?.[0] as HTMLButtonElement;
+            // if (target && target !== event.target) target.click();
             event.stopPropagation();
           }}
         >
-          {/* <ColorPicker onChange={handleColorChange} colors={variants.map((v) => '#' + v.color)} /> */}
-          <Icon width="16px" height="7px" viewBox="0 0 16 7" fill={'none'}>
-            <path d="M1 1L8 6L15 1" stroke="#313131" strokeLinecap="round" />
-          </Icon>
+          <ColorPicker 
+          color={variants[currentIndex].color} 
+          colors={variants.map((v) => '#' + v.color)} 
+          onChange={handleColorChange}
+          />
+          {/* <ColorPicker  /> */}
         </Box>
       )}
     </Box>

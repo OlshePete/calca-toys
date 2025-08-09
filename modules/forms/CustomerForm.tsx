@@ -5,25 +5,22 @@ import * as Yup from 'yup';
 import {
   Box,
   Input,
-  FormLabel,
-  FormControl,
-  Button,
   Textarea,
-  Text,
   Checkbox,
   HStack,
-  Heading,
+  Field as CField,
   RadioGroup,
   Stack,
-  Radio,
-  useToast,
 } from '@chakra-ui/react';
+import { toaster } from '@components/ui/toaster';
 import Link from 'next/link';
 import PhoneInput from 'react-phone-input-2';
-import { useBasketStore } from '@/store/basketStore';
-import { IOrderData } from '@/types/order';
 import { useRouter } from 'next/navigation';
-
+import { useBasketStore } from '@store/basketStore';
+import { IOrderData } from '@apptypes/order';
+import Button from '../../ui/Buttons/CustomButton';
+import Heading from '../../ui/Heading/CustomHeading';
+import Text from '../../ui/Text/CustomText';
 interface IFormValues {
   name: string;
   phone: string;
@@ -49,7 +46,7 @@ const CustomerFormSchema = Yup.object().shape({
 
 const CustomerForm: FC<{ setSubmitRef: (ref: HTMLButtonElement) => void }> = ({ setSubmitRef }) => {
   const { basket, clearAll } = useBasketStore();
-  const toast = useToast();
+    const toast = toaster.create;
   const { push } = useRouter();
 
   const initialValues: IFormValues = {
@@ -129,9 +126,9 @@ const CustomerForm: FC<{ setSubmitRef: (ref: HTMLButtonElement) => void }> = ({ 
       toast({
         title: 'Успешно! Ваш заказ оформлен!',
         description: `Номер вашего заказа ${orderData.data.id}`,
-        status: 'success',
+        type: 'success',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
 
       // 4. Сбрасываем форму
@@ -143,9 +140,9 @@ const CustomerForm: FC<{ setSubmitRef: (ref: HTMLButtonElement) => void }> = ({ 
         title: 'Ошибка',
         description:
           (error as Error).message || 'Произошла ошибка при оформлении заказа, попробуйте заново!',
-        status: 'error',
+        type: 'error',
         duration: 5000,
-        isClosable: true,
+        closable: true,
       });
     } finally {
       setSubmitting(false);
@@ -156,7 +153,7 @@ const CustomerForm: FC<{ setSubmitRef: (ref: HTMLButtonElement) => void }> = ({ 
       maxW="100%"
       mx="auto"
       p={4}
-      sx={{
+      base={{
         '& *': {
           borderColor: '#D9D9D9',
         },
@@ -178,10 +175,10 @@ const CustomerForm: FC<{ setSubmitRef: (ref: HTMLButtonElement) => void }> = ({ 
                 gap: '22px',
               }}
             >
-              <FormControl>
-                <FormLabel htmlFor="name" className="feedback_form_label">
+              <CField.Root>
+                <CField.Label htmlFor="name" className="feedback_form_label">
                   Ваше имя <span style={{ color: 'red' }}>*</span>
-                </FormLabel>
+                </CField.Label>
                 <Field
                   as={Input}
                   className="feedback_input"
@@ -194,12 +191,12 @@ const CustomerForm: FC<{ setSubmitRef: (ref: HTMLButtonElement) => void }> = ({ 
                   placeholder=""
                 />
                 <ErrorMessage className="feedback_form_label error" name="name" component={Text} />
-              </FormControl>
+              </CField.Root>
               <HStack>
-                <FormControl>
-                  <FormLabel htmlFor="phone" className="feedback_form_label">
+                <CField.Root>
+                  <CField.Label htmlFor="phone" className="feedback_form_label">
                     Телефон <span style={{ color: 'red' }}>*</span>
-                  </FormLabel>
+                  </CField.Label>
                   <PhoneInput
                     country={'ru'}
                     specialLabel=""
@@ -232,12 +229,12 @@ const CustomerForm: FC<{ setSubmitRef: (ref: HTMLButtonElement) => void }> = ({ 
                     name="phone"
                     component={Text}
                   />
-                </FormControl>
+                </CField.Root>
 
-                <FormControl>
-                  <FormLabel htmlFor="email" className="feedback_form_label">
+                <CField.Root>
+                  <CField.Label htmlFor="email" className="feedback_form_label">
                     E-mail <span style={{ color: 'red' }}>*</span>
-                  </FormLabel>
+                  </CField.Label>
                   <Field
                     as={Input}
                     className="feedback_input"
@@ -257,12 +254,12 @@ const CustomerForm: FC<{ setSubmitRef: (ref: HTMLButtonElement) => void }> = ({ 
                     name="email"
                     component={Text}
                   />
-                </FormControl>
+                </CField.Root>
               </HStack>
-              <FormControl>
-                <FormLabel htmlFor="comment" className="feedback_form_label">
+              <CField.Root>
+                <CField.Label htmlFor="comment" className="feedback_form_label">
                   Комментарий
-                </FormLabel>
+                </CField.Label>
                 <Field
                   as={Textarea}
                   className="feedback_input"
@@ -277,10 +274,12 @@ const CustomerForm: FC<{ setSubmitRef: (ref: HTMLButtonElement) => void }> = ({ 
                   name="comment"
                   component={Text}
                 />
-              </FormControl>
+              </CField.Root>
 
-              <FormControl>
-                <Field as={Checkbox} id="consent" name="consent" className="feedback_form_checkbox">
+              <CField.Root>
+                <Field as={Checkbox.Root} id="consent" name="consent" className="feedback_form_checkbox">
+                  <Checkbox.HiddenInput/>
+                  <Checkbox.Control/>
                   Я даю согласие на обработку моих персональных данных в соответствии c{' '}
                   <Link href={'/privacy'} style={{ textDecoration: 'underline' }}>
                     политикой конфиденциальности
@@ -291,22 +290,22 @@ const CustomerForm: FC<{ setSubmitRef: (ref: HTMLButtonElement) => void }> = ({ 
                   name="consent"
                   component={Text}
                 />
-              </FormControl>
-              <Heading variant={'post_header'} mb={'28px'} pt={'40px'}>
+              </CField.Root>
+              <Heading visual={'post_header'} mb={'28px'} pt={'40px'}>
                 Способы оплаты
               </Heading>
 
-              <FormControl>
-                <RadioGroup
+              <CField.Root>
+                <RadioGroup.Root
                   name="paymentFormat"
-                  onChange={(value: 'card' | 'cash') => setFieldValue('paymentFormat', value)}
+                  onValueChange={(value) => setFieldValue('paymentFormat', value)}
                   value={values.paymentFormat ?? undefined}
                 >
-                  <Stack direction="column" spacing={4}>
-                    <Checkbox
+                  <Stack direction="column">
+                    <Checkbox.Root
                       value="card"
                       className="confirm_form_checkbox"
-                      isChecked={values.paymentFormat === 'card'}
+                      checked={values.paymentFormat === 'card'}
                       onChange={() => {
                         if (values.paymentFormat === 'card') {
                           setFieldValue('paymentFormat', null);
@@ -315,12 +314,15 @@ const CustomerForm: FC<{ setSubmitRef: (ref: HTMLButtonElement) => void }> = ({ 
                         }
                       }}
                     >
-                      Картой на сайте
-                    </Checkbox>
-                    <Checkbox
+              <Checkbox.HiddenInput />
+              <Checkbox.Control />
+              <Checkbox.Label> Картой на сайте</Checkbox.Label>
+                      
+                    </Checkbox.Root>
+                    <Checkbox.Root
                       value="cash"
                       className="confirm_form_checkbox"
-                      isChecked={values.paymentFormat === 'cash'}
+                      checked={values.paymentFormat === 'cash'}
                       onChange={() => {
                         if (values.paymentFormat === 'cash') {
                           setFieldValue('paymentFormat', null);
@@ -329,25 +331,27 @@ const CustomerForm: FC<{ setSubmitRef: (ref: HTMLButtonElement) => void }> = ({ 
                         }
                       }}
                     >
-                      Наличные/картой при получении
-                    </Checkbox>
+              <Checkbox.HiddenInput />
+              <Checkbox.Control />
+              <Checkbox.Label> Наличные/картой при получении</Checkbox.Label>
+                     
+                    </Checkbox.Root>
                   </Stack>
-                </RadioGroup>
+                </RadioGroup.Root>
                 <ErrorMessage
                   className="feedback_form_label error"
                   name="paymentFormat"
                   component={Text}
                 />
-              </FormControl>
+              </CField.Root>
               <Button
                 hidden
                 ref={submitBtn}
                 type="submit"
-                variant={'outline_secondary'}
+                visual={'outline_secondary'}
                 // colorScheme="teal"
-                isLoading={isSubmitting}
+                loading={isSubmitting}
                 borderRadius="full"
-                // width="full"
               >
                 ОТПРАВИТЬ
               </Button>

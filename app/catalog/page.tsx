@@ -5,7 +5,7 @@ import { getAllCategoryName } from '@services/categories/getCategories';
 import { getProductTypes } from '@services/products/getProductsAttributes';
 // import { IProductType, IResponseData } from '@/types/api';
 import Heading from '../../ui/Heading/CustomHeading';
-import { Link } from '@chakra-ui/react';
+import { Card, Link, List } from '@chakra-ui/react';
 import Image from 'next/image';
 import { Suspense } from 'react';
 
@@ -43,34 +43,34 @@ export default async function Home() {
 
               return (
                 <ListItemWrapper key={id}>
-                  <Image
-                    alt={title}
-                    src={src}
-                    fill={true}
-                    style={{
-                      objectFit: 'cover',
-                    }}
-                  />
-                  <div
-                    style={{
-                      zIndex: 10,
-                      height: '40%',
-                      color: 'white',
-                      background: 'rgba(0,0,0,.4)',
-                      padding: '1rem',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Heading visual={'post_header'} fontSize={28} color={'white'}>
-                      {title}
-                    </Heading>
-                    {/* <span>{subtitle}</span> */}
-                    <Link href={`catalog/${type.attributes.internal}`}>
-                      <button>В Каталог</button>
-                    </Link>
-                  </div>
+                    <Image
+                      alt={title}
+                      src={src}
+                      fill={true}
+                      style={{
+                        objectFit: 'cover',
+                      }}
+                    />
+                    <div
+                      style={{
+                        zIndex: 10,
+                        height: '40%',
+                        color: 'white',
+                        background: 'rgba(0,0,0,.4)',
+                        padding: '1rem',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                     <Heading visual={'post_header'} fontSize={28} color={'white'}>
+                        {title}
+                      </Heading>
+                      {/* <span>{subtitle}</span> */}
+                      <Link href={`catalog/${type.attributes.internal}`}>
+                        <button>В Каталог</button>
+                      </Link>
+                    </div>
                 </ListItemWrapper>
               );
             })}

@@ -64,13 +64,14 @@ function SearchBar() {
   return (
     <>
       <InputGroup
+        border={'none'}
         startElement={
           <Icon
             pointerEvents="none"
             color="brand.800"
             width={18}
             height={18}
-            marginLeft={11}
+            marginLeft={'11px'}
           >
             <svg viewBox="0 0 18 18">
               <path
@@ -84,21 +85,24 @@ function SearchBar() {
         className="search-bar"
         style={{
           maxWidth: 129,
-          height:"40px",
+          height: "40px",
         }}
         position="relative"
       >
         <Input
+          outline={'1px solid #FFEDC2'}
           type="text"
           variant={'outline'}
           value={searchQuery}
           onChange={handleInputChange}
           onBlur={handleBlur}
           onFocus={handleFocus}
+          paddingLeft={0}
+          pl={'8px'}
           style={{
             maxWidth: 129,
-            height:'100%',
-            paddingLeft:'32px',
+            height: '100%',
+            paddingLeft: '32px',
             borderRadius: '28px',
             border: '1px solid #FFEDC2',
             backgroundColor: '#FEF7E6',

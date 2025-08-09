@@ -1,9 +1,10 @@
-import { useBasketStore } from '@/store/basketStore';
-import { Box, BoxProps, List, ListItem, Text, useBreakpointValue, VStack } from '@chakra-ui/react';
+import { Box, BoxProps, List, useBreakpointValue, VStack } from '@chakra-ui/react';
 import Link from 'next/link';
+import Text from '../../ui/Text/CustomText';
 import React, { FC } from 'react';
 import BasketItem from '../BasketItem/BasketItem';
 import { BasketSummaryWrapper } from './BasketSummaryWrapper';
+import { useBasketStore } from '@store/basketStore';
 
 interface BasketSummaryProps extends BoxProps {
   children: React.ReactNode;
@@ -77,7 +78,7 @@ const BasketSummary: FC<BasketSummaryProps> = ({ children, ...props }) => {
             ))}
           </List.Root>
         ) : (
-          <Text variant={'product_text_sub'}>
+          <Text visual={'product_text_sub'}>
             Здесь пока пусто, самое время найти что-то подходящее в{' '}
             <Link href={'/catalog'}>Каталоге</Link>
           </Text>

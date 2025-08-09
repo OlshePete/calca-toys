@@ -1,6 +1,5 @@
 import ContentContainer from '@components/ContentContainer/ContentContainer';
 import ProductFullView from '@modules/cards/ProductFullView';
-import { products } from '@public/products';
 import { getProductById } from '@services/products/getProducts';
 import BreadCrumb from '@components/BreadCrumb/BreadCrumb';
 import { Suspense } from 'react';

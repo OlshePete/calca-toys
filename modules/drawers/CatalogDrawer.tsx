@@ -1,23 +1,19 @@
-import { ChildrenComponentProps } from '@/types';
 import {
   Box,
-  Button,
   Drawer,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerOverlay,
-  IconButton,
   useBreakpointValue,
   useDisclosure,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import { FC, useEffect, useRef } from 'react';
+import CustomButton from '../../ui/Buttons/CustomButton';
+import { ChildrenComponentProps } from '@apptypes';
 
 interface IProps extends ChildrenComponentProps {}
 
 const CatalogDrawer: FC<IProps> = ({ children }) => {
   const btnRef = useRef<HTMLButtonElement>(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { open, onOpen, onClose } = useDisclosure();
   const withDrawer = useBreakpointValue(
     { base: true, sm: true, md: true, lg: false, xl: false },
     { fallback: 'md' }
@@ -30,9 +26,9 @@ const CatalogDrawer: FC<IProps> = ({ children }) => {
   if (withDrawer)
     return (
       <>
-        <Button onClick={onOpen} position={'absolute'}>
+        <CustomButton onClick={onOpen} position={'absolute'}>
           параметры
-        </Button>
+        </CustomButton>
         {/* <IconButton
             ref={btnRef}
             onClick={onOpen}
@@ -54,19 +50,14 @@ const CatalogDrawer: FC<IProps> = ({ children }) => {
                 />
             }
         /> */}
-        <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-          <DrawerOverlay />
-          <DrawerContent h={'100dvh'} overflowY={'auto'} p={'24px'} bg={'#FEF7E6'}>
-            <DrawerCloseButton
+        <Drawer.Root open={open} onOpenChange={(e) => e.open? onOpen(): onClose()}
+          // placement="left" 
+        >
+          <Drawer.Backdrop  />
+          <Drawer.Content h={'100dvh'} overflowY={'auto'} p={'24px'} bg={'#FEF7E6'}>
+        <Drawer.Trigger asChild
               w={'44px'}
-              h={'44px'}
-              sx={{
-                '& svg': {
-                  width: '18px',
-                  height: '18px',
-                },
-              }}
-            />
+              h={'44px'}>
             <Box
               minW={'266px'}
               pt={'44px'}
@@ -79,8 +70,9 @@ const CatalogDrawer: FC<IProps> = ({ children }) => {
             >
               {children}
             </Box>
-          </DrawerContent>
-        </Drawer>
+          </Drawer.Trigger>
+        </Drawer.Content>
+      </Drawer.Root>
       </>
     );
   return (

@@ -1,20 +1,19 @@
 import { _getSizes } from '@modules/cards/ProductPreview';
-import { useBasketStore } from '@/store/basketStore';
-import { IBasketItem, IProductBasketVariant } from '@/types/basket';
-import { CountPicker } from '@/ui/inputs/CountPicker';
+import { IBasketItem, IProductBasketVariant } from '@apptypes/basket';
 import {
   Box,
-  Button,
   HStack,
-  Icon,
   IconButton,
-  Text,
   useBreakpointValue,
   VStack,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import { FC } from 'react';
-
+import { CountPicker } from '../../ui/inputs/CountPicker';
+import Button from '../../ui/Buttons/CustomButton';
+import Text from '../../ui/Text/CustomText';
+import { useBasketStore } from '@store/basketStore';
+import { LuPlus } from 'react-icons/lu';
 interface IProps {
   item: IBasketItem;
   variant: IProductBasketVariant;
@@ -63,7 +62,7 @@ const BasketItem: FC<IProps> = ({ item, variant, isConfirm = false }) => {
       width={isMobile ? 'calc(100% - 32px)' : undefined}
       paddingBottom={isConfirm ? '26px' : '40px'}
       borderBottom={'1px solid rgba(0,0,0,.15)'}
-      sx={{
+      base={{
         '& > img': {
           borderRadius: '9px',
           minWidth: isConfirm || isMobile ? '100px' : '170px',
@@ -108,19 +107,19 @@ const BasketItem: FC<IProps> = ({ item, variant, isConfirm = false }) => {
           </Box>
           <Box pt={isConfirm ? '0px' : '24px'} w={'fit-content'}>
             {!previewComment && (height || width) && (
-              <Text variant={'product_text_sub'} fontSize={isConfirm ? '12px' : '14px'}>
+              <Text visual={'product_text_sub'} fontSize={isConfirm ? '12px' : '14px'}>
                 {_getSizes(height, width)}
               </Text>
             )}
             {!discount_price ? (
-              <Text variant={'product_text'}>{price} ₽</Text>
+              <Text visual={'product_text'}>{price} ₽</Text>
             ) : (
               <Box display={'flex'} gap={'4px'} flexDirection={'column'}>
-                <Text variant={'product_text'} fontSize={isConfirm ? '16px' : '18px'}>
+                <Text visual={'product_text'} fontSize={isConfirm ? '16px' : '18px'}>
                   {discount_price} ₽
                 </Text>
                 <Text
-                  variant={'price_text'}
+                  visual={'price_text'}
                   className="crossed"
                   fontSize={isConfirm ? '16px' : '18px'}
                 >
@@ -146,7 +145,7 @@ const BasketItem: FC<IProps> = ({ item, variant, isConfirm = false }) => {
               }}
               position={isMobile ? 'absolute' : 'inherit'}
               top={isMobile ? -8 : 0}
-              variant={'ghost'}
+              visual={'ghost'}
               fontSize={'14px'}
               p={0}
               h={'fit-content'}
@@ -155,25 +154,16 @@ const BasketItem: FC<IProps> = ({ item, variant, isConfirm = false }) => {
               textDecoration={'underline'}
               textUnderlineOffset={'4px'}
               _hover={{ background: 'transparent' }}
-              rightIcon={
-                <Icon width={'16px'} height={'16px'} viewBox={'0 0 16 16'} fill={'#F49AA5'}>
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M8.56825 0.5C8.56825 0.223858 8.34439 0 8.06825 0C7.7921 0 7.56825 0.223858 7.56825 0.5V7.56841H0.5C0.223858 7.56841 0 7.79227 0 8.06841C0 8.34455 0.223858 8.56841 0.5 8.56841H7.56825V15.5C7.56825 15.7761 7.79211 16 8.06825 16C8.34439 16 8.56825 15.7761 8.56825 15.5V8.56841H15.5C15.7761 8.56841 16 8.34455 16 8.06841C16 7.79227 15.7761 7.56841 15.5 7.56841H8.56825V0.5Z"
-                    fill="#F49AA5"
-                  />
-                </Icon>
-              }
             >
-              Добавить грузик
+              Добавить грузик<LuPlus/>
             </Button>
             <IconButton
               onClick={handleRemove}
               aria-label="remove basket item"
               bg={'#90BCE4'}
-              icon={<Image src="/trash.svg" alt="Basket icon" width={16} height={16} priority />}
-            />
+            >
+              <Image src="/trash.svg" alt="Basket icon" width={16} height={16} priority />
+              </IconButton>
           </Box>
         )}
       </VStack>

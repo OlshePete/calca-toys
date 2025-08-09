@@ -1,5 +1,5 @@
 'use client';
-import { ICustomStackProps } from '@/types';
+import { ICustomStackProps } from '@apptypes';
 import { Stack, useBreakpointValue } from '@chakra-ui/react';
 import React from 'react';
 

@@ -10,12 +10,17 @@ interface ListItemWrapperProps {
 
 const ListItemWrapper: React.FC<ListItemWrapperProps> = ({ children, className = '' }) => {
   return (
-    <Card
-      className={`${className}`}
-      display={'flex'}
-      flexDirection={'column-reverse'}
+    <Card.Root
       minW={'370px'}
       h={'441px'}
+      background={'transparent'}
+      border={'none'}
+    >
+      <Card.Body
+      padding={0}
+      className={`card-special-content ${className}`}
+      display={'flex'}
+      flexDirection={'column-reverse'}
       position={'relative'}
       borderRadius={'14px'}
       overflow={'hidden'}
@@ -24,37 +29,10 @@ const ListItemWrapper: React.FC<ListItemWrapperProps> = ({ children, className =
         transform: 'translateY(-4px)',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
       }}
-      sx={{
-        h3: {
-          color: 'white',
-          fontFamily: 'TS Remarker',
-          fontSize: '28px',
-          fontStyle: 'normal',
-          fontWeight: 400,
-          lineHeight: '120%',
-          textTransform: 'uppercase',
-        },
-        button: {
-          backgroundColor: '#F49AA5',
-          color: 'white',
-          fontFamily: 'Lato',
-          fontSize: '14px',
-          fontWeight: 500,
-          lineHeight: '14px',
-          padding: '17px 32px',
-          borderRadius: '49px',
-          border: 'none',
-          cursor: 'pointer',
-          textTransform: 'uppercase',
-          transition: 'all 0.3s ease',
-          '&:hover': {
-            backgroundColor: '#e88994',
-          },
-        },
-      }}
-    >
-      {children}
-    </Card>
+      >
+        {children}
+      </Card.Body>
+    </Card.Root>
   );
 };
 

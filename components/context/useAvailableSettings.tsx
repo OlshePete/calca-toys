@@ -1,6 +1,6 @@
 'use client';
 import React, { createContext, useContext, ReactNode, useMemo } from 'react';
-import { IAllProductsContent } from '@/types/api';
+import { IAllProductsContent } from '@apptypes/api';
 
 // Тип для данных, которые возвращает parseProductsData
 interface IAvailableSettings {
@@ -25,7 +25,7 @@ export const AvailableSettingsProvider: React.FC<AvailableSettingsProviderProps>
   const parseProductsData = (data: IAllProductsContent): IAvailableSettings => {
     const colorsSet = new Set<string>();
     const tagsSet = new Set<string>();
-
+console.log('data data', data)
     data.data.forEach((product) => {
       product.attributes.variant.forEach((variant) => {
         if (variant.color) {
@@ -36,6 +36,7 @@ export const AvailableSettingsProvider: React.FC<AvailableSettingsProviderProps>
       product.attributes.tags.data.forEach((tag) => {
         console.log(
           'test provider 0',
+          Object.keys(tag.attributes),
           `${tag.attributes.category.data.attributes.paramName}#${tag.attributes.title}`
         );
 

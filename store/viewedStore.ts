@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { IProductByIdContent } from '@/types/api';
+import { IProductByIdContent } from '@apptypes/api';
 interface IViewedItem extends IProductByIdContent {}
 interface IViewedState {
   viewed: IViewedItem[];

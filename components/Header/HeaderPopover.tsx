@@ -1,19 +1,16 @@
 import {
   Box,
-  CloseButton,
   Icon,
   Image,
-  Input,
   Popover,
-  PopoverCloseTrigger,
   Portal,
-  Text,
   VStack,
 } from '@chakra-ui/react';
 import { FC, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { IAllCategoryNames } from '@apptypes/api';
 import Button from '../../ui/Buttons/CustomButton';
+import { useHeaderMenu } from '@components/context/HeaderMenuContext';
 
 interface IProps {
   label: string;
@@ -26,23 +23,29 @@ const HeaderPopover: FC<IProps> = ({ label, categoryNames, category, container }
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const closeBtn = useRef<HTMLButtonElement>(null);
   const router = useRouter();
+  const {} = useHeaderMenu()
   const currentCategories =
     category && categoryNames?.data?.filter((c, i) => c.attributes.type === category);
   const [currentIndex, setIndex] = useState(0);
   const activeCategoryTile = categoryNames?.data.find((cat) => cat.id === currentIndex)?.attributes;
   const btnLabel = Array.isArray(currentCategories)?currentCategories?.map(cat=>cat.attributes.btnName)[currentIndex]:"123"
-  console.log('activeCategoryTile',({currentIndex,btnLabel,currentCategories:Array.isArray(currentCategories)?currentCategories?.map(cat=>cat.attributes.btnName)[currentIndex]:"",category}));
   function onClose() {
     closeBtn.current?.click();
   }
-  return    <Popover.Root>
-      <Popover.Trigger asChild>
+  return    <Popover.Root positioning={{ offset: { crossAxis: 10, mainAxis: -.8 } }} >
+      <Popover.Trigger asChild >
         <Button
           visual={'header_link'}
           borderRadius={0}
           minHeight={'100%'}
           width={'fit-content'}
           label={label}
+          boxSizing={'content-box'}
+          _hover={{
+            outline:"none!important",
+            borderBottom:'4px solid #90BCE4!important',
+          }}
+          onClick={(event)=>{console.log('onClick',event.currentTarget)}}
         >
           {label}
         </Button>
@@ -72,7 +75,6 @@ const HeaderPopover: FC<IProps> = ({ label, categoryNames, category, container }
                         className={i === currentIndex ? 'active_category' : ''}
                         key={category.id}
                         onClick={() => setIndex(i)}
-                       
                       >
                         <Image
                           src={`${API_URL}/cms${category.attributes.icon.data.attributes.url}`}
@@ -92,7 +94,7 @@ const HeaderPopover: FC<IProps> = ({ label, categoryNames, category, container }
                         transition={'all .2s ease-in-out'}
                       >
                         <svg width="11" height="21" viewBox="0 0 11 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M1 1L9 10.7568L1 20" stroke="#313131" strokeLinecap="round"  stroke-width="2" stroke-linecap="round"/>
+                          <path d="M1 1L9 10.7568L1 20" stroke="#313131" strokeLinecap="round"  strokeWidth="2"/>
                         </svg>
                       </Icon> 
                       </Button>
@@ -136,7 +138,7 @@ const HeaderPopover: FC<IProps> = ({ label, categoryNames, category, container }
                             onClose();
                           }}
                         >
-                          {variant.attributes.title}231
+                          {variant.attributes.title}
                         </Button>
                       );
                     }

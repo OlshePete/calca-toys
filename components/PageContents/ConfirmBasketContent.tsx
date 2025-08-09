@@ -1,9 +1,10 @@
 'use client';
-import { Button, Grid, GridItem, Heading, useBreakpointValue } from '@chakra-ui/react';
+import { Grid, GridItem, useBreakpointValue } from '@chakra-ui/react';
 import React, { FC, useRef } from 'react';
 import CustomerForm from '@modules/forms/CustomerForm';
 import BasketSummary from '../basket/BasketSummary';
-
+import Button from '../../ui/Buttons/CustomButton';
+import Heading from '../../ui/Heading/CustomHeading';
 interface IConfirmBasketContentProps {}
 
 const ConfirmBasketContent: FC<IConfirmBasketContentProps> = ({}) => {
@@ -13,7 +14,7 @@ const ConfirmBasketContent: FC<IConfirmBasketContentProps> = ({}) => {
   };
   return (
     <>
-      <Heading variant={'post_header'} mb={'40px'} pt={'60px'}>
+      <Heading visual={'post_header'} mb={'40px'} pt={'60px'}>
         Данные покупателя
       </Heading>
 
@@ -32,7 +33,7 @@ const ConfirmBasketContent: FC<IConfirmBasketContentProps> = ({}) => {
           <BasketSummary>
             <Button
               type="submit"
-              variant={'outline_secondary'}
+              visual={'outline_secondary'}
               borderRadius="full"
               onClick={(event) => {
                 event.preventDefault();

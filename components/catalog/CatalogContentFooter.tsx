@@ -120,9 +120,9 @@ const CatalogContentFooter: FC<ICheckBoxProps> = ({
       <Box w={'100%'} display="flex" justifyContent="flex-end" alignItems="center">
         {renderPageButtons()}
       </Box>
-      {total !== current && (
+      {Boolean(total) && total !== current && (
         <Button mt={'4px'} onClick={onButtonClick} width={'fit-content'} alignSelf={'center'}>
-          Смотреть ещё
+          Смотреть ещё{total}{current}
         </Button>
       )}
     </Box>

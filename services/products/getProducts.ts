@@ -1,4 +1,4 @@
-import { IAllProductsContent, IProductByIdContent } from '@/types/api';
+import { IAllProductsContent, IProductByIdContent } from '@apptypes/api';
 
 const { API_TOKEN, API_URL } = process.env;
 const headers = {

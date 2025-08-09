@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import ContentContainer from '../ContentContainer/ContentContainer';
 import { IconButton, Text } from '@chakra-ui/react';
-import { HeaderInfoProps } from '@/types';
+import { HeaderInfoProps } from '@apptypes';
 import Image from 'next/image';
 
 function HeaderGlobalInfo({ theme = 'light' }: HeaderInfoProps) {
@@ -24,8 +24,9 @@ function HeaderGlobalInfo({ theme = 'light' }: HeaderInfoProps) {
           _hover={{
             bg: 'rgba(0,0,0,0)',
           }}
-          icon={<Image src="/cross.svg" alt="close popup" width={18} height={18} priority />}
-        />
+        >
+          <Image src="/cross.svg" alt="close popup" width={18} height={18} priority />
+        </IconButton>
       </div>
     </ContentContainer>
   ) : (

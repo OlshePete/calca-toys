@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { FormikHelpers, useFormik } from 'formik';
-import { Button, HStack, IconButton } from '@chakra-ui/react';
-import { IProduct, IProductVariant, IResponseData } from '@/types/api';
-import { useBasketStore } from '@/store/basketStore';
-import { CountPicker } from '@/ui/inputs/CountPicker';
+import {  HStack, IconButton } from '@chakra-ui/react';
+import { IProduct, IProductVariant, IResponseData } from '@apptypes/api';
 import { useRouter } from 'next/navigation';
-
+import { useBasketStore } from '@store/basketStore';
+import { CountPicker } from '../../ui/inputs/CountPicker';
+import Button from '../../ui/Buttons/CustomButton';
 function ProductFullViewForm({
   max,
   item,
@@ -67,7 +67,7 @@ function ProductFullViewForm({
           }}
         />
         <Button
-          variant={'solid'}
+          visual={'solid'}
           textTransform={'uppercase'}
           w={'248px'}
           fontSize={'12px'}
@@ -88,7 +88,7 @@ function ProductFullViewForm({
         <IconButton
           type="submit"
           aria-label="add-to-basket-icon"
-          icon={
+          >
             <Image
               src="/basket.svg"
               alt="Basket icon"
@@ -99,8 +99,8 @@ function ProductFullViewForm({
                 cursor: 'pointer',
               }}
             />
-          }
-        />
+          </IconButton>
+        
       </HStack>
     </form>
   );

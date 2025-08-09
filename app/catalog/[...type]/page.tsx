@@ -7,7 +7,7 @@ import { getCategoryNameByType } from '@services/categories/getCategories';
 import { AvailableSettingsProvider } from '@components/context/useAvailableSettings';
 import { ProductsProvider } from '@components/context/useProductsContext';
 import { getAllProducts } from '@services/products/getProducts';
-import { IAllProductsContent, ITypeLabels, TypeLabel } from '@/types/api';
+import { IAllProductsContent, ITypeLabels, TypeLabel } from '@apptypes/api';
 
 export interface ISearchParams {
   type?: string;
@@ -56,7 +56,9 @@ const findPriceLimits = (label: TypeLabel, allProducts: IAllProductsContent): [n
   const prices = filteredProduct.map(
     (product) => product.attributes.discount_price ?? product.attributes.price
   );
-  return [Math.min(...prices) ?? 0, Math.max(...prices) ?? 10000];
+  const min = !isFinite(Math.min(...prices)) ? 0 : Math.min(...prices)
+  const max = !isFinite(Math.max(...prices)) ? 0 : Math.max(...prices)
+  return [ min, max ];
 };
 
 type Params = Promise<{ type: string }>

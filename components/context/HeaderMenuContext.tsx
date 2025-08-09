@@ -5,11 +5,11 @@ import React, {
   ReactNode,
   useMemo,
   useState,
-  useEffect,
   useRef,
 } from 'react';
 
 interface IHeaderMenu {
+  parentRef: React.RefObject<HTMLDivElement | null>;
   activeCategory: string | null;
   setActiveCategory: (category: string | null) => void;
 }
@@ -23,24 +23,20 @@ interface HeaderMenuProviderProps {
 
 export const HeaderMenuProvider: React.FC<HeaderMenuProviderProps> = ({ children }) => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  const isFirstRender = useRef(true);
+  const parentRef = useRef<HTMLDivElement | null>(null);
+
   const handleSetActiveCategory = (category: string | null) => {
     if (typeof window !== 'undefined') {
       setActiveCategory(category);
     }
   };
-  useEffect(() => {
-    if (!isFirstRender.current) {
-    }
-    isFirstRender.current = false;
-  }, [activeCategory]);
-
   const availableSettings = useMemo(
     () => ({
+      parentRef,
       activeCategory,
       setActiveCategory: handleSetActiveCategory,
     }),
-    [activeCategory, setActiveCategory]
+    [activeCategory, setActiveCategory, parentRef]
   );
 
   return (

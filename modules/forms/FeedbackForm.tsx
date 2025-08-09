@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -9,14 +9,12 @@ import {
   Textarea,
   Checkbox,
   HStack,
-  ProgressCircle,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import PhoneInput from 'react-phone-input-2';
 import CustomButton from '../../ui/Buttons/CustomButton';
 import Text from '../../ui/Text/CustomText';
 import { toaster } from '@components/ui/toaster';
-import { css } from '@emotion/react';
 interface IFormValues {
   name: string;
   phone: string;
@@ -86,14 +84,6 @@ const FeedbackForm = () => {
       setSubmitting(false);
     }
   };
-  useEffect(() => {
-    // Получаем значение переменной из :root (или другого элемента)
-    const root = document.documentElement;
-    const value = getComputedStyle(root)
-      // .getPropertyValue("--chakra-colors-color-palette-solid")
-      // .trim();
-      console.log('getComputedS', JSON.stringify(value,null,2))
-  }, []);
   return (
     <Box
       maxW="100%"
@@ -209,12 +199,8 @@ const FeedbackForm = () => {
                 </Checkbox.Label>
               </Checkbox.Root>
               <ErrorMessage className="feedback_form_label error" name="privacy" component={Text} />
-            </ChakraField.Root>   {true &&   <ProgressCircle.Root value={null} size="sm" color={'red'}>
-                  <ProgressCircle.Circle>
-                    <ProgressCircle.Track />
-                    <ProgressCircle.Range />
-                  </ProgressCircle.Circle>
-                </ProgressCircle.Root>} 
+            </ChakraField.Root>  
+          
             <CustomButton
               type="submit"
               visual={'outline_secondary'}

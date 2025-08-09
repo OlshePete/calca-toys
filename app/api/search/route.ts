@@ -9,12 +9,12 @@ export async function GET(request: Request) {
     // Получаем поисковый запрос из URL
     const { searchParams } = new URL(request.url);
     const query = searchParams.get('q')?.toLowerCase() || '';
+    console.log('SEARCH_QUERY', query)
 
     // Если запрос пустой, возвращаем пустой массив
     if (!query) {
       return NextResponse.json([]);
     }
-
     // Получаем все продукты
     const productsData = await getAllProducts();
 

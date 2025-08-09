@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { IProduct, IProductByIdContent, IResponseData } from './api';
+import { IProduct, IProductByIdContent, IResponseData, ISubscribeResponse } from './api';
 import {
   BoxProps,
   // ButtonProps,
@@ -55,7 +55,6 @@ export interface CustomTitleProps extends HeadingProps {
   label?: string;
 }
 export interface CustomTextProps extends TextProps {
-  fontSize?: number;
   color?: string;
   style?: object;
   label?:string
@@ -95,12 +94,21 @@ export interface ProductPreviewProps {
 export interface ProductFullViewProps {
   product: IProductByIdContent;
 }
-export interface ProductsCarouselProps extends BoxProps {
+export interface BaseCarouselProps extends BoxProps {
   label: string;
   products: IResponseData<IProduct>[];
   link?: string;
   dinamicMarginLeft?: boolean;
   withButton?: boolean;
+  components?:{
+    label:ReactNode;
+    items:ReactNode[];
+    button?:ReactNode;
+  }
+}
+export interface ProductsCarouselProps extends BaseCarouselProps {
+  label: string;
+  products: IResponseData<IProduct>[];
 }
 export interface CustomButtonProps extends ButtonProps{
   label?: string;
@@ -176,7 +184,7 @@ export interface SubscribeCarouselItem {
   image: string;
 }
 export interface SubscribeCarouselProps {
-  images: SubscribeCarouselItem[];
+  content: ISubscribeResponse
 }
 export interface IIconButtonProps extends ButtonProps {
   label: string;

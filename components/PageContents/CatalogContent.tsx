@@ -1,12 +1,12 @@
 'use client';
 import { Accordion, Box } from '@chakra-ui/react';
-import { FC, useState, useEffect, useMemo } from 'react';
+import { FC, useState, useEffect, useMemo, useCallback } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'; // Для Next.js 13+
 import AccordionItem from '../catalog/AccordionItem';
 import CatalogContentHeader from '../catalog/CatalogContentHeader';
 import ContentItems from '../catalog/ContentItems';
 import PricePicker from '../catalog/PricePicker';
-import { IAllProductsContent, IProduct, IResponseData, TypeLabel } from '@apptypes/api';
+import { IAllProductsContent, IProduct, IResponseData, TSortProdcutVariant, TypeLabel } from '@apptypes/api';
 import { useAvailableSettings } from '../context/useAvailableSettings';
 import CustomColorPicker from '../catalog/CustomColorPicker';
 import { useProducts } from '../context/useProductsContext';
@@ -14,6 +14,7 @@ import CatalogContentFooter from '../catalog/CatalogContentFooter';
 import CheckBoxGroup from '../catalog/CheckBoxGroup';
 import CatalogDrawer from '@modules/drawers/CatalogDrawer';
 import CustomHeading from '../../ui/Heading/CustomHeading';
+import SortSelect from '@components/SortSelect/SortSelect';
 interface ICatalogContentProps {
   label: TypeLabel;
   products: IAllProductsContent;
@@ -31,6 +32,12 @@ interface ICatalogContentProps {
     variants: string[];
   }[];
 }
+type TSpecialVariant =  'action' | 'musthave'
+
+export const SPECIAL_LIST:Record<TSpecialVariant, string> = {
+  action: 'акция',
+  musthave: 'хит продаж',
+};
 const filterByTypeParams = (
   params: Record<string, string[]> | null,
   type: string = 'page'
@@ -48,9 +55,26 @@ const filterByPrice = (products: IResponseData<IProduct>[], price: [number, numb
     const [min, max] = price;
     return value >= min && value <= max;
   });
-const SPECIAL_LIST = {
-  action: 'акция',
-  musthave: 'хит продаж',
+  
+const filterBySpecial = (products: IResponseData<IProduct>[], special: string[] | null) => {
+  if(!special || special.length === 0) return [...products];
+  const checkAction = special.includes('action');  
+  const checkMusthave = special.includes('musthave');  
+  return [...products].filter((product) => {
+    const isAction = Boolean(product.attributes.discount_price)
+    const isMusthave = product.attributes?.mustHave
+    
+    return (checkAction && checkMusthave) 
+      ? (isAction || isMusthave)
+      : checkAction 
+        ? isAction 
+        : isMusthave
+  })
+};
+
+const SORT_OPTIONS:Record<TSortProdcutVariant, string> = {
+  price_inc: 'цена по возрастанию',
+  price_dec: 'цена по убыванию',
 };
 const CatalogContent: FC<ICatalogContentProps> = ({
   label,
@@ -60,9 +84,6 @@ const CatalogContent: FC<ICatalogContentProps> = ({
   materials,
   priceLimits,
 }) => {
-  console.log('priceLimits', priceLimits);
-  console.log('products %%%%', products);
-
   const [params, setParams] = useState<Record<string, string[]> | null>(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -70,26 +91,28 @@ const CatalogContent: FC<ICatalogContentProps> = ({
   const avaliableParams = useAvailableSettings();
   const [specials, setSpecials] = useState<string[] | null>(null);
   const [price, setPrice] = useState<[number, number]>([0, priceLimits[1]]);
+  const [sortValue, setSortValue] = useState<TSortProdcutVariant>('price_dec');
+  const filterSpecial = useCallback((products:IResponseData<IProduct>[])=>{
+    return filterBySpecial(products, specials)
+  },[specials])
+  
   const [filteredProducts, setFilteredProducts] = useState<IResponseData<IProduct>[]>(
-    filterByPrice(products.data, price)
+    filterSpecial(filterByPrice(products.data, price))
   );
-  // console.log('filteredProducts', price, products.data.length, filteredProducts);
-  // const filteredProducts = filterByPrice
+
   useEffect(() => {
-    setFilteredProducts(filterByPrice(products.data, price));
-  }, [products, price]);
+    setFilteredProducts(filterSpecial(filterByPrice(products.data, price)));
+  }, [products, price, specials]);
+
   // Инициализация params из searchParams при первом рендере
   useEffect(() => {
-    // console.log('%%1 effect 1 ', params);
     const initialParams: Record<string, string[]> = {};
     searchParams?.forEach((value, key) => {
       initialParams[key] = value.split(',');
     });
-    // console.log('%%1 initialParams', initialParams);
 
     setParams(initialParams);
   }, [searchParams]);
-  // console.log('%%1 products', products);
 
   // Обработка изменения параметров
   const handleChangeParams = (type: string, newValue: string[] | null) => {
@@ -113,7 +136,6 @@ const CatalogContent: FC<ICatalogContentProps> = ({
 
   // Обновление URL при изменении params
   useEffect(() => {
-    // console.log('%%2 effect', params);
     if (!params) return;
 
     const newSearchParams = new URLSearchParams();
@@ -122,14 +144,9 @@ const CatalogContent: FC<ICatalogContentProps> = ({
         newSearchParams.set(paramName, values.join(','));
       }
     });
-    //когда урл обновляется парамс ещё не обновились
-    // console.log('%%1 params', params);
-    // console.log('%%1 searchParams', searchParams?.toString());
     const currentSearchParams = new URLSearchParams(searchParams?.toString());
 
     if (newSearchParams.toString() !== currentSearchParams.toString()) {
-      // console.log('%%1 flirt', newSearchParams.toString(), currentSearchParams.toString());
-
       const newUrl = `${pathname}?${newSearchParams.toString()}`;
       router.replace(newUrl, { scroll: false });
     }
@@ -144,7 +161,7 @@ const CatalogContent: FC<ICatalogContentProps> = ({
   const headerList = useMemo(() => {
     if (!params) return [];
     return Object.keys(params)
-      .filter((par) => params[par].length > 0 && !['price', 'color'].includes(par))
+      .filter((par) => params[par].length > 0 )
       .map((par) => ({ label: params[par], paramName: par }));
   }, [params]);
 
@@ -160,7 +177,7 @@ const CatalogContent: FC<ICatalogContentProps> = ({
       return newSpecials.length != 0 ? newSpecials : null;
     });
   };
-
+console.log('params', params)
   return (
     <>
       <CustomHeading visual={'post_header'} pt={'60px'} pb={'40px'}>
@@ -169,7 +186,7 @@ const CatalogContent: FC<ICatalogContentProps> = ({
       <Box display={'flex'} minH={'100dvh'}>
         <CatalogDrawer>
           <>
-            <Accordion.Root >
+            <Accordion.Root multiple >
               {[defaultCategory, ...categoriesName].map(({ title, paramName, variants }) => (
                 <AccordionItem
                   value={paramName}
@@ -205,11 +222,11 @@ const CatalogContent: FC<ICatalogContentProps> = ({
               max={Number(price[1])}
               setValue={(min: number, max: number) => {
                 setPrice([min < 0 ? 0 : min, max > priceLimits[1] ? priceLimits[1] : max]);
-                // handleChangeParams('price',[String(min),String(max)])
               }}
             />
             <CustomColorPicker
               onChange={(color) => {
+                console.log('color',color, params?.color?.includes(color))
                 const newColors = params?.color?.includes(color)
                   ? params?.color.filter((parCol) => parCol !== color)
                   : Array.from(new Set([...(params?.color ?? []), color]));
@@ -224,12 +241,18 @@ const CatalogContent: FC<ICatalogContentProps> = ({
           <CatalogContentHeader
             mb={'22px'}
             list={headerList}
+            price={price}
+            priceLimits={priceLimits}
+            specials={specials}
+            onDeleteSpecial={(value, paramName)=>{
+              setSpecials(prev=>prev?.filter(spec=>spec!==value) ?? null)
+            }}
             onDelete={(label, paramName) => {
               setParams((prev) => {
                 if (!prev) return prev;
                 const newParams = { ...prev };
                 if (newParams[paramName]) {
-                  newParams[paramName] = newParams[paramName].filter((item) => item !== label);
+                  newParams[paramName] = newParams[paramName].filter((item) => item !== (paramName==='color'?label.slice(1):label));
                 }
                 if (newParams[paramName] && newParams[paramName].length === 0) {
                   delete newParams[paramName];
@@ -237,10 +260,27 @@ const CatalogContent: FC<ICatalogContentProps> = ({
                 return newParams;
               });
             }}
-          />
+            onDeletePrice={(priceVariant)=>{
+              const isStart = priceVariant === 'start'
+              const zeroBasedPriceLimit = [0, priceLimits[1]]
+              setPrice(prev=>[
+                isStart?zeroBasedPriceLimit[0]:prev[0],
+                !isStart?zeroBasedPriceLimit[1]:prev[1],
+              ])
+            }}
+          >
+            <SortSelect
+              options={SORT_OPTIONS}
+              onChange={(v) => setSortValue(v as TSortProdcutVariant)}
+              value={sortValue}
+            />
+          </CatalogContentHeader>
           <ContentItems
             minH={400}
             products={filteredProducts}
+            sortValue={sortValue}
+            params={params}
+            // hasParams={Boolean(params) || Object.keys(params) }
             display={'flex'}
             columnGap={'30px'}
             rowGap={'20px'}

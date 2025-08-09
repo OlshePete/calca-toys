@@ -1,7 +1,6 @@
 'use client';
 import { Box, Tabs } from '@chakra-ui/react';
 import { FC, useState, ReactElement, Children, useEffect, cloneElement, FormEventHandler } from 'react';
-import SortSelect from '../SortSelect/SortSelect';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChildrenComponentProps } from '@apptypes';
 import { INewsResponse, TFilter, TSortVariants } from '@apptypes/api';

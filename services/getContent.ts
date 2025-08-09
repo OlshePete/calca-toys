@@ -8,6 +8,7 @@ import {
   INewsItem,
   IWarrantyResponse,
   IPaymentResponse,
+  ISubscribeResponse,
 } from '@apptypes/api';
 import { cache } from 'react';
 
@@ -16,22 +17,6 @@ const headers = {
   Authorization: `bearer ${API_TOKEN}`,
   'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
 };
-
-export const getStartPageContent = cache(async () => {
-  const response = await fetch(`${API_URL}/cms/api/web-content-start?populate=*`, {
-    headers,
-    next: {
-      revalidate: 3600, // кэшируем на 1 час
-    },
-  });
-
-  if (!response.ok) throw new Error('Ошибка при загрузке контента для стартовой страницы.');
-
-  const data: IStartPageContent = await response.json();
-  console.log('Контент для стартовой страницы успешно получен!', data);
-
-  return data;
-});
 
 export const getContacts = cache(async () => {
   const response = await fetch(
@@ -139,6 +124,22 @@ export const getNewsById = cache(async (id: string) => {
 
   const data: IResponseItemWithDataMeta<IResponseData<INewsItem>> = await response.json();
   console.log('Новость успешно получена!');
+
+  return data;
+});
+
+export const getSubscribeData = cache(async () => {
+  const response = await fetch(`${API_URL}/cms/api/subscribe?populate=*`, {
+    headers,
+    next: {
+      revalidate: 3600, // кэшируем на 1 час
+    },
+  });
+
+  if (!response.ok) throw new Error('Ошибка при загрузке данных для блока подписки.');
+
+  const data: ISubscribeResponse = await response.json();
+  console.log('Данные для блока подписки получены!');
 
   return data;
 });

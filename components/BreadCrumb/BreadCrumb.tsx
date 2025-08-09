@@ -3,6 +3,7 @@
 import { Breadcrumb, BreadcrumbRootProps } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 import React, { FC } from 'react';
+import CustomText from '../../ui/Text/CustomText';
 
 const labels = {
   contacts: 'Контакты',
@@ -50,8 +51,10 @@ const Breadcrumbs: FC<IProps> = ({ title, ...props }) => {
               <Breadcrumb.Item key={href} fontSize={'12px'} >
                 {
                   isCurrentPage ?
-                    <Breadcrumb.CurrentLink color={'brand.200'} fontWeight={600}>
-                      {text}
+                    <Breadcrumb.CurrentLink asChild>
+                      <CustomText color={'brand.200'} fontWeight={600}>
+                        {text}
+                      </CustomText>
                     </Breadcrumb.CurrentLink>
                     :
                     <Breadcrumb.Link href={href} color={'brand.400'}>

@@ -1,23 +1,23 @@
 'use client';
 import {
   Box,
-  Button,
   Grid,
   GridItem,
-  Heading,
-  HStack,
   List,
   ListItem,
-  Text,
   useBreakpointValue,
   VStack,
 } from '@chakra-ui/react';
 import React, { FC } from 'react';
-import { useBasketStore } from '@/store/basketStore';
 import BasketItem from '../BasketItem/BasketItem';
 import Link from 'next/link';
 import ProductsCarousel from '@modules/carousels/ProductsCarousel';
-import { IProduct, IResponseData } from '@/types/api';
+import { IProduct, IResponseData } from '@apptypes/api';
+import { useBasketStore } from '@store/basketStore';
+import Heading from '../../ui/Heading/CustomHeading';
+import Button from '../../ui/Buttons/CustomButton';
+import Text from '../../ui/Text/CustomText';
+
 
 interface IBasketContentProps {}
 
@@ -68,18 +68,18 @@ const BasketContent: FC<IBasketContentProps> = ({}) => {
   );
   return (
     <>
-      <Heading variant={'post_header'} mb={'40px'} pt={'60px'}>
+      <Heading visual={'post_header'} mb={'40px'} pt={'60px'}>
         Корзина{count > 0 && ` (${count})`}
       </Heading>
 
       <Grid templateColumns="repeat(12, 1fr)" gap={'0px'}>
         <GridItem minH={'530px'} colSpan={itemsColSpan}>
           {Object.keys(basket.items).length > 0 ? (
-            <List spacing={3}>
+            <List.Root>
               {Object.values(basket.items).map((item) => (
                 <React.Fragment key={item.id}>
                   {Object.values(item.variant).length > 0 && (
-                    <ListItem display={'flex'} flexDirection={'column'} gap={'24px'}>
+                    <List.Item display={'flex'} flexDirection={'column'} gap={'24px'}>
                       {Object.values(item.variant).map((variant, key) => (
                         <BasketItem
                           key={`basket product ${item.id} ${key}`}
@@ -87,13 +87,13 @@ const BasketContent: FC<IBasketContentProps> = ({}) => {
                           variant={variant}
                         />
                       ))}
-                    </ListItem>
+                    </List.Item>
                   )}
                 </React.Fragment>
               ))}
-            </List>
+            </List.Root>
           ) : (
-            <Text variant={'product_text_sub'}>
+            <Text visual={'product_text_sub'}>
               Здесь пока пусто, самое время найти что-то подходящее в{' '}
               <Link href={'/catalog'}>Каталоге</Link>
             </Text>
@@ -163,7 +163,7 @@ const BasketContent: FC<IBasketContentProps> = ({}) => {
               }}
             >
               <Button
-                bg={'#F49AA5'}
+                visual={'outline_secondary'}
                 width={'100%'}
                 fontWeight={300}
                 fontSize={'14px'}
