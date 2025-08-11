@@ -2,7 +2,8 @@ import { Header } from '@components/Header/Header';
 import './globals.scss';
 
 import { Footer } from '@components/Footer/Footer';
-import { lato, Providers, ts_remarker } from './providers';
+import { Providers } from './providers';
+import { lato, ts_remarker } from './fonts';
 import { Suspense } from 'react';
 import { Loader } from '@components/server/Loader';
 

@@ -1,11 +1,9 @@
 import { defineRecipe } from "@chakra-ui/react";
-import { lato } from "../../app/providers";
-
 
 export const textRecipe = defineRecipe({
   base: {
     color: 'brand.200',
-    fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
   },
   variants: {
     visual: {
@@ -47,7 +45,7 @@ export const textRecipe = defineRecipe({
       },
       privacy_text: {
         color: 'brand.200',
-        fontFamily: lato.style.fontFamily,
+        fontFamily: 'var(--font--lato)',
         fontSize: '14px',
         fontStyle: 'normal',
         fontWeight: 400,
@@ -70,7 +68,7 @@ export const textRecipe = defineRecipe({
         },
       },
       paragraph: {
-        fontFamily: lato.style.fontFamily,
+        fontFamily: 'var(--font--lato)',
         color: '#515151',
         fontSize: '18px',
         fontStyle: 'normal',
@@ -85,7 +83,7 @@ export const textRecipe = defineRecipe({
       product_name: {
         margin: 0,
         color: 'brand.100',
-        fontFamily: lato.style.fontFamily,
+        fontFamily: 'var(--font--lato)',
         fontSize: '16px',
         fontStyle: 'normal',
         fontWeight: '500',
@@ -118,7 +116,7 @@ export const textRecipe = defineRecipe({
       full_product_name: {
         margin: 0,
         color: 'brand.100',
-        fontFamily: lato.style.fontFamily,
+        fontFamily: 'var(--font--lato)',
         fontSize: '30px',
         fontStyle: 'normal',
         fontWeight: '600',
@@ -126,7 +124,7 @@ export const textRecipe = defineRecipe({
         textTransform: 'uppercase',
       },
       full_product_text: {
-        fontFamily: lato.style.fontFamily,
+        fontFamily: 'var(--font--lato)',
         margin: 0,
         color: 'brand.100',
         fontSize: '14px',
@@ -135,7 +133,7 @@ export const textRecipe = defineRecipe({
         lineHeight: '20px',
       },
       full_product_text_sub: {
-        fontFamily: lato.style.fontFamily,
+        fontFamily: 'var(--font--lato)',
         margin: 0,
         color: 'brand.200',
         fontSize: '14px',

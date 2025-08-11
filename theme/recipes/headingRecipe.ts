@@ -1,17 +1,15 @@
 import { defineRecipe } from "@chakra-ui/react";
-import { lato, ts_remarker } from "../../app/providers";
-
 
 export const headingRecipe = defineRecipe({
   base: {
     color: '#FFF',
     textTransform: 'uppercase',
-    fontFamily: ts_remarker.style.fontFamily,
+    fontFamily: 'var(--font--ts-remarker)',
   },
   variants: {
     visual: {
       main_header: {
-        fontFamily: ts_remarker.style.fontFamily,
+        fontFamily: 'var(--font--ts-remarker)',
         color: '#FFF',
         textShadow: '0px 4px 4px rgba(255, 255, 255, 0.05)',
         fontSize: {
@@ -41,7 +39,7 @@ export const headingRecipe = defineRecipe({
         },
       },
       sub_header: {
-        fontFamily: ts_remarker.style.fontFamily,
+        fontFamily: 'var(--font--ts-remarker)',
         color: '#FFF',
           fontSize: {
             base: '32px',
@@ -63,7 +61,7 @@ export const headingRecipe = defineRecipe({
       },
       post_header: {
         color: 'brand.100',
-        fontFamily: ts_remarker.style.fontFamily,
+        fontFamily: 'var(--font--ts-remarker)',
         fontSize: '40px',
         fontStyle: 'normal',
         fontWeight: 400,
@@ -72,7 +70,7 @@ export const headingRecipe = defineRecipe({
       },
       privacy_header: {
         color: 'brand.100',
-        fontFamily: lato.style.fontFamily,
+        fontFamily: 'var(--font--lato)',
         fontSize: '16px',
         fontStyle: 'normal',
         fontWeight: 500,

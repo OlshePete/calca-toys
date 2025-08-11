@@ -1,12 +1,10 @@
 import { defineRecipe } from "@chakra-ui/react";
-import { lato } from "../../app/providers";
-
 
 export const buttonRecipe = defineRecipe({
   base: {
     borderRadius: '49px',
     background:'transparent !important',
-    fontFamily: lato.style.fontFamily+'!important',
+    fontFamily: 'var(--font--lato)'+'!important',
     "&:hover":{
       background:'transparent !important',
     }
@@ -14,7 +12,7 @@ export const buttonRecipe = defineRecipe({
   variants: {
     visual: {
       solid: {
-        fontFamily: lato.style.fontFamily+'!important',
+        fontFamily: 'var(--font--lato)'+'!important',
         textTransform: 'uppercase',
         background: 'brand.500',
         color: '#FFF',
@@ -59,7 +57,7 @@ export const buttonRecipe = defineRecipe({
         },
       },
       header_link: {
-        fontFamily: lato.style.fontFamily+'!important',
+        fontFamily: 'var(--font--lato)'+'!important',
         color: 'brand.100',
         fontSize: '14px',
         textTransform: 'uppercase',

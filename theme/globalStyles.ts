@@ -1,5 +1,3 @@
-import { lato, ts_remarker, blue_curve } from '../app/providers';
-
 export const globalStyles = {
   body: {
     boxSizing: 'border-box',
@@ -11,19 +9,19 @@ export const globalStyles = {
     minHeight: '100vh',
   },
   label: {
-    fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
     color: 'brand.100',
   },
   main: {
     minHeight: '100dvh',
   },
   a: {
-    // fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
     textDecoration: 'none',
   },
   nav: {
     '&.chakra-breadcrumb': {
-      // fontFamily: lato.style.fontFamily,
+      fontFamily: 'var(--font--lato)',
     },
   },
   header: {
@@ -99,7 +97,7 @@ export const globalStyles = {
   },
   '.section': {
     minHeight: '60vh',
-    fontFamily: "var(--font--lato)",
+    fontFamily: 'var(--font--lato)',
   },
   '.section.fullH': {
     minHeight: '100vh',
@@ -115,18 +113,18 @@ export const globalStyles = {
     cursor: 'pointer',
   },
   'label.feedback_form_label': {
-    // fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
     fontWeight: 300,
     fontSize: '14px',
   },
   'label.feedback_form_checkbox,span.chakra-checkbox__label': {
-    // fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
     fontWeight: 200,
     fontSize: '14px',
     marginLeft: '16px',
   },
   'label.confirm_form_checkbox': {
-    // fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
     fontWeight: 200,
     fontSize: '14px',
     marginLeft: '16px',
@@ -150,13 +148,13 @@ export const globalStyles = {
   'p.feedback_form_label.error': {
     position: 'absolute',
     top: '100%',
-    // fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
     fontWeight: 300,
     fontSize: '14px',
     color: 'red !important',
   },
   'textarea.feedback_input': {
-    // fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
     fontWeight: 300,
     fontSize: '13px',
     width: '100%',
@@ -172,7 +170,7 @@ export const globalStyles = {
   },
   'h3.seo-title': {
     outline: '1px solid red',
-    // fontFamily: ts_remarker.style.fontFamily,
+    fontFamily: 'var(--font--ts-remarker)',
     fontSize: '28px',
     fontStyle: 'normal',
     fontWeight: '400',
@@ -181,7 +179,7 @@ export const globalStyles = {
     paddingLeft: '16px',
   },
   'input.feedback_input': {
-    // fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
     fontWeight: 300,
     fontSize: '13px',
     width: '100%',
@@ -222,13 +220,13 @@ export const globalStyles = {
     fontSize: '12px',
     lineHeight: '8px',
     padding: '14px 0',
-    // fontFamily: lato.style.fontFamily + '!important',
+    fontFamily: 'var(--font--lato)' + '!important',
     alignItems: 'center',
   },
   'select.chakra-select': {
     fontSize: '14px',
     lineHeight: '8px',
-    // fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
     fontWeight: 300,
   },
   'article.list_item': {
@@ -242,7 +240,7 @@ export const globalStyles = {
     },
     '&>h2': {
       fontSize: '16px',
-      fontFamily: lato.style.fontFamily,
+      fontFamily: 'var(--font--ts-remarker)',
       fontWeight: 600,
       textTransform: 'uppercase',
       letterSpacing: '0',
@@ -257,7 +255,7 @@ export const globalStyles = {
     },
     '& span': {
       fontSize: '14px',
-      fontFamily: lato.style.fontFamily,
+      fontFamily: 'var(--font--lato)',
       fontWeight: 400,
     },
   },
@@ -273,17 +271,17 @@ export const globalStyles = {
     color: '#FFFFFF',
     textTransform: 'uppercase',
     fontSize: '12px',
-    fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
     position: 'absolute',
     left: '16px',
     top: '16px',
   },
   'div.chakra-input__group': {
-    fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
     fontWeight: 300,
     fontSize: '12px',
     '&>*': {
-      fontFamily: lato.style.fontFamily,
+      fontFamily: 'var(--font--lato)',
       fontWeight: 300,
       fontSize: '12px',
       borderRadius: '4px',
@@ -341,7 +339,7 @@ export const globalStyles = {
     }
   },
   'input.phoneInput': {
-    fontFamily: lato.style.fontFamily,
+    fontFamily: 'var(--font--lato)',
   },
   '.phoneInput:focus-within': {
     borderColor: '#3182ce',

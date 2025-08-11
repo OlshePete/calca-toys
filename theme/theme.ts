@@ -1,7 +1,6 @@
 'use client'
 import { createSystem, defaultConfig, RecipeDefinition } from "@chakra-ui/react"
 import { globalStyles } from './globalStyles';
-import { lato, ts_remarker } from '../app/providers';
 import { buttonRecipe } from "./recipes/buttonRecipe";
 import { textRecipe } from "./recipes/textRecipe";
 import { headingRecipe } from "./recipes/headingRecipe";
@@ -24,10 +23,10 @@ const tokens  = ({
   },
   fonts: {
     ...defaultConfig.theme?.tokens?.fonts,
-    heading: { value: ts_remarker.style.fontFamily },
-    body: { value: lato.style.fontFamily },
-    text:{ value: lato.style.fontFamily},
-    input:{ value: lato.style.fontFamily}
+    heading: { value: 'var(--font--ts-remarker)' },
+    body: { value: 'var(--font--lato)' },
+    text:{ value: 'var(--font--lato)'},
+    input:{ value: 'var(--font--lato)'}
   }
 });
 
