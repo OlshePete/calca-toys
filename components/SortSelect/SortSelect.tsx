@@ -15,8 +15,8 @@ const SortSelect: FC<IProps> = ({ value: pValue, options, onChange, ...props }) 
   const [value, setValue] = useState<string[]>([pValue])
   
   const handleValueChange = useCallback((newValue: string[])=>{
-    if (pValue !== value[0]) onChange(value[0])
-  },[pValue])
+    if (pValue !== newValue[0]) onChange(newValue[0])
+  },[pValue, onChange])
 
   useEffect(() => {
     handleValueChange(value)

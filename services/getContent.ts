@@ -43,20 +43,24 @@ export const getNews = cache(async () => {
     console.log('API_URL not defined, returning empty news data for build');
     return { data: [] } as INewsResponse;
   }
+  try {
+    const response = await fetch(`${API_URL}/cms/api/blogs?populate[cover][fields]=url&populate=*&populate[paragraph][populate]=paragraph`, {
+      headers,
+      next: {
+        revalidate: 3600, // кэшируем на 1 час
+      },
+    });
 
-  const response = await fetch(`${API_URL}/cms/api/blogs?populate[cover][fields]=url&populate=*&populate[paragraph][populate]=paragraph`, {
-    headers,
-    next: {
-      revalidate: 3600, // кэшируем на 1 час
-    },
-  });
+    if (!response.ok) throw new Error('Ошибка при загрузке новостей блога.');
 
-  if (!response.ok) throw new Error('Ошибка при загрузке новостей блога.');
+    const data: INewsResponse = await response.json();
+    console.log('Новости успешно получены! Записей добавлено: ', data.data.length);
 
-  const data: INewsResponse = await response.json();
-  console.log('Новости успешно получены! Записей добавлено: ', data.data.length);
-
-  return data;
+    return data;
+  } catch (error) {
+    console.warn('Не удалось получить новости (build-safe fallback). Причина:', error);
+    return { data: [] } as INewsResponse;
+  }
 });
 
 export const getPrivacy = cache(async () => {
@@ -118,26 +122,30 @@ export const getNewsById = cache(async (id: string) => {
     console.log('API_URL not defined, returning null for news by id during build');
     return null;
   }
+  try {
+    const response = await fetch(
+      `${API_URL}/cms/api/blogs/${id}?populate[cover][fields]=url&populate=*&populate[paragraph][populate]=paragraph`,
+      {
+        headers,
+        next: {
+          revalidate: 3600, // кэшируем на 1 час
+        },
+      }
+    );
 
-  const response = await fetch(
-    `${API_URL}/cms/api/blogs/${id}?populate[cover][fields]=url&populate=*&populate[paragraph][populate]=paragraph`,
-    {
-      headers,
-      next: {
-        revalidate: 3600, // кэшируем на 1 час
-      },
+    if (!response.ok) {
+      if (response.status === 404) return null;
+      throw new Error('Ошибка при загрузке новости.');
     }
-  );
 
-  if (!response.ok) {
-    if (response.status === 404) return null;
-    throw new Error('Ошибка при загрузке новости.');
+    const data: IResponseItemWithDataMeta<IResponseData<INewsItem>> = await response.json();
+    console.log('Новость успешно получена!');
+
+    return data;
+  } catch (error) {
+    console.warn(`Не удалось получить новость id=${id} (build-safe fallback). Причина:`, error);
+    return null;
   }
-
-  const data: IResponseItemWithDataMeta<IResponseData<INewsItem>> = await response.json();
-  console.log('Новость успешно получена!');
-
-  return data;
 });
 
 export const getSubscribeData = cache(async () => {

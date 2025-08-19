@@ -1,7 +1,7 @@
 import ProductPreview from '@modules/cards/ProductPreview';
 import { IProduct, IResponseData, TSortProdcutVariant } from '@apptypes/api';
 import { Box, HTMLChakraProps } from '@chakra-ui/react';
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface IProps extends HTMLChakraProps<'div'> {
   products: IResponseData<IProduct>[];
@@ -25,7 +25,6 @@ function sortProduct(products: IResponseData<IProduct>[], sortValue: TSortProdcu
 const ContentItems: FC<IProps> = ({ products, sortValue, params, ...props }) => {
   const [value, setValue] = useState<TSortProdcutVariant>(sortValue);
 
-  // Мемоизация сортировки (если массив большой)
   const sortedProducts = useMemo(
     () => sortProduct(products, value),
     [products, value]
@@ -35,8 +34,12 @@ const ContentItems: FC<IProps> = ({ products, sortValue, params, ...props }) => 
     return params && Object.values(params).some(arr => arr.length > 0);
   }, [params]);
 
+  const updateValue = useCallback((newSortValue:TSortProdcutVariant)=>{
+    if (value !== newSortValue) setValue(newSortValue);
+  },[value, setValue])
+
   useEffect(() => {
-    if (value !== sortValue) setValue(sortValue);
+    updateValue(sortValue);
   }, [sortValue]);
 
   return (

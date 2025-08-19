@@ -28,7 +28,7 @@ const PricePicker: FC<IPickerProps> = ({ min, max, limit, setValue }) => {
   const handleValueChange = useCallback((newValue: number[]) => {
     if (min !== sliderValues[0] || max !== sliderValues[1])
       setValue(newValue[0], newValue[1]);
-  }, [min, max, setValue]);
+  }, [min, max, sliderValues, setValue]);
 
   useEffect(() => {
     handleSliderChange([min, max])

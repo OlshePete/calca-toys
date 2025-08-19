@@ -55,11 +55,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const news = await getNews();
-
-  return news?.data.map((item) => ({
-    id: item.id.toString(),
-  }));
+  try {
+    const news = await getNews();
+    return news?.data.map((item) => ({
+      id: item.id.toString(),
+    })) ?? [];
+  } catch {
+    // Build-safe fallback: no pre-rendered news routes if CMS is unavailable
+    return [];
+  }
 }
 
 export default async function NewsPage({ params }: Props) {

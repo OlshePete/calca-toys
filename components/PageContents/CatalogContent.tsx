@@ -81,7 +81,7 @@ const CatalogContent: FC<ICatalogContentProps> = ({
   products,
   pagination,
   materials,
-  priceLimits,
+  priceLimits
 }) => {
   const [params, setParams] = useState<TParams>(null);
   const router = useRouter();
@@ -101,13 +101,11 @@ const CatalogContent: FC<ICatalogContentProps> = ({
   );
 
   useEffect(() => {
-    console.log('effect 1')
     setFilteredProducts(filterSpecial(filterByPrice(products.data, price)));
   }, [products, price, specials, filterSpecial]);
 
   // Инициализация params из searchParams при первом рендере
   useEffect(() => {
-    console.log('effect 2')
     const initialParams: Record<string, string[]> = {};
     searchParams?.forEach((value, key) => {
       initialParams[key] = value.split(',');
@@ -128,13 +126,11 @@ const CatalogContent: FC<ICatalogContentProps> = ({
       const newUrl = `${pathname}?${newSearchParams.toString()}`;
       router.replace(newUrl, { scroll: false });
     }
-  },[router, params, searchParams, pathname])
+  },[router, searchParams, pathname])
 
   // Обновление URL при изменении params
   useEffect(() => {
-    console.log('effect 3',params)
     if (!params) return;
-    console.log('effect 31',params)
     replacePath(params)
     // Object.entries(params).forEach(([paramName, values]) => {
     //   if (values.length > 0) {
@@ -147,7 +143,7 @@ const CatalogContent: FC<ICatalogContentProps> = ({
     //   const newUrl = `${pathname}?${newSearchParams.toString()}`;
     //   router.replace(newUrl, { scroll: false });
     // }
-  }, [params]);
+  }, [params, replacePath]);
 
 
   // Обработка изменения параметров
@@ -162,9 +158,7 @@ const CatalogContent: FC<ICatalogContentProps> = ({
     });
   };
   const setPage = (value: number) => {
-    console.log('handle 11')
     if (value === pagination?.page) return;
-    console.log('handle 12')
     if (value <= 1) setParams(filterByTypeParams);
     else handleChangeParams('page', [String(value)]);
   };
@@ -241,7 +235,6 @@ const CatalogContent: FC<ICatalogContentProps> = ({
             />
             <CustomColorPicker
               onChange={(color) => {
-                console.log('color',color, params?.color?.includes(color))
                 const newColors = params?.color?.includes(color)
                   ? params?.color.filter((parCol) => parCol !== color)
                   : Array.from(new Set([...(params?.color ?? []), color]));

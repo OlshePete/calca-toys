@@ -1,9 +1,10 @@
 'use client';
 import { Box, Tabs } from '@chakra-ui/react';
-import { FC, useState, ReactElement, Children, useEffect, cloneElement } from 'react';
+import { FC, useState, ReactElement, Children, useEffect, cloneElement, useCallback } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChildrenComponentProps } from '@apptypes';
 import { INewsResponse, TFilter, TSortVariants } from '@apptypes/api';
+import SortSelect from '@components/SortSelect/SortSelect';
 
 interface IProps extends ChildrenComponentProps {
   news: INewsResponse;
@@ -42,8 +43,7 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
 
   //   router.push(`${pathname}?${params.toString()}`);
   // };
-
-  const getSortAndFilterChildrenIds = () => {
+  const getSortAndFilterChildrenIds = useCallback(() => {
     const childrenArray = Children.toArray(children) as ReactElement<any>[];
 
     return childrenArray
@@ -73,10 +73,14 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
         }
       })
       .map((item) => item.id);
-  };
+  },[children, news, sort, currentFilter]);
+
+  const setSortedIds = useCallback(()=>{
+    setSortedFilteredChildrenIds(getSortAndFilterChildrenIds());
+  },[setSortedFilteredChildrenIds,getSortAndFilterChildrenIds])
 
   useEffect(() => {
-    setSortedFilteredChildrenIds(getSortAndFilterChildrenIds());
+    setSortedIds();
   }, [sort, currentFilter, searchParams]);
 
   const handleSortChange = (newValue: string) => {
@@ -86,7 +90,7 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
   return (
     <Box as="section" position="relative" minH="560px" p={0} >
       <Box position="absolute" right={0} top="14px" zIndex={10}>
-        {/* <SortSelect
+        <SortSelect
           value={sort}
           onChange={handleSortChange}
           options={{
@@ -94,7 +98,7 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
             name: 'заголовку',
           }}
           aria-label="Сортировка новостей"
-        /> */}
+        />
       </Box>
       <Tabs.Root
         lazyMount
