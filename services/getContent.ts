@@ -59,7 +59,7 @@ export const getNews = cache(async () => {
 
     return data;
   } catch (error) {
-    console.warn('Не удалось получить новости (build-safe fallback). Причина:', error);
+    console.warn('Не удалось получить новости (build-safe fallback). Причина:', API_URL, error);
     return { data: [] } as INewsResponse;
   }
 });
