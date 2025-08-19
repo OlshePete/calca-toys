@@ -19,6 +19,12 @@ const headers = {
 };
 
 export const getContacts = cache(async () => {
+  // Return empty data during build if API_URL is not defined
+  if (!API_URL) {
+    console.log('API_URL not defined, returning empty contact data for build');
+    return { data: null, meta: undefined } as unknown as IContactsResponse;
+  }
+  
   const response = await fetch(
     `${API_URL}/cms/api/contact?populate[socials][populate][icon][fields]=url&populate[essential]populate=*&populate=*`,
     {
@@ -65,6 +71,12 @@ export const getNews = cache(async () => {
 });
 
 export const getPrivacy = cache(async () => {
+  // Return empty data during build if API_URL is not defined
+  if (!API_URL) {
+    console.log('API_URL not defined, returning empty privacy data for build');
+    return { data: null, meta: undefined } as unknown as IPrivacyResponse;
+  }
+  
   const response = await fetch(
     `${API_URL}/cms/api/privacy?populate[paragraphs][populate]=paragraph`,
     {
@@ -84,6 +96,12 @@ export const getPrivacy = cache(async () => {
 });
 
 export const getWarranty = cache(async () => {
+  // Return empty data during build if API_URL is not defined
+  if (!API_URL) {
+    console.log('API_URL not defined, returning empty warranty data for build');
+    return { data: null, meta: undefined } as unknown as IWarrantyResponse;
+  }
+  
   const response = await fetch(
     `${API_URL}/cms/api/warranty?populate[variant][populate]=*&populate=*`,
     {
@@ -102,6 +120,12 @@ export const getWarranty = cache(async () => {
   return data;
 });
 export const getPayments = cache(async () => {
+  // Return empty data during build if API_URL is not defined
+  if (!API_URL) {
+    console.log('API_URL not defined, returning empty payment data for build');
+    return { data: null, meta: undefined } as unknown as IPaymentResponse;
+  }
+  
   const response = await fetch(`${API_URL}/cms/api/payment?populate=*`, {
     headers,
     next: {
@@ -150,6 +174,12 @@ export const getNewsById = cache(async (id: string) => {
 });
 
 export const getSubscribeData = cache(async () => {
+  // Return empty data during build if API_URL is not defined
+  if (!API_URL) {
+    console.log('API_URL not defined, returning empty subscribe data for build');
+    return { data: null, meta: undefined } as unknown as ISubscribeResponse;
+  }
+  
   const response = await fetch(`${API_URL}/cms/api/subscribe?populate=*`, {
     headers,
     next: {
