@@ -2,7 +2,7 @@ import {
   Accordion,
   AccordionItemProps,
 } from '@chakra-ui/react';
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import CheckBoxGroup from './CheckBoxGroup';
 import CustomText from '../../ui/Text/CustomText';
 interface IProps extends AccordionItemProps {
@@ -22,15 +22,24 @@ const AccordionItem: FC<IProps> = ({
   ...props
 }) => {
   const [value, setValue] = useState<string[]>(propValue);
-  useEffect(() => {
-    setValue((prev) =>
-      JSON.stringify(prev.sort()) !== JSON.stringify(propValue.sort()) ? propValue : prev
-    );
-  }, [propValue]);
+
+  const handleValueChange = useCallback((newValue: string[]) => {
+    onValueChange(paramName, newValue);
+  }, [paramName, onValueChange]);
 
   useEffect(() => {
-    onValueChange && onValueChange(paramName, value);
-  }, [value]);
+    const sortedProp = [...propValue].sort();
+    setValue((prev) => {
+      const prevSorted = [...prev].sort();
+      const isEqual = JSON.stringify(prevSorted) === JSON.stringify(sortedProp);
+      return isEqual ? prev : propValue;
+    });
+  }, [propValue]);
+
+  const setValueAndNotify = useCallback((newValue: string[]) => {
+    setValue(newValue);
+    handleValueChange(newValue);
+  }, [handleValueChange]);
 
   return (
     <Accordion.Item value={paramName} {...props}>
@@ -44,8 +53,7 @@ const AccordionItem: FC<IProps> = ({
           bg: '0,0,0,0',
         }}
       >
-        <CustomText visual="info_accordion_btn"
-        >
+        <CustomText visual="info_accordion_btn">
           {label}
         </CustomText>
         <Accordion.ItemIndicator />
@@ -53,7 +61,7 @@ const AccordionItem: FC<IProps> = ({
       <Accordion.ItemContent p={4}>
         <CheckBoxGroup
           labels={variants}
-          setValue={setValue}
+          setValue={setValueAndNotify}
           value={value}
           paramName={paramName}
         />

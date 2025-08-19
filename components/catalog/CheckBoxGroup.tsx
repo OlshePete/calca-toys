@@ -6,7 +6,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useCallback } from 'react';
 import { useAvailableSettings } from '../context/useAvailableSettings';
 
 function checkItem(
@@ -23,6 +23,7 @@ function checkItem(
         .some(t => t.toLowerCase() === item.toLowerCase())
     );
 }
+
 interface ICheckBoxProps extends CheckboxGroupProps {
   labels: string[];
   value: string[];
@@ -32,6 +33,7 @@ interface ICheckBoxProps extends CheckboxGroupProps {
 }
 
 const allValue = 'Все';
+
 const CheckBoxGroup: FC<ICheckBoxProps> = ({
   labels,
   value,
@@ -43,14 +45,17 @@ const CheckBoxGroup: FC<ICheckBoxProps> = ({
   const exeptDisable = ['material', 'specials'].includes(paramName);
   const [isAllSelected, setIsAllSelected] = useState(false);
 
-  useEffect(() => {
-    if(window) {
+  const checkDisable = useCallback(
+    (item: string) => checkItem(item, tags, paramName, exeptDisable),
+    [tags, paramName, exeptDisable]
+  );
 
-      const res = value.filter(item=>!checkDisable(item))
-      console.log('ressss', value ,paramName, res)
-      setIsAllSelected(res.length  === labels.length);
+  useEffect(() => {
+    if (window) {
+      const res = value.filter(item => !checkDisable(item));
+      setIsAllSelected(res.length === labels.length);
     }
-  }, [value, labels]);
+  }, [value, labels, checkDisable, setIsAllSelected]);
 
   const handleSetValue = (newValue: string[]) => {
     const hasAll = newValue.includes(allValue);
@@ -63,27 +68,28 @@ const CheckBoxGroup: FC<ICheckBoxProps> = ({
       setIsAllSelected(false);
     }
   };
-  const checkDisable = (item:string) => checkItem(item, tags, paramName, exeptDisable)
 
   const handleAllChange = () => {
     if (isAllSelected) {
       setValue([]);
       setIsAllSelected(false);
     } else {
-      setValue([...labels.filter(item=>!checkDisable(item))]);
+      setValue([...labels.filter(item => !checkDisable(item))]);
       setIsAllSelected(true);
     }
   };
 
   return (
     <CCheckBoxGroup onValueChange={handleSetValue} value={value}>
-      <Stack 
-      // spacing={[1, 5]}
-      direction={['column', 'column']}>
+      <Stack direction={['column', 'column']}>
         {labels.map((item) => {
           const [firstLetter, ...label] = item;
           return (
-            <Checkbox.Root key={item} value={item} disabled={checkDisable(item) && !value.includes(item)}>
+            <Checkbox.Root 
+              key={item} 
+              value={item} 
+              disabled={checkDisable(item) && !value.includes(item)}
+            >
               <Checkbox.HiddenInput />
               <Checkbox.Control />
               <Checkbox.Label asChild>
@@ -91,15 +97,18 @@ const CheckBoxGroup: FC<ICheckBoxProps> = ({
               </Checkbox.Label>
             </Checkbox.Root>
           );
-
         })}
         {withAll && (
-          <Checkbox.Root key={allValue} checked={isAllSelected} onChange={handleAllChange}>
-              <Checkbox.HiddenInput />
-              <Checkbox.Control />
-              <Checkbox.Label asChild>
-                <Text>{allValue}</Text>
-              </Checkbox.Label>
+          <Checkbox.Root 
+            key={allValue} 
+            checked={isAllSelected} 
+            onChange={handleAllChange}
+          >
+            <Checkbox.HiddenInput />
+            <Checkbox.Control />
+            <Checkbox.Label asChild>
+              <Text>{allValue}</Text>
+            </Checkbox.Label>
           </Checkbox.Root>
         )}
       </Stack>

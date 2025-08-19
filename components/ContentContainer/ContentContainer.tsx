@@ -15,7 +15,9 @@ function ContentContainer({ children, ...props }: ContentContainerProps) {
     {
       fallback: 'base',
     }
-  );
+  ); 
+   React.useEffect(()=>{console.log('rerendered 3')})
+  
   return (
     <Container
       maxW={"1170px"}

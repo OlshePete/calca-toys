@@ -61,13 +61,13 @@ function ProductPreview({ product }: ProductPreviewProps) {
     
     // if (window) setItem(basketItem);
   };
-
+  const handleClick = () => {
+    router.push('/product/' + id);
+  }
   return (
     <Box
       className="product-sm"
-      onClick={() => {
-        router.push('/product/' + id);
-      }}
+      onClick={handleClick}
       _hover={{
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
         transform: 'translateY(-4px)',

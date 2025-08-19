@@ -6,6 +6,12 @@ const headers = {
 };
 
 const getStartPageMetaDate = async () => {
+  // Return null during build if API_URL is not defined
+  if (!API_URL) {
+    console.log('API_URL not defined, returning null for metadata during build');
+    return null;
+  }
+
   const response = await fetch(`${API_URL}/cms/api/web-setting`, {
     headers,
     next: {

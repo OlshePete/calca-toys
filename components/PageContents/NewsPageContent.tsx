@@ -1,6 +1,6 @@
 'use client';
 import { Box, Tabs } from '@chakra-ui/react';
-import { FC, useState, ReactElement, Children, useEffect, cloneElement, FormEventHandler } from 'react';
+import { FC, useState, ReactElement, Children, useEffect, cloneElement } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChildrenComponentProps } from '@apptypes';
 import { INewsResponse, TFilter, TSortVariants } from '@apptypes/api';
@@ -26,11 +26,7 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
 
   const [sort, setSort] = useState<TSortVariants>('date');
   const [sortedFilteredChildrenIds, setSortedFilteredChildrenIds] = useState<string[]>([]);
-//изменить  вариант фильтра с null на all
-// debugger
-  // Получаем текущий фильтр из URL или null
   const currentFilter = searchParams.get('type') as TFilter | null;
-  const currentTabIndex = tabValues.indexOf(currentFilter);
 
   // // Обновляем URL при смене таба
   // const handleTabChange= (event) => {
@@ -104,10 +100,8 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
         lazyMount
         value={currentFilter ?? 'all'}
         onValueChange={(event) => {
-          console.log('Обновляем URL при смене таба', event.value);
           const newValue = (event.value === 'all'? null:event.value) as keyof TabValue | null
           const params = new URLSearchParams(searchParams);
-          console.log('Обновляем URL при смене таба 2', `${event.value}`);
           if (newValue) {
             params.set('type', newValue);
           } else {
@@ -116,12 +110,11 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
 
           router.push(`${pathname}?${params.toString()}`);
         }}
-        // index={currentTabIndex !== -1 ? currentTabIndex : 0}
         role="navigation"
         aria-label="Фильтры новостей"
       >
 
-        <Tabs.List maxW="834px" border="1px solid rgba(0,0,0,.15)" borderRadius="49px" p="6px"
+        <Tabs.List className='news-tab-container' maxW="834px" border="1px solid rgba(0,0,0,.15)" borderRadius="49px" p="6px"
        >
           <Tabs.Trigger
             value='all'
@@ -180,29 +173,6 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
               })}
             </Box>
           </Tabs.Content>
-
-          {/* {Object.keys(newsTypes).map((tab) => (
-            <Tabs.Content key={`tab-${tab}`} p={0}>
-              <Box
-                as="section"
-                display="flex"
-                m={0}
-                flexWrap="wrap"
-                minW="100%"
-                gap="30px"
-                aria-label={`Список новостей: ${newsTypes[tab as TFilter]}`}
-              >
-                {Children.map(children, (child) => {
-                  const childId = (child as ReactElement<any>).props.id;
-                  return cloneElement(child as ReactElement<any>, {
-                    style: {
-                      display: sortedFilteredChildrenIds.includes(childId) ? 'block' : 'none',
-                    },
-                  });
-                })}
-              </Box>
-            </Tabs.Content>
-          ))} */}
       </Tabs.Root>
     </Box>
   );

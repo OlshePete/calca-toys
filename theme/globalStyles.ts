@@ -222,6 +222,9 @@ export const globalStyles = {
     padding: '14px 0',
     fontFamily: 'var(--font--lato)' + '!important',
     alignItems: 'center',
+    '&:before':{
+      display:'none'
+    }
   },
   'select.chakra-select': {
     fontSize: '14px',

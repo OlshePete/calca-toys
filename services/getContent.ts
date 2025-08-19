@@ -38,6 +38,12 @@ export const getContacts = cache(async () => {
 });
 
 export const getNews = cache(async () => {
+  // Return empty data during build if API_URL is not defined
+  if (!API_URL) {
+    console.log('API_URL not defined, returning empty news data for build');
+    return { data: [] } as INewsResponse;
+  }
+
   const response = await fetch(`${API_URL}/cms/api/blogs?populate[cover][fields]=url&populate=*&populate[paragraph][populate]=paragraph`, {
     headers,
     next: {
@@ -107,6 +113,12 @@ export const getPayments = cache(async () => {
 });
 
 export const getNewsById = cache(async (id: string) => {
+  // Return null during build if API_URL is not defined
+  if (!API_URL) {
+    console.log('API_URL not defined, returning null for news by id during build');
+    return null;
+  }
+
   const response = await fetch(
     `${API_URL}/cms/api/blogs/${id}?populate[cover][fields]=url&populate=*&populate[paragraph][populate]=paragraph`,
     {

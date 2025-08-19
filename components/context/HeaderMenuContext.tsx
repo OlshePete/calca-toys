@@ -36,7 +36,7 @@ export const HeaderMenuProvider: React.FC<HeaderMenuProviderProps> = ({ children
       activeCategory,
       setActiveCategory: handleSetActiveCategory,
     }),
-    [activeCategory, setActiveCategory, parentRef]
+    [activeCategory, parentRef]
   );
 
   return (

@@ -4,7 +4,7 @@ import {
   Flex,
   InputGroup,
 } from '@chakra-ui/react';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import CustomText from '../../ui/Text/CustomText';
 import { CustomSlider } from '../../ui/Sliders';
@@ -20,19 +20,24 @@ const PricePicker: FC<IPickerProps> = ({ min, max, limit, setValue }) => {
   const [sliderValues, setSliderValues] = useState<number[]>([min, max]);
   const [debouncedValues] = useDebounce<number[]>(sliderValues, 400);
 
-  useEffect(() => {
-    handleSliderChange([min, max])
-  }, [min, max]);
-
-  useEffect(() => {
-    if (min !== sliderValues[0] || max !== sliderValues[1])
-      setValue(debouncedValues[0], debouncedValues[1]);
-  }, [debouncedValues, setValue]);
-
-  const handleSliderChange = (values: number[]) => {
+  const handleSliderChange = useCallback((values: number[]) => {
     const clampedValues = [Math.min(values[0], limit[1]), Math.min(values[1], limit[1])];
     setSliderValues(clampedValues);
-  };
+  },[limit, setSliderValues ]);
+
+  const handleValueChange = useCallback((newValue: number[]) => {
+    if (min !== sliderValues[0] || max !== sliderValues[1])
+      setValue(newValue[0], newValue[1]);
+  }, [min, max, setValue]);
+
+  useEffect(() => {
+    handleSliderChange([min, max])
+  }, [min, max, handleSliderChange]);
+
+  useEffect(() => {
+    handleValueChange(debouncedValues)
+  }, [debouncedValues, handleValueChange]);
+
 
   const handleMinInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newMin = parseInt(e.target.value, 10);

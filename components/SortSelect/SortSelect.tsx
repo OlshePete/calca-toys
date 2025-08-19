@@ -1,5 +1,5 @@
 'use client';
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { createListCollection, HStack, Portal, Select, StackProps, Text } from '@chakra-ui/react';
 
 interface IProps extends Omit<StackProps, 'onChange'> {
@@ -13,9 +13,14 @@ const SortSelect: FC<IProps> = ({ value: pValue, options, onChange, ...props }) 
     items: Object.entries(options).map(([value, label]) => ({ value, label }))
   })
   const [value, setValue] = useState<string[]>([pValue])
-  useEffect(() => {
+  
+  const handleValueChange = useCallback((newValue: string[])=>{
     if (pValue !== value[0]) onChange(value[0])
-  }, [value])
+  },[pValue])
+
+  useEffect(() => {
+    handleValueChange(value)
+  }, [value, handleValueChange])
   return (
     <HStack
       minWidth={'280px'}

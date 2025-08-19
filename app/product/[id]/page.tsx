@@ -9,7 +9,8 @@ type Props = {
   };
 };
 
-export default async function Home({ params: { id } }: Props) {
+export default async function Home({ params }: Props) {
+  const { id } = await params
   const product = await getProductById(await id);
   if (!product) return <p>К сожалению товар не найден</p>;
   return (

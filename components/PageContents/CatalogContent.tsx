@@ -1,6 +1,6 @@
 'use client';
 import { Accordion, Box } from '@chakra-ui/react';
-import { FC, useState, useEffect, useMemo, useCallback } from 'react';
+import React, { FC, useState, useEffect, useMemo, useCallback } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'; // Для Next.js 13+
 import AccordionItem from '../catalog/AccordionItem';
 import CatalogContentHeader from '../catalog/CatalogContentHeader';
@@ -9,7 +9,6 @@ import PricePicker from '../catalog/PricePicker';
 import { IAllProductsContent, IProduct, IResponseData, TSortProdcutVariant, TypeLabel } from '@apptypes/api';
 import { useAvailableSettings } from '../context/useAvailableSettings';
 import CustomColorPicker from '../catalog/CustomColorPicker';
-import { useProducts } from '../context/useProductsContext';
 import CatalogContentFooter from '../catalog/CatalogContentFooter';
 import CheckBoxGroup from '../catalog/CheckBoxGroup';
 import CatalogDrawer from '@modules/drawers/CatalogDrawer';
@@ -33,7 +32,7 @@ interface ICatalogContentProps {
   }[];
 }
 type TSpecialVariant =  'action' | 'musthave'
-
+type TParams = Record<string, string[]> | null
 export const SPECIAL_LIST:Record<TSpecialVariant, string> = {
   action: 'акция',
   musthave: 'хит продаж',
@@ -84,7 +83,7 @@ const CatalogContent: FC<ICatalogContentProps> = ({
   materials,
   priceLimits,
 }) => {
-  const [params, setParams] = useState<Record<string, string[]> | null>(null);
+  const [params, setParams] = useState<TParams>(null);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -92,6 +91,7 @@ const CatalogContent: FC<ICatalogContentProps> = ({
   const [specials, setSpecials] = useState<string[] | null>(null);
   const [price, setPrice] = useState<[number, number]>([0, priceLimits[1]]);
   const [sortValue, setSortValue] = useState<TSortProdcutVariant>('price_dec');
+
   const filterSpecial = useCallback((products:IResponseData<IProduct>[])=>{
     return filterBySpecial(products, specials)
   },[specials])
@@ -101,18 +101,54 @@ const CatalogContent: FC<ICatalogContentProps> = ({
   );
 
   useEffect(() => {
+    console.log('effect 1')
     setFilteredProducts(filterSpecial(filterByPrice(products.data, price)));
-  }, [products, price, specials]);
+  }, [products, price, specials, filterSpecial]);
 
   // Инициализация params из searchParams при первом рендере
   useEffect(() => {
+    console.log('effect 2')
     const initialParams: Record<string, string[]> = {};
     searchParams?.forEach((value, key) => {
       initialParams[key] = value.split(',');
     });
-
     setParams(initialParams);
-  }, [searchParams]);
+  }, [searchParams, setParams]);
+
+  const replacePath = useCallback((params:Record<string, string[]>)=>{
+    if(Object.values(params).every(({length})=>length===0)) return
+    const newSearchParams = new URLSearchParams();
+    Object.entries(params).forEach(([paramName, values]) => {
+      if (values.length > 0) {
+        newSearchParams.set(paramName, values.join(','));
+      }
+    });
+    const currentSearchParams = new URLSearchParams(searchParams?.toString());
+    if (newSearchParams.toString() !== currentSearchParams.toString()) {
+      const newUrl = `${pathname}?${newSearchParams.toString()}`;
+      router.replace(newUrl, { scroll: false });
+    }
+  },[router, params, searchParams, pathname])
+
+  // Обновление URL при изменении params
+  useEffect(() => {
+    console.log('effect 3',params)
+    if (!params) return;
+    console.log('effect 31',params)
+    replacePath(params)
+    // Object.entries(params).forEach(([paramName, values]) => {
+    //   if (values.length > 0) {
+    //     newSearchParams.set(paramName, values.join(','));
+    //   }
+    // });
+    // const currentSearchParams = new URLSearchParams(searchParams?.toString());
+
+    // if (newSearchParams.toString() !== currentSearchParams.toString()) {
+    //   const newUrl = `${pathname}?${newSearchParams.toString()}`;
+    //   router.replace(newUrl, { scroll: false });
+    // }
+  }, [params]);
+
 
   // Обработка изменения параметров
   const handleChangeParams = (type: string, newValue: string[] | null) => {
@@ -126,32 +162,12 @@ const CatalogContent: FC<ICatalogContentProps> = ({
     });
   };
   const setPage = (value: number) => {
+    console.log('handle 11')
     if (value === pagination?.page) return;
+    console.log('handle 12')
     if (value <= 1) setParams(filterByTypeParams);
     else handleChangeParams('page', [String(value)]);
   };
-
-  // Преобразуем params в строку для сравнения
-  const paramsString = useMemo(() => JSON.stringify(params), [params]);
-
-  // Обновление URL при изменении params
-  useEffect(() => {
-    if (!params) return;
-
-    const newSearchParams = new URLSearchParams();
-    Object.entries(params).forEach(([paramName, values]) => {
-      if (values.length > 0) {
-        newSearchParams.set(paramName, values.join(','));
-      }
-    });
-    const currentSearchParams = new URLSearchParams(searchParams?.toString());
-
-    if (newSearchParams.toString() !== currentSearchParams.toString()) {
-      const newUrl = `${pathname}?${newSearchParams.toString()}`;
-      router.replace(newUrl, { scroll: false });
-    }
-  }, [params]);
-
   const defaultCategory = {
     title: 'Материал',
     paramName: 'material',
@@ -177,7 +193,6 @@ const CatalogContent: FC<ICatalogContentProps> = ({
       return newSpecials.length != 0 ? newSpecials : null;
     });
   };
-console.log('params', params)
   return (
     <>
       <CustomHeading visual={'post_header'} pt={'60px'} pb={'40px'}>
@@ -300,4 +315,4 @@ console.log('params', params)
   );
 };
 
-export default CatalogContent;
+export default CatalogContent

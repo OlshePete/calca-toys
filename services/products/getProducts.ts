@@ -34,10 +34,10 @@ const getProductById = async (id: number | string) => {
     }
   );
 
-  if (!response.ok) throw new Error('Ошибка при загрузке списка товаров.');
+  if (!response.ok) throw new Error('Ошибка при загрузке товара.');
 
   const data: IProductByIdContent = await response.json();
-  console.log('Список товаров успешно получен!', JSON.stringify(data, null, 2));
+  console.log('Товар успешно получен!', data.data.attributes.name);
 
   return data;
 };

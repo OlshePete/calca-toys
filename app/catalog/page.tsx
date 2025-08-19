@@ -11,7 +11,7 @@ import { Suspense } from 'react';
 
 export default async function Home() {
   console.log('catalog page prerender')
-  const categoryNames = await getAllCategoryName();
+  // const categoryNames = await getAllCategoryName();
   const productTypes = await getProductTypes();
   const pageTitle = 'Каталог';
   const API_URL = process.env.NEXT_PUBLIC_API_URL;

@@ -1,6 +1,6 @@
 'use client';
-import React, { createContext, useContext, ReactNode, useMemo, useState } from 'react';
-import { IAllProductsContent, IProduct, IResponseData } from '@/types/api';
+import React, { createContext, useContext, ReactNode, useMemo, useState, useEffect } from 'react';
+import { IAllProductsContent, IProduct, IResponseData } from '@apptypes/api';
 
 // Тип для данных, которые возвращает parseProductsData
 interface IProducts {
@@ -21,6 +21,7 @@ export const ProductsProvider: React.FC<ProductsProviderProps> = ({
   products: initialProducts,
 }) => {
   const [products, setProducts] = useState(initialProducts.data);
+  useEffect(()=>{console.log('rerendered 2')})
   const value = useMemo(() => {
     return {
       products,

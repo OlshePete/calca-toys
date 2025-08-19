@@ -15,7 +15,8 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const globalMeta = await getStartPageMetaDate();
-  const news = await getNewsById(params.id);
+  const paramsId = await params.id
+  const news = await getNewsById(paramsId);
 
   if (!news?.data) {
     return {
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      url: `${baseUrl}/news/${params.id}`,
+      url: `${baseUrl}/news/${paramsId}`,
       siteName: globalMeta?.data.attributes.title,
       images: [
         {
@@ -48,7 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'article',
     },
     alternates: {
-      canonical: `${baseUrl}/news/${params.id}`,
+      canonical: `${baseUrl}/news/${paramsId}`,
     },
   };
 }
@@ -62,7 +63,8 @@ export async function generateStaticParams() {
 }
 
 export default async function NewsPage({ params }: Props) {
-  const news = await getNewsById(params.id);
+  const { id:paramsId } = await params
+  const news = await getNewsById(paramsId);
 
   if (!news?.data) {
     notFound();
@@ -83,7 +85,7 @@ export default async function NewsPage({ params }: Props) {
     dateModified: publishDate,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${baseUrl}/news/${params.id}`,
+      '@id': `${baseUrl}/news/${paramsId}`,
     },
   };
 
