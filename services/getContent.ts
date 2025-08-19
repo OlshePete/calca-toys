@@ -39,6 +39,7 @@ export const getContacts = cache(async () => {
 
 export const getNews = cache(async () => {
   // Return empty data during build if API_URL is not defined
+  console.log('API_URL not defined, returning empty news data for build', API_URL);
   if (!API_URL) {
     console.log('API_URL not defined, returning empty news data for build');
     return { data: [] } as INewsResponse;

@@ -40,7 +40,7 @@ const ContentItems: FC<IProps> = ({ products, sortValue, params, ...props }) => 
 
   useEffect(() => {
     updateValue(sortValue);
-  }, [sortValue]);
+  }, [sortValue, updateValue]);
 
   return (
     <Box {...props}>

@@ -77,11 +77,11 @@ const NewsPageContent: FC<IProps> = ({ children, news }) => {
 
   const setSortedIds = useCallback(()=>{
     setSortedFilteredChildrenIds(getSortAndFilterChildrenIds());
-  },[setSortedFilteredChildrenIds,getSortAndFilterChildrenIds])
+  },[setSortedFilteredChildrenIds, getSortAndFilterChildrenIds])
 
   useEffect(() => {
     setSortedIds();
-  }, [sort, currentFilter, searchParams]);
+  }, [sort, currentFilter, searchParams, setSortedIds]);
 
   const handleSortChange = (newValue: string) => {
     setSort(newValue as TSortVariants);
