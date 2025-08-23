@@ -22,7 +22,7 @@ export const getContacts = cache(async () => {
   };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
-    console.log('API_URL not defined, returning empty contact data for build');
+    console.log('API_URL not defined, returning empty contact data for build', JSON.stringify(process.env));
     return { data: null, meta: undefined } as unknown as IContactsResponse;
   }
   
