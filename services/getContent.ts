@@ -12,13 +12,14 @@ import {
 } from '@apptypes/api';
 import { cache } from 'react';
 
-const { API_TOKEN, API_URL } = process.env;
-const headers = {
-  Authorization: `bearer ${API_TOKEN}`,
-  'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
-};
 
 export const getContacts = cache(async () => {
+  
+  const { API_TOKEN, API_URL } = process.env;
+  const headers = {
+    Authorization: `bearer ${API_TOKEN}`,
+    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+  };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
     console.log('API_URL not defined, returning empty contact data for build');
@@ -44,6 +45,12 @@ export const getContacts = cache(async () => {
 });
 
 export const getNews = cache(async () => {
+  
+  const { API_TOKEN, API_URL } = process.env;
+  const headers = {
+    Authorization: `bearer ${API_TOKEN}`,
+    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+  };
   // Return empty data during build if API_URL is not defined
   console.log('API_URL not defined, returning empty news data for build', API_URL);
   if (!API_URL) {
@@ -71,6 +78,12 @@ export const getNews = cache(async () => {
 });
 
 export const getPrivacy = cache(async () => {
+  
+  const { API_TOKEN, API_URL } = process.env;
+  const headers = {
+    Authorization: `bearer ${API_TOKEN}`,
+    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+  };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
     console.log('API_URL not defined, returning empty privacy data for build');
@@ -96,6 +109,12 @@ export const getPrivacy = cache(async () => {
 });
 
 export const getWarranty = cache(async () => {
+  
+  const { API_TOKEN, API_URL } = process.env;
+  const headers = {
+    Authorization: `bearer ${API_TOKEN}`,
+    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+  };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
     console.log('API_URL not defined, returning empty warranty data for build');
@@ -120,6 +139,12 @@ export const getWarranty = cache(async () => {
   return data;
 });
 export const getPayments = cache(async () => {
+  
+  const { API_TOKEN, API_URL } = process.env;
+  const headers = {
+    Authorization: `bearer ${API_TOKEN}`,
+    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+  };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
     console.log('API_URL not defined, returning empty payment data for build');
@@ -142,6 +167,12 @@ export const getPayments = cache(async () => {
 });
 
 export const getNewsById = cache(async (id: string) => {
+  
+  const { API_TOKEN, API_URL } = process.env;
+  const headers = {
+    Authorization: `bearer ${API_TOKEN}`,
+    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+  };
   // Return null during build if API_URL is not defined
   if (!API_URL) {
     console.log('API_URL not defined, returning null for news by id during build');
@@ -174,6 +205,12 @@ export const getNewsById = cache(async (id: string) => {
 });
 
 export const getSubscribeData = cache(async () => {
+  
+  const { API_TOKEN, API_URL } = process.env;
+  const headers = {
+    Authorization: `bearer ${API_TOKEN}`,
+    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+  };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
     console.log('API_URL not defined, returning empty subscribe data for build');
