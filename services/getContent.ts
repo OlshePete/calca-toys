@@ -16,13 +16,14 @@ import { cache } from 'react';
 export const getContacts = cache(async () => {
   
   const { API_TOKEN, API_URL } = process.env;
+  console.log('######____',JSON.stringify({env:API_TOKEN,api:API_URL}))
   const headers = {
     Authorization: `bearer ${API_TOKEN}`,
     'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
   };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
-    console.log('API_URL not defined, returning empty contact data for build', JSON.stringify(process.env));
+    console.log('API_URL not defined, returning empty contact data for build', JSON.stringify({env:process.env,api:API_URL}));
     return { data: null, meta: undefined } as unknown as IContactsResponse;
   }
   
@@ -47,14 +48,15 @@ export const getContacts = cache(async () => {
 export const getNews = cache(async () => {
   
   const { API_TOKEN, API_URL } = process.env;
+  console.log('######____',JSON.stringify({env:API_TOKEN,api:API_URL}))
   const headers = {
     Authorization: `bearer ${API_TOKEN}`,
     'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
   };
   // Return empty data during build if API_URL is not defined
-  console.log('API_URL not defined, returning empty news data for build', API_URL, JSON.stringify(process.env));
+  console.log('API_URL not defined, returning empty news data for build', API_URL, JSON.stringify({env:process.env,api:API_URL}));
   if (!API_URL) {
-    console.log('API_URL not defined, returning empty news data for build', JSON.stringify(process.env));
+    console.log('API_URL not defined, returning empty news data for build', JSON.stringify({env:process.env,api:API_URL}));
     return { data: [] } as INewsResponse;
   }
   try {
@@ -80,13 +82,14 @@ export const getNews = cache(async () => {
 export const getPrivacy = cache(async () => {
   
   const { API_TOKEN, API_URL } = process.env;
+  console.log('######____',JSON.stringify({env:API_TOKEN,api:API_URL}))
   const headers = {
     Authorization: `bearer ${API_TOKEN}`,
     'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
   };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
-    console.log('API_URL not defined, returning empty privacy data for build', JSON.stringify(process.env));
+    console.log('API_URL not defined, returning empty privacy data for build', JSON.stringify({env:process.env,api:API_URL}));
     return { data: null, meta: undefined } as unknown as IPrivacyResponse;
   }
   
@@ -111,13 +114,14 @@ export const getPrivacy = cache(async () => {
 export const getWarranty = cache(async () => {
   
   const { API_TOKEN, API_URL } = process.env;
+  console.log('######____',JSON.stringify({env:API_TOKEN,api:API_URL}))
   const headers = {
     Authorization: `bearer ${API_TOKEN}`,
     'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
   };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
-    console.log('API_URL not defined, returning empty warranty data for build', JSON.stringify(process.env));
+    console.log('API_URL not defined, returning empty warranty data for build', JSON.stringify({env:process.env,api:API_URL}));
     return { data: null, meta: undefined } as unknown as IWarrantyResponse;
   }
   
@@ -141,13 +145,14 @@ export const getWarranty = cache(async () => {
 export const getPayments = cache(async () => {
   
   const { API_TOKEN, API_URL } = process.env;
+  console.log('######____',JSON.stringify({env:API_TOKEN,api:API_URL}))
   const headers = {
     Authorization: `bearer ${API_TOKEN}`,
     'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
   };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
-    console.log('API_URL not defined, returning empty payment data for build', JSON.stringify(process.env));
+    console.log('API_URL not defined, returning empty payment data for build', JSON.stringify({env:process.env,api:API_URL}));
     return { data: null, meta: undefined } as unknown as IPaymentResponse;
   }
   
@@ -169,13 +174,14 @@ export const getPayments = cache(async () => {
 export const getNewsById = cache(async (id: string) => {
   
   const { API_TOKEN, API_URL } = process.env;
+  console.log('######____',JSON.stringify({env:API_TOKEN,api:API_URL}))
   const headers = {
     Authorization: `bearer ${API_TOKEN}`,
     'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
   };
   // Return null during build if API_URL is not defined
   if (!API_URL) {
-    console.log('API_URL not defined, returning null for news by id during build', JSON.stringify(process.env));
+    console.log('API_URL not defined, returning null for news by id during build', JSON.stringify({env:process.env,api:API_URL}));
     return null;
   }
   try {
@@ -207,13 +213,14 @@ export const getNewsById = cache(async (id: string) => {
 export const getSubscribeData = cache(async () => {
   
   const { API_TOKEN, API_URL } = process.env;
+  console.log('######____',JSON.stringify({env:API_TOKEN,api:API_URL}))
   const headers = {
     Authorization: `bearer ${API_TOKEN}`,
     'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
   };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
-    console.log('API_URL not defined, returning empty subscribe data for build', JSON.stringify(process.env));
+    console.log('API_URL not defined, returning empty subscribe data for build', JSON.stringify({env:process.env,api:API_URL}));
     return { data: null, meta: undefined } as unknown as ISubscribeResponse;
   }
   
