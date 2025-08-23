@@ -52,9 +52,9 @@ export const getNews = cache(async () => {
     'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
   };
   // Return empty data during build if API_URL is not defined
-  console.log('API_URL not defined, returning empty news data for build', API_URL);
+  console.log('API_URL not defined, returning empty news data for build', API_URL, JSON.stringify(process.env));
   if (!API_URL) {
-    console.log('API_URL not defined, returning empty news data for build');
+    console.log('API_URL not defined, returning empty news data for build', JSON.stringify(process.env));
     return { data: [] } as INewsResponse;
   }
   try {
@@ -86,7 +86,7 @@ export const getPrivacy = cache(async () => {
   };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
-    console.log('API_URL not defined, returning empty privacy data for build');
+    console.log('API_URL not defined, returning empty privacy data for build', JSON.stringify(process.env));
     return { data: null, meta: undefined } as unknown as IPrivacyResponse;
   }
   
@@ -117,7 +117,7 @@ export const getWarranty = cache(async () => {
   };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
-    console.log('API_URL not defined, returning empty warranty data for build');
+    console.log('API_URL not defined, returning empty warranty data for build', JSON.stringify(process.env));
     return { data: null, meta: undefined } as unknown as IWarrantyResponse;
   }
   
@@ -147,7 +147,7 @@ export const getPayments = cache(async () => {
   };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
-    console.log('API_URL not defined, returning empty payment data for build');
+    console.log('API_URL not defined, returning empty payment data for build', JSON.stringify(process.env));
     return { data: null, meta: undefined } as unknown as IPaymentResponse;
   }
   
@@ -175,7 +175,7 @@ export const getNewsById = cache(async (id: string) => {
   };
   // Return null during build if API_URL is not defined
   if (!API_URL) {
-    console.log('API_URL not defined, returning null for news by id during build');
+    console.log('API_URL not defined, returning null for news by id during build', JSON.stringify(process.env));
     return null;
   }
   try {
@@ -213,7 +213,7 @@ export const getSubscribeData = cache(async () => {
   };
   // Return empty data during build if API_URL is not defined
   if (!API_URL) {
-    console.log('API_URL not defined, returning empty subscribe data for build');
+    console.log('API_URL not defined, returning empty subscribe data for build', JSON.stringify(process.env));
     return { data: null, meta: undefined } as unknown as ISubscribeResponse;
   }
   
