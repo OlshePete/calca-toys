@@ -3,7 +3,14 @@ const nextConfig = {
   output: 'standalone',
   env: {
     API_URL: process.env.NEXT_PUBLIC_API_URL,
-    BUILD_TIME_VAR: process.env.BUILD_TIME_VAR, // пример build-time переменной
+    BUILD_TIME_VAR: process.env.BUILD_TIME_VAR, 
+  },
+  publicRuntimeConfig: {
+    API_URL: process.env.API_URL,
+  },
+  
+  serverRuntimeConfig: {
+    API_URL: process.env.API_URL,
   },
   images: {
     remotePatterns: [
