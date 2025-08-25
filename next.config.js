@@ -2,7 +2,8 @@
 const nextConfig = {
   output: 'standalone',
   env: {
-    BASE_URL: process.env.BASE_URL,
+    API_URL: process.env.NEXT_PUBLIC_API_URL,
+    BUILD_TIME_VAR: process.env.BUILD_TIME_VAR, // пример build-time переменной
   },
   images: {
     remotePatterns: [
