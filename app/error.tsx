@@ -17,7 +17,7 @@ export default function Error({
 
   return (
     <Container maxW="container.xl" py={20}>
-      <VStack spacing={8} align="center" justify="center" minH="60vh">
+      <VStack align="center" justify="center" minH="60vh">
         <Box textAlign="center" py={10} px={6}>
           <Heading display="inline-block" as="h1" size="4xl" color="red.500" mb={4}>
             Упс!
