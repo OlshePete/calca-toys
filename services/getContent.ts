@@ -47,7 +47,7 @@ export const getContacts = cache(async () => {
 
 export const getNews = cache(async () => {
   
-  const { API_TOKEN, API_URL } = process.env;
+  const { NEXT_PUBLIC_API_URL:API_TOKEN, API_URL } = process.env;
   console.log('######____',JSON.stringify({env:API_TOKEN,api:API_URL}))
   const headers = {
     Authorization: `bearer ${API_TOKEN}`,
